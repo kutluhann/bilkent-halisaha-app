@@ -138,8 +138,14 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
 
         final long DAY_AS_SECONDS = 24*60*60;
         long indexTime = currentDataset.getCurrentTime();
-        Timestamp indexTimestamp = new Timestamp(indexTime, 0);
         long limit = indexTime + DAY_AS_SECONDS;
+
+        //if it is today, only take future matches
+        if(index == 0) {
+            indexTime = System.currentTimeMillis() / 1000;
+        }
+
+        Timestamp indexTimestamp = new Timestamp(indexTime, 0);
         Timestamp limitTimestamp = new Timestamp(limit, 0);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
