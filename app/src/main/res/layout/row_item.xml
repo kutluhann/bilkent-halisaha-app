@@ -22,7 +22,7 @@
         app:shapeAppearanceOverlay="@style/roundImageView" />
 
     <TextView
-        android:id="@+id/location"
+        android:id="@+id/stadiumName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="East Campus"
@@ -35,21 +35,21 @@
         android:layout_marginTop="10dp"/>
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/matchTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="22.00"
         android:textColor="@color/black"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/capacity"
+        app:layout_constraintBottom_toTopOf="@+id/joinNumberText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView1"
-        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintTop_toBottomOf="@+id/stadiumName"
         android:drawableLeft="@drawable/clock_svg"
         android:drawablePadding="4dp"/>
 
     <TextView
-        android:id="@+id/capacity"
+        android:id="@+id/joinNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="11/12"
@@ -58,7 +58,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView1"
-        app:layout_constraintTop_toBottomOf="@+id/time"
+        app:layout_constraintTop_toBottomOf="@+id/matchTimeText"
         android:drawableLeft="@drawable/player_svg"
         android:drawablePadding="4dp"/>
 

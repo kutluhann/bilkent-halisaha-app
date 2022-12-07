@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
     <style name="Theme.BilkentHalisahaApp" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green</item>
@@ -11,7 +12,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
-    
+
+    <style name="Theme.BilkentHalisahaApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="roundImageView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>
@@ -22,4 +28,8 @@
         <item name="android:scaleX">0.1</item>
         <item name="android:scaleY">0.1</item>
     </style>
+
+    <style name="Theme.BilkentHalisahaApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.BilkentHalisahaApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
