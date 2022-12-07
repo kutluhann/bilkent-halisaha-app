@@ -1,4 +1,5 @@
 <resources>
+    // General
     <string name="app_name">Bilkent Halisaha App</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -9,40 +10,27 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    // Home Fragment
     <string name="homepage_title">Bilkent Halısaha</string>
+
+    // Matches Fragment
     <string name="matches_page_title">Existing Matches</string>
+
+    // Profile Fragment
+
+    //Login Fragment
     <string name="sing_in">Sign In</string>
     <string name="email">   Email</string>
     <string name="password">   Password</string>
     <string name="sign_in_button">SIGN IN</string>
     <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
+
+    //Signup Fragment
     <string name="first_name">   First Name</string>
     <string name="last_name">   Last Name</string>
     <string name="sing_up">Sign Up</string>
     <string name="sign_up_button">   SIGN UP</string>
 
-    <string-array name="dates">
-        <item>09.11.2022 / Wednesday</item>
-        <item>10.11.2022 / Thursday</item>
-        <item>11.11.2022 / Friday</item>
-        <item>11.11.2022 / Saturday</item>
-    </string-array>
-
-    <string-array name="locations">
-        <item>East Campus</item>
-        <item>Central Campus</item>
-    </string-array>
-
-    <string-array name="times">
-        <item>22.00</item>
-        <item>23.00</item>
-    </string-array>
-
-    <string-array name="capacities">
-        <item>11/12</item>
-        <item>9/12</item>
-    </string-array>
 </resources>
