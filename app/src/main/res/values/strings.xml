@@ -2,6 +2,11 @@
     <string name="app_name">BilkentHalisahaApp</string>
     <string name="homepage_title">Bilkent Halısaha</string>
     <string name="matches_page_title">Existing Matches</string>
+    <string name="sing_in">Sign In</string>
+    <string name="email">   Email</string>
+    <string name="password">   Password</string>
+    <string name="sign_in_button">SIGN IN</string>
+    <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
 
     <string-array name="dates">
         <item>09.11.2022 / Wednesday</item>
