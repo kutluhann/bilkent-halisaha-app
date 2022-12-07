@@ -64,7 +64,8 @@
         android:layout_marginTop="25dp"
         android:background="@drawable/sign_in_button"
         android:elevation="25dp"
-        android:text="@string/sign_up_button"
+        android:text="@string/sing_up"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
         app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
@@ -134,5 +135,5 @@
         app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
         android:autofillHints="" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>
