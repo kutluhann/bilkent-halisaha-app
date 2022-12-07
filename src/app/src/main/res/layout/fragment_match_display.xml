@@ -7,13 +7,6 @@
     tools:context=".MatchDisplayFragment"
     android:background="@color/sand">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteY="173dp" />
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
@@ -60,7 +53,7 @@
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Get More" />
 
     <LinearLayout
         android:layout_width="match_parent"

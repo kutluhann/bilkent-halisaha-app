@@ -32,7 +32,11 @@
         android:id="@+id/matchDisplay"
         android:name="com.example.bilkenthalisahaapp.MatchDisplay"
         android:label="fragment_match_display2"
-        tools:layout="@layout/fragment_match_display" />
+        tools:layout="@layout/fragment_match_display" >
+        <action
+            android:id="@+id/action_matchDisplay_to_addMatch"
+            app:destination="@id/addMatch" />
+    </fragment>
     <fragment
         android:id="@+id/addMatch"
         android:name="com.example.bilkenthalisahaapp.AddMatch"

@@ -7,9 +7,18 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bilkenthalisahaapp.appObjects.Match;
+import com.google.firebase.Timestamp;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHolder> {
 
@@ -83,11 +92,19 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         // contents of the view with that element
         Match match = localDataSet.get(position);
         viewHolder.getStadiumNameView().setText(match.getLocation());
-        Date date = match.getTime().toDate();
-        String timeString = date.toString();
+
+        String timeString = generateTimeString( match.getTime().getSeconds()  );
         viewHolder.getTimeView().setText( timeString );
         String joinNumberString = match.getTeamSize() + "/" + match.getMaxTeamSize();
         viewHolder.getJoinNumberView().setText( joinNumberString );
+    }
+
+    private String generateTimeString(long currentTime) {
+        LocalDateTime localDateTime = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        int hour = localDateTime.getHour();
+        int minute = localDateTime.getMinute();
+
+        return hour + "." + minute;
     }
 
     // Return the size of your dataset (invoked by the layout manager)

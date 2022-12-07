@@ -74,7 +74,17 @@ public class MatchDisplayFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //firebase refresh
-                getNewDay();
+                final int FETCH_DAYS_AMOUNT = 3;
+                getNewDays(FETCH_DAYS_AMOUNT);
+            }
+        });
+
+        binding.createMatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //firebase refresh
+                final int FETCH_DAYS_AMOUNT = 3;
+                getNewDays(FETCH_DAYS_AMOUNT);
             }
         });
 
@@ -90,104 +100,23 @@ public class MatchDisplayFragment extends Fragment {
     }
 
 
-    public void getNewDay() {
+    private void getNewDays(int count) {
+        for(int i = 0; i < count; i++) {
+            getNewDay();
+        }
+    }
+
+    private void getNewDay() {
 
         final long PAGE_LIMIT = DAY_AS_SECONDS; //day
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        binding.textView.setText(currentTime + "");
+        //binding.textView.setText(currentTime + "");
 
         ChildRecyclerDataset childRecyclerDataset = new ChildRecyclerDataset(currentTime);
         currentTime += PAGE_LIMIT;
         childRecyclerDatasets.add(childRecyclerDataset);
         adapter.notifyItemInserted( childRecyclerDatasets.size() - 1 );
 
-    }
-
-    public void getNewMatches() {
-
-        final long PAGE_LIMIT = 3 * DAY_AS_SECONDS; //day
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Timestamp current = new Timestamp(currentTime, 0);;
-        Timestamp limit = new Timestamp(currentTime + PAGE_LIMIT, 0);
-        currentTime += PAGE_LIMIT;
-
-        Query query;
-        if (matches.isEmpty() ) {
-            query = db.collection("matches")
-                    .orderBy("time", Query.Direction.ASCENDING)
-                    .startAt(current)
-                    .endBefore(limit);
-        } else {
-            Match lastMatch = matches.get(matches.size() - 1);
-            query = db.collection("matches")
-                    .orderBy("time", Query.Direction.ASCENDING)
-                    .startAt(current)
-                    .endBefore(limit);
-        }
-
-        binding.textView.setText(currentTime + "");
-
-        ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value,
-                                @Nullable FirebaseFirestoreException e) {
-
-                if (e != null) {
-                    return;
-                }
-/*
-                for (QueryDocumentSnapshot doc : value) {
-                    if(doc!=null && doc.exists()) {
-                        Match newMatch = doc.toObject(Match.class);
-
-                        int indexOf = indexOfMatch(newMatch);
-                        if (indexOf > -1 ) {
-                            matches.set(indexOf, newMatch);
-                            adapter.notifyItemChanged(indexOf);
-                        } else {
-                            int addTo = Math.abs(indexOf) - 1;
-                            matches.add(addTo, newMatch);
-                            adapter.notifyItemInserted(addTo);
-                        }
-                    }
-
-                }
-*/
-                for (DocumentChange dc : value.getDocumentChanges()) {
-                    Match newMatch = dc.getDocument().toObject(Match.class);
-                    int indexOf = indexOfMatch(newMatch);
-                    switch (dc.getType()) {
-                        case ADDED:
-                            if(indexOf < 0) {
-                                int addTo = Math.abs(indexOf) - 1;
-                                matches.add(addTo, newMatch);
-                                adapter.notifyItemInserted(addTo);
-                            }
-                            break;
-                        case MODIFIED:
-                            if(indexOf > - 1) {
-                                matches.set(indexOf, newMatch);
-                                adapter.notifyItemChanged(indexOf);
-                            }
-                            break;
-                        case REMOVED:
-                            if(indexOf > - 1) {
-                                matches.remove(indexOf);
-                                adapter.notifyItemRemoved(indexOf);
-                            }
-                            break;
-                    }
-                }
-
-            }
-        });
-        listeners.add(listener);
-
-    }
-
-    public int indexOfMatch(Match match) {
-        return Collections.binarySearch(matches, match);
     }
 
 }

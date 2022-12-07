@@ -20,8 +20,15 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
 
 public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAdapter.ViewHolder> {
 
@@ -85,11 +92,21 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         ChildRecyclerDataset currentDataset = localDataSet.get(position);
-        viewHolder.getDayView().setText( currentDataset.getCurrentTime()+ "" + "position: "  + position );
+        viewHolder.getDayView().setText( generateTimeString(currentDataset.getCurrentTime()) );
 
         setupChildAdapter(viewHolder, position);
         getDateMatches(position);
 
+    }
+
+    private String generateTimeString(long currentTime) {
+        LocalDate localDate = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
+        int day = localDate.getDayOfMonth();
+        String month = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        int year = localDate.getYear();
+        String dayName = localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+        return String.format("%d %s %d - %s", day, month, year, dayName);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
