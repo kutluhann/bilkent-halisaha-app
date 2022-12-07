@@ -132,6 +132,7 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
     }
 
     private void getDateMatches(int index) {
+        final int TIMEZONE_OFFSET = 60 * 60 * 3;
         ChildRecyclerDataset currentDataset = localDataSet.get(index);
         ArrayList<Match> matches = currentDataset.getMatchList();
         RecyclerView.Adapter adapter = currentDataset.getMatchesAdapter();
@@ -140,10 +141,15 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         long indexTime = currentDataset.getCurrentTime();
         long limit = indexTime + DAY_AS_SECONDS;
 
+        indexTime -= TIMEZONE_OFFSET;
+        limit -= TIMEZONE_OFFSET;
+
         //if it is today, only take future matches
         if(index == 0) {
             indexTime = System.currentTimeMillis() / 1000;
         }
+
+
 
         Timestamp indexTimestamp = new Timestamp(indexTime, 0);
         Timestamp limitTimestamp = new Timestamp(limit, 0);

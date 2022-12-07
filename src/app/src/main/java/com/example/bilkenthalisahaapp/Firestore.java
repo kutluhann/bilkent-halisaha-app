@@ -22,6 +22,7 @@ public class Firestore {
         long time = match.getTime().getSeconds();
         //time = time - time % MIN_MATCH_RANGE_AS_SECONDS;
 
+        //because there will be three stadiums add stadium name to the database key
         db.collection("matches").document( time + "" ).set(match);
 
     }
