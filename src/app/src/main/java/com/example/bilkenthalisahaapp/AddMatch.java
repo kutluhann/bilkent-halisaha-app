@@ -12,22 +12,17 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.Match;
 import com.example.bilkenthalisahaapp.databinding.FragmentAddMatchBinding;
-import com.example.bilkenthalisahaapp.databinding.FragmentMatchDisplayBinding;
-import com.example.bilkenthalisahaapp.databinding.FragmentSecondBinding;
 import com.google.firebase.Timestamp;
 
-import java.time.Instant;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 
 
-public class AddMatchFragment extends Fragment {
+public class AddMatch extends Fragment {
 
     private FragmentAddMatchBinding binding;
     private int mYear, mMonth, mDay, mHour, mMinute;

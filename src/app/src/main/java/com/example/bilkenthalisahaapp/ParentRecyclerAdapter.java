@@ -168,18 +168,21 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
                                 int addTo = Math.abs(indexOf) - 1;
                                 matches.add(addTo, newMatch);
                                 adapter.notifyItemInserted(addTo);
+                                notifyItemChanged( index );
                             }
                             break;
                         case MODIFIED:
                             if(indexOf > - 1) {
                                 matches.set(indexOf, newMatch);
                                 adapter.notifyItemChanged(indexOf);
+                                notifyItemChanged( index );
                             }
                             break;
                         case REMOVED:
                             if(indexOf > - 1) {
                                 matches.remove(indexOf);
                                 adapter.notifyItemRemoved(indexOf);
+                                notifyItemChanged( index );
                             }
                             break;
                     }
