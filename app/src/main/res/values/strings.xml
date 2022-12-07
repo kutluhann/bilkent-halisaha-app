@@ -7,6 +7,10 @@
     <string name="password">   Password</string>
     <string name="sign_in_button">SIGN IN</string>
     <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
+    <string name="first_name">   First Name</string>
+    <string name="last_name">   Last Name</string>
+    <string name="sing_up">Sign Up</string>
+    <string name="sign_up_button">   SIGN UP</string>
 
     <string-array name="dates">
         <item>09.11.2022 / Wednesday</item>
