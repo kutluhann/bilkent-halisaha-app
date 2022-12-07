@@ -16,8 +16,12 @@ public class Firestore {
     private static ArrayList<Match> matches = new ArrayList<Match>();
 
     public static void updateMatch( Match match ) {
+        //final int MIN_MATCH_RANGE_AS_SECONDS = 60*60; //only for each hour, there can be added matches
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         long time = match.getTime().getSeconds();
+        //time = time - time % MIN_MATCH_RANGE_AS_SECONDS;
+
         db.collection("matches").document( time + "" ).set(match);
 
     }

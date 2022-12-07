@@ -51,7 +51,9 @@ public class AddMatch extends Fragment {
                 Calendar cal = Calendar.getInstance();
 
                 //binding.textViewDate.setText(cal.getTime().toString() + " " + cal.getTimeZone());
-                cal.set(mYear, mMonth, mDay, mHour, mMinute);
+                //cal.set(mYear, mMonth, mDay, mHour, mMinute, 0);
+                //only hour
+                cal.set(mYear, mMonth, mDay, mHour, 0, 0);
                 cal.setTimeZone(TimeZone.getTimeZone("Europe/Istanbul" ));
                 //binding.textViewTime.setText(cal.getTime().toString() + " " + cal.getTimeZone());
                 Timestamp timestamp = new Timestamp( cal.getTime() );

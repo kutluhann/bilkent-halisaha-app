@@ -43,7 +43,7 @@ public class Match implements Comparable<Match> {
     public boolean equals(Object obj) {
         try {
             Match match = (Match) obj;
-            if(this.time.compareTo(match.time) == 0) {
+            if(this.time.getSeconds() == match.time.getSeconds()) {
                 return true;
             }
         } finally {
@@ -53,9 +53,9 @@ public class Match implements Comparable<Match> {
 
     @Override
     public int compareTo(Match match) {
-        if( this.time.compareTo(match.time) < 0 ) {
+        if(  this.time.getSeconds() < match.time.getSeconds() ) {
             return -1;
-        } else if (this.time.compareTo(match.time) == 0) {
+        } else if (this.time.getSeconds() == match.time.getSeconds()) {
             return 0;
         } else {
             return 1;

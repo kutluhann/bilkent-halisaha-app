@@ -99,12 +99,19 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         viewHolder.getJoinNumberView().setText( joinNumberString );
     }
 
+    private String addZerosToLength(String text, int length ) {
+        while( text.length() < length ) {
+            text = "0" + text;
+        }
+        return text;
+    }
+
     private String generateTimeString(long currentTime) {
         LocalDateTime localDateTime = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
         int hour = localDateTime.getHour();
         int minute = localDateTime.getMinute();
 
-        return hour + "." + minute;
+        return addZerosToLength( hour + "", 2) + "." + addZerosToLength( minute + "", 2);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
