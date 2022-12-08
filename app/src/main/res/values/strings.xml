@@ -24,13 +24,14 @@
     <string name="sing_in">Sign In</string>
     <string name="email">   Email</string>
     <string name="password">   Password</string>
-    <string name="sign_in_button">SIGN IN</string>
     <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
 
     //Signup Fragment
     <string name="first_name">   First Name</string>
     <string name="last_name">   Last Name</string>
     <string name="sing_up">Sign Up</string>
-    <string name="sign_up_button">   SIGN UP</string>
+    <string name="weather">Weather</string>
+    <string name="weather_type">Sunny</string>
+    <string name="degree">23 °C</string>
 
 </resources>
