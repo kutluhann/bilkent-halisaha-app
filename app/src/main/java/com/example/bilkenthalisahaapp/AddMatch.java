@@ -19,7 +19,7 @@ import com.google.firebase.Timestamp;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-
+import java.util.UUID;
 
 
 public class AddMatch extends Fragment {
@@ -58,10 +58,11 @@ public class AddMatch extends Fragment {
                 //binding.textViewTime.setText(cal.getTime().toString() + " " + cal.getTimeZone());
                 Timestamp timestamp = new Timestamp( cal.getTime() );
 
-
-                Match newMatch = new Match(locationName, timestamp, teamSize, maxTeamSize);
+                                                                                        // We should datermine how to specify the UUID.
+                Match newMatch = new Match(locationName, timestamp, teamSize, maxTeamSize,new UUID(12112121,1212212));
 
                 Firestore.updateMatch(newMatch);
+
 
             }
         });

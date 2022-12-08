@@ -5,22 +5,26 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.Timestamp;
 
+import java.util.UUID;
+
 public class Match implements Comparable<Match> {
 
     private String location;
     private Timestamp time;
     private int teamSize;
     private int maxTeamSize;
+    private UUID matchID;
 
     public Match() {
 
     }
 
-    public Match(String location, Timestamp time, int teamSize, int maxTeamSize) {
+    public Match(String location, Timestamp time, int teamSize, int maxTeamSize, UUID matchID) {
         this.location = location;
         this.time = time;
         this.teamSize = teamSize;
         this.maxTeamSize = maxTeamSize;
+        this.matchID = matchID;
     }
 
     public String getLocation() {
