@@ -10,10 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.databinding.FragmentFirstBinding;
+import com.example.bilkenthalisahaapp.databinding.FragmentProfileBinding;
 
-public class FirstFragment extends Fragment {
+public class Profile extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentProfileBinding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +22,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
