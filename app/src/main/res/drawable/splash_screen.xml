@@ -6,7 +6,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/east_campus" />
+            android:src="@drawable/pitch_center" />
     </item>
 
 </layer-list>
