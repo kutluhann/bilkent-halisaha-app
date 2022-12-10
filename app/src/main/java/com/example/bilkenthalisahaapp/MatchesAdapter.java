@@ -91,7 +91,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         Match match = localDataSet.get(position);
-        viewHolder.getStadiumNameView().setText(match.getLocation());
+        viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
 
         String timeString = generateTimeString( match.getTime().getSeconds()  );
         viewHolder.getTimeView().setText( timeString );

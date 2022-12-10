@@ -11,6 +11,9 @@ public class Location {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+    public Location(String pitchName){
+        this.pitchName = pitchName;
+    }
 
     public String getPitchName() {
         return pitchName;
@@ -22,5 +25,10 @@ public class Location {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    @Override
+    public String toString() {
+        return this.pitchName;
     }
 }
