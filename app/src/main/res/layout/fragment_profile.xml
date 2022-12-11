@@ -205,5 +205,79 @@
         app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Ratings"
+        android:textColor="@color/brown"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/matches_attended" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="5dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bar_chart_coordinates"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="305dp"
+        android:layout_height="5dp"
+        android:layout_marginEnd="80dp"
+        android:background="@drawable/bar_chart_coordinates"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="30dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/bars"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/view" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="30dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/bars"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/view3" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="30dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/bars"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/view4" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/bars"
+        app:layout_constraintBottom_toBottomOf="@+id/view5"
+        app:layout_constraintStart_toEndOf="@+id/view5" />
+
+    <View
+        android:layout_width="30dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/bars"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/view6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
