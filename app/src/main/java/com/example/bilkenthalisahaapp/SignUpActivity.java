@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignUpActivity extends AppCompatActivity {
     EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword;
     Button signUpButton;
+    TextView goToSingIn;
 
     FirebaseAuth mAuth;
 
@@ -32,11 +34,17 @@ public class SignUpActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         signUpButton = findViewById(R.id.signUpButton);
+        goToSingIn = findViewById(R.id.goToSingIn);
 
         mAuth = FirebaseAuth.getInstance();
 
         signUpButton.setOnClickListener(view -> {
             createUser();
+        });
+
+        goToSingIn.setOnClickListener(view -> {
+            startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+            finish();
         });
     }
 
@@ -74,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SignUpActivity.this,"Signed up successfully", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                    finish();
                                 } else {
                                     Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }

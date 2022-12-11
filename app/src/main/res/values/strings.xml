@@ -29,6 +29,9 @@
     <string name="first_name">   First Name</string>
     <string name="last_name">   Last Name</string>
     <string name="sing_up">Sign Up</string>
+    <string name="already_have_an_account"><u>Already have an account?</u></string>
+
+    // Home
     <string name="weather">Weather</string>
     <string name="weather_type">Sunny</string>
     <string name="degree">23 °C</string>

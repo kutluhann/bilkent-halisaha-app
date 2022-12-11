@@ -3,8 +3,10 @@ package com.example.bilkenthalisahaapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager manager;
     private FirebaseAuth mAuth;
 
-    Button logoutButton;
     TextView salutation;
 
     @Override
@@ -46,13 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        logoutButton = findViewById(R.id.logoutButton);
         salutation = findViewById(R.id.salutation);
-
-        logoutButton.setOnClickListener(view -> {
-            mAuth.signOut();
-            startActivity(new Intent(MainActivity.this, SignInActivity.class));
-        });
     }
 
     @Override
@@ -66,11 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (!currentUser.isEmailVerified()) {
                 startActivity(new Intent(MainActivity.this, EmailVerificationActivity.class));
+                finish();
             } else {
                 salutation.setText(currentUser.getEmail());
             }
         } else {
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
+            finish();
         }
     }
 }

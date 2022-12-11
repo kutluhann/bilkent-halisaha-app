@@ -41,6 +41,7 @@ public class SignInActivity extends AppCompatActivity {
 
         goToSingUp.setOnClickListener(view -> {
             startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+            finish();
         });
     }
 
@@ -61,6 +62,7 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(SignInActivity.this,"Signed in successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        finish();
                     } else {
                         Toast.makeText(SignInActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
