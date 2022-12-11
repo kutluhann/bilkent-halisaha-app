@@ -12,11 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BilkentHalisahaApp"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.BilkentHalisahaApp">
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
