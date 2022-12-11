@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/home_navigation"
-        android:name="com.example.bilkenthalisahaapp.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first"/>
+        android:name="com.example.bilkenthalisahaapp.FragmentHomePage"
+        android:label="HomeScreen"
+        tools:layout="@layout/fragment_homescreen"/>
     <fragment
         android:id="@+id/matches_navigation"
         android:name="com.example.bilkenthalisahaapp.MatchDisplay"

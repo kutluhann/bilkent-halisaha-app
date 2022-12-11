@@ -8,12 +8,11 @@
     android:theme="@style/Theme.BilkentHalisahaApp">
 
     <ImageView
-        android:id="@+id/signUpView"
+        android:id="@+id/backgroundView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="731dp"
         android:scaleType="fitStart"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/weatherItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +43,9 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="15dp"
+        app:cardCornerRadius="7dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -54,7 +55,7 @@
                 android:id="@+id/weatherView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="15dp"
                 android:contentDescription="@string/weather_type"
                 android:src="@mipmap/ic_launcher_round"
