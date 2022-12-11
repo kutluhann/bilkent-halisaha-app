@@ -6,7 +6,7 @@
 <item>
     <shape>
         <size android:height="120dp" android:width="120dp"/>
-        <solid android:color="@color/green"/>
+        <solid android:color="@color/dark_green"/>
     </shape>
 </item>
 
@@ -15,8 +15,24 @@
     android:width="432dp"
     android:height="225dp"
     android:drawable="@drawable/pitch_center"
-    android:gravity="center"
-    >
-
+    android:gravity="center">
 </item>
+
+<item
+    android:width="320dp"
+    android:height="180dp"
+    android:drawable="@drawable/bilkent_halisaha_logo"
+    android:gravity="center"
+    android:bottom="540dp">
+</item>
+
+<item
+    android:width="160dp"
+    android:height="90dp"
+    android:drawable="@drawable/thegoats_logo_white"
+    android:gravity="center"
+    android:top="540dp">
+</item>
+
+
 </layer-list>
