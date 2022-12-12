@@ -47,7 +47,7 @@ public class AddMatch extends Fragment {
             public void onClick(View view) {
 
                 String locationName = binding.editLocationName.getText().toString();
-                Location location = new Location(locationName);
+
                 int teamSize = Integer.parseInt( binding.editTextTeamSize.getText().toString() );
                 int maxTeamSize = Integer.parseInt( binding.editTextMaxTeamSize.getText().toString() );
                 Calendar cal = Calendar.getInstance();
@@ -61,7 +61,7 @@ public class AddMatch extends Fragment {
                 Timestamp timestamp = new Timestamp( cal.getTime() );
 
                                                                                         // We should datermine how to specify the UUID.
-                Match newMatch = new Match(location, timestamp, teamSize, maxTeamSize);
+                Match newMatch = new Match(locationName, timestamp, teamSize, maxTeamSize);
 
                 Firestore.updateMatch(newMatch);
 

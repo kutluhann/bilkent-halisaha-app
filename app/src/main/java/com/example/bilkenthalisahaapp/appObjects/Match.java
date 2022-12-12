@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class Match implements Comparable<Match> {
 
-    private Location location;
+    private String location;
     private Timestamp time;
     private int teamSize;
     private int maxTeamSize;
@@ -19,7 +19,7 @@ public class Match implements Comparable<Match> {
 
     }
 
-    public Match(Location location, Timestamp time, int teamSize, int maxTeamSize) {
+    public Match(String location, Timestamp time, int teamSize, int maxTeamSize) {
         this.location = location;
         this.time = time;
         this.teamSize = teamSize;
@@ -28,7 +28,7 @@ public class Match implements Comparable<Match> {
 
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
