@@ -150,7 +150,6 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         }
 
 
-
         Timestamp indexTimestamp = new Timestamp(indexTime, 0);
         Timestamp limitTimestamp = new Timestamp(limit, 0);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
