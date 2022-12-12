@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
             if (!currentUser.isEmailVerified()) {
                 startActivity(new Intent(MainActivity.this, EmailVerificationActivity.class));
                 finish();
-            } else {
-                salutation.setText(currentUser.getEmail());
             }
         } else {
             startActivity(new Intent(MainActivity.this, SignInActivity.class));

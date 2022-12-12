@@ -11,6 +11,7 @@
 
     // Home Fragment
     <string name="homepage_title">Bilkent Halısaha</string>
+    <string name="welcome_message">Hello, %1$s!\n%2$s</string>
 
     // Matches Fragment
     <string name="matches_page_title">Existing Matches</string>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -80,9 +82,25 @@ public class SignUpActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(SignUpActivity.this,"Signed up successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                    finish();
+                                    String fullName = firstName + " " + lastName;
+                                    Uri photoUri = Uri.parse("R.drawable.east_campus");
+                                    UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(fullName)
+                                            .setPhotoUri(photoUri)
+                                            .build();
+
+                                    mAuth.getCurrentUser().updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(SignUpActivity.this,"Signed up successfully", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                                finish();
+                                            } else {
+                                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                                 } else {
                                     Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
