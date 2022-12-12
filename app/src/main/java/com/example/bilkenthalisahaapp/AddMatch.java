@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -36,11 +37,17 @@ public class AddMatch extends Fragment {
 
         binding = FragmentAddMatchBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.locations_array, android.R.layout.simple_spinner_item);
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        binding.locationSpinner.setAdapter(arrayAdapter);
 
         binding.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,8 +71,6 @@ public class AddMatch extends Fragment {
                 Match newMatch = new Match(locationName, timestamp, teamSize, maxTeamSize);
 
                 Firestore.updateMatch(newMatch);
-
-
             }
         });
 

@@ -38,7 +38,19 @@
     <string name="weather_type">Sunny</string>
     <string name="degree">23 °C</string>
 
-    //Email Verification
+    // Email Verification
     <string name="email_verification">Verify Your Email</string>
 
+    // Create Match
+    <string name="pitch">Pitch</string>
+    <string name="date_and_time">Date and Time</string>
+    <string name="number_of_players">Number of Players per Team</string>
+    <string name="your_position">Your Position</string>
+    <string name="create_button">Create</string>
+
+    <string-array name="locations_array">
+        <item>Central Campus 1</item>
+        <item>Central Campus 2</item>
+        <item>East Campus</item>
+    </string-array>
 </resources>
