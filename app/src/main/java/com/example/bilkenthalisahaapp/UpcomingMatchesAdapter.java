@@ -37,7 +37,7 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Match match = upcomingMatches.get(position);
-        holder.getPitch().setText(match.getLocation());
+        holder.getPitch().setText(match.getLocation().getPitchName());
         holder.getDate().setText(generateDateString(match.getTime().getSeconds()));
         holder.getTime().setText(generateTimeString(match.getTime().getSeconds()));
         holder.getNumberOfPlayers().setText(match.getTeamSize() + "/" + match.getMaxTeamSize());
