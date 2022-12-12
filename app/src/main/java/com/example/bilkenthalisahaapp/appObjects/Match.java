@@ -13,7 +13,7 @@ public class Match implements Comparable<Match> {
     private Timestamp time;
     private int teamSize;
     private int maxTeamSize;
-    private String matchID;
+
 
     public Match() {
 
@@ -24,7 +24,7 @@ public class Match implements Comparable<Match> {
         this.time = time;
         this.teamSize = teamSize;
         this.maxTeamSize = maxTeamSize;
-        this.matchID = time.toString()+location.toString();
+
 
     }
 
