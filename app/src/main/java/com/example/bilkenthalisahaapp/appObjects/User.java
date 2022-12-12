@@ -69,23 +69,21 @@ public class User {
 
         return average;
     }
-    /*
+
     public void joinMatch(UUID matchID , int position, Team team){
 
-        //Player player = new Player(position,matchID,team,false);
-        //players.add(player);
+        Player player = new Player(position,matchID,team,false);
+        players.add(player);
 
         //use firebase
 
     }
 
-    //public void createMatch(Location location , Timestamp time, int numberOfPlayersPerTeam, int myPosition){
+    public void createMatch(Location location , Timestamp time, int numberOfPlayersPerTeam, int myPosition){
         //Match match = new Match();
         //Adding the properties of match from the parameters of the method.
         //Player p = new Player(myPosition,match.getID(), new Team(), true);
         // players.add(p);
 
     }
-    
-     */
 }

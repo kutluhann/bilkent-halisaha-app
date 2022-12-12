@@ -13,13 +13,14 @@ import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.bilkenthalisahaapp.appObjects.Location;
 import com.example.bilkenthalisahaapp.appObjects.Match;
 import com.example.bilkenthalisahaapp.databinding.FragmentAddMatchBinding;
 import com.google.firebase.Timestamp;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-
+import java.util.UUID;
 
 
 public class AddMatch extends Fragment {
@@ -46,6 +47,7 @@ public class AddMatch extends Fragment {
             public void onClick(View view) {
 
                 String locationName = binding.editLocationName.getText().toString();
+                Location location = new Location(locationName);
                 int teamSize = Integer.parseInt( binding.editTextTeamSize.getText().toString() );
                 int maxTeamSize = Integer.parseInt( binding.editTextMaxTeamSize.getText().toString() );
                 Calendar cal = Calendar.getInstance();
@@ -58,10 +60,11 @@ public class AddMatch extends Fragment {
                 //binding.textViewTime.setText(cal.getTime().toString() + " " + cal.getTimeZone());
                 Timestamp timestamp = new Timestamp( cal.getTime() );
 
-
-                Match newMatch = new Match(locationName, timestamp, teamSize, maxTeamSize);
+                                                                                        // We should datermine how to specify the UUID.
+                Match newMatch = new Match(location, timestamp, teamSize, maxTeamSize);
 
                 Firestore.updateMatch(newMatch);
+
 
             }
         });
