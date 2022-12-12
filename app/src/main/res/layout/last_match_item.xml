@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="@drawable/match_card"
+    android:layout_marginBottom="20dp"
+    android:elevation="2dp"     >
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/east_campus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundImageView" />
+
+    <TextView
+        android:id="@+id/stadiumName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="East Campus"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/joinNumberText"
+        app:layout_constraintEnd_toEndOf="@+id/stadiumName"
+        app:layout_constraintStart_toStartOf="@+id/stadiumName"
+        app:layout_constraintTop_toBottomOf="@+id/stadiumName"
+        android:id="@+id/dateLayout"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:text="08.11.2022"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:id="@+id/dateText"
+            android:layout_marginEnd="5dp"
+            app:drawableLeftCompat="@drawable/date_icon" />
+        <TextView
+            android:id="@+id/matchTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:text="22.00"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            app:drawableLeftCompat="@drawable/clock_svg" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/joinNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11/12"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ratePlayersButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView1"
+        app:layout_constraintTop_toBottomOf="@+id/dateLayout"
+        android:drawablePadding="4dp"
+        app:drawableLeftCompat="@drawable/player_svg"
+        android:layout_marginBottom="5dp"/>
+
+    <Button
+        android:id="@+id/ratePlayersButton"
+        android:layout_width="160dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rate_players_button"
+        android:drawableLeft="@drawable/star_icon"
+        android:text="Rate Players"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView1"
+        app:layout_constraintTop_toBottomOf="@+id/joinNumberText"
+
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
