@@ -1,2 +1,5 @@
-package com.example.bilkenthalisahaapp.appObjects;public class User {
+package com.example.bilkenthalisahaapp.appObjects;
+
+public class User {
+    
 }
