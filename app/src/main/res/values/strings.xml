@@ -19,6 +19,7 @@
     <string name="refresh">Refresh</string>
 
     // Profile Fragment
+    <string name="profile_page_title">Profile</string>
 
     //Login Fragment
     <string name="sing_in">Sign In</string>
