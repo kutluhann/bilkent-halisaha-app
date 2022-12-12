@@ -2,21 +2,21 @@
     // General
     <string name="app_name">Bilkent Halisaha App</string>
     <string name="action_settings">Settings</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     // Home Fragment
     <string name="homepage_title">Bilkent Halısaha</string>
+    <string name="welcome_message">Hello, %1$s!\n%2$s</string>
 
     // Matches Fragment
     <string name="matches_page_title">Existing Matches</string>
+    <string name="resend">Resend</string>
+    <string name="refresh">Refresh</string>
 
     // Profile Fragment
 
@@ -30,8 +30,14 @@
     <string name="first_name">   First Name</string>
     <string name="last_name">   Last Name</string>
     <string name="sing_up">Sign Up</string>
+    <string name="already_have_an_account"><u>Already have an account?</u></string>
+
+    // Home
     <string name="weather">Weather</string>
     <string name="weather_type">Sunny</string>
     <string name="degree">23 °C</string>
+
+    //Email Verification
+    <string name="email_verification">Verify Your Email</string>
 
 </resources>

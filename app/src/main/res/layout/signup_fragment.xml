@@ -47,7 +47,6 @@
         android:id="@+id/signUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/sing_up"
         android:textColor="@color/black"
         android:textSize="36sp"
@@ -57,7 +56,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <Button
-        android:id="@+id/buttonSignUp"
+        android:id="@+id/signUpButton"
         android:layout_width="200dp"
         android:layout_height="36dp"
         android:layout_marginTop="24dp"
@@ -66,9 +65,9 @@
         android:text="@string/sing_up"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
+        app:layout_constraintStart_toStartOf="@+id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <EditText
         android:id="@+id/editTextFirstName"
@@ -85,6 +84,7 @@
         app:layout_constraintStart_toStartOf="@+id/signUpText"
         app:layout_constraintTop_toBottomOf="@+id/signUpText"
         android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textStyle="bold"/>
 
     <EditText
@@ -102,10 +102,11 @@
         app:layout_constraintStart_toStartOf="@+id/signUpText"
         app:layout_constraintTop_toBottomOf="@+id/editTextFirstName"
         android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/editTextEmail"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -119,10 +120,11 @@
         app:layout_constraintStart_toStartOf="@+id/signUpText"
         app:layout_constraintTop_toBottomOf="@+id/editTextLastName"
         android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -132,12 +134,25 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
         android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/goToSingIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/already_have_an_account"
+        app:layout_constraintEnd_toEndOf="@+id/signUpButton"
+        app:layout_constraintStart_toStartOf="@+id/signUpButton"
+        app:layout_constraintTop_toBottomOf="@+id/signUpButton"
+        android:textStyle="bold"
+        />
 
     <ImageView
         android:id="@+id/logo"
