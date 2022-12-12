@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +17,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class EmailVerificationActivity extends AppCompatActivity {
     TextView emailVerificationText;
-    Button resendButton, refreshButton;
+    Button resendButton;
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    final int DELAY = 1000;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +33,6 @@ public class EmailVerificationActivity extends AppCompatActivity {
 
         emailVerificationText = findViewById(R.id.emailVerificationText);
         resendButton = findViewById(R.id.resendButton);
-        refreshButton = findViewById(R.id.refreshButton);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -44,40 +48,48 @@ public class EmailVerificationActivity extends AppCompatActivity {
                 }
             });
         });
-
-        refreshButton.setOnClickListener(view -> {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-
-            if (currentUser != null) {
-                currentUser.reload();
-
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if (currentUser.isEmailVerified()) {
-                    Toast.makeText(EmailVerificationActivity.this,"Email verified successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(EmailVerificationActivity.this, MainActivity.class));
-                } else {
-                    Toast.makeText(EmailVerificationActivity.this,"Please verify your email", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            currentUser.reload();
-            emailVerificationText.setText("An email has sent to " + currentUser.getEmail() + ". Please verify your email!");
+            emailVerificationText.setText("An email has sent to\n " + currentUser.getEmail() + ".\n Please verify your email!");
         } else {
             startActivity(new Intent(EmailVerificationActivity.this, MainActivity.class));
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            handler.postDelayed(runnable = new Runnable() {
+                @Override
+                public void run() {
+                    currentUser.reload();
+                    if (currentUser.isEmailVerified()) {
+                        handler.removeCallbacks(this);
+                        Toast.makeText(EmailVerificationActivity.this, "Verification successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EmailVerificationActivity.this, MainActivity.class));
+                        finish();
+                    }
+                    handler.postDelayed(this, DELAY);
+                }
+            }, DELAY);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        handler.removeCallbacks(runnable);
     }
 }

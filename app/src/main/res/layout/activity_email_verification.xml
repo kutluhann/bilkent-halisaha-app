@@ -71,7 +71,7 @@
         android:id="@+id/emailVerificationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="An email has sent to your email. Please verify your email!"
+        android:text="An email has been sent to your email. \nPlease verify your email!"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,23 +91,10 @@
         android:text="@string/resend"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/refreshButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailVerificationText" />
 
-    <Button
-        android:id="@+id/refreshButton"
-        android:layout_width="150dp"
-        android:layout_height="36dp"
-        android:text="@string/refresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/resendButton"
-        app:layout_constraintTop_toBottomOf="@+id/emailVerificationText"
-        android:background="@drawable/button"
-        android:textColor="@color/white"
-        android:elevation="10dp"
-        android:textAllCaps="false"
-        android:layout_marginTop="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
