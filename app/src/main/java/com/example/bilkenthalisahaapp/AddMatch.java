@@ -12,13 +12,22 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.CommonMethods;
 import com.example.bilkenthalisahaapp.appObjects.Match;
+import com.example.bilkenthalisahaapp.appObjects.Player;
+import com.example.bilkenthalisahaapp.appObjects.Team;
+import com.example.bilkenthalisahaapp.appObjects.User;
 import com.example.bilkenthalisahaapp.databinding.FragmentAddMatchBinding;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,11 +38,44 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
     private FragmentAddMatchBinding binding;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private User user;
 
     private String location, time, playerCount, position;
 
     final Calendar c = Calendar.getInstance();
 
+
+    private void getCurrentUser() {
+
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(userId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            //Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            //Log.d(TAG, "Current data: " + snapshot.getData());
+                            user = snapshot.toObject(User.class);
+                        } else {
+                            //Log.d(TAG, "Current data: null");
+                        }
+                    }
+                });
+    }
+
+    private int getPositionInfo() {
+        return 0;
+    }
 
     @Override
     public View onCreateView(
@@ -49,6 +91,8 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
         super.onViewCreated(view, savedInstanceState);
 
         initializeSpinnerAdapters();
+
+        getCurrentUser();
 
         // Set the text of datePicket to current date
         mYear = c.get(Calendar.YEAR);
@@ -72,9 +116,14 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
                 int totalPlayerCount = Integer.parseInt(playerCount) * 2;
 
-                Match newMatch = new Match(location, timestamp, 0, totalPlayerCount);
+                Match newMatch = new Match(location, timestamp, totalPlayerCount);
+
+                int position = getPositionInfo();
+                Player player = new Player( user.getUserID(), getPositionInfo(), newMatch.getMatchId(), Team.TEAM_A, true );
+                newMatch.addLocalPlayer(player);
 
                 Firestore.updateMatch(newMatch);
+                Firestore.addMatchToUser( user, newMatch );
 
                 Toast.makeText(getContext(),"Match is created successfully", Toast.LENGTH_SHORT).show();
 

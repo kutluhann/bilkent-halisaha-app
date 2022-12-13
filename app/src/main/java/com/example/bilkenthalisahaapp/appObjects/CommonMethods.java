@@ -80,6 +80,15 @@ public class CommonMethods {
 
         Collections.sort(times);
 
+        ArrayList<String> allHours = getAllHours();
+        for( int i = 0; i < times.size(); i++) {
+            String hour = times.get(i);
+            if( allHours.contains(hour) == false ) {
+                times.remove(hour);
+                i--;
+            }
+        }
+
         return times;
     }
 

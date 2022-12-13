@@ -78,16 +78,19 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+try {
+    // Get element from your dataset at this position and replace the
+    // contents of the view with that element
+    Match match = localDataSet.get(position);
+    viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        Match match = localDataSet.get(position);
-        viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
+    String timeString = CommonMethods.generateTimeString(match.getTime().getSeconds());
+    viewHolder.getTimeView().setText(timeString);
+    String joinNumberString = match.getPlayers().size() + "/" + match.getMaxTeamSize();
+    viewHolder.getJoinNumberView().setText(joinNumberString);
+}catch (Exception e) {
 
-        String timeString = CommonMethods.generateTimeString( match.getTime().getSeconds()  );
-        viewHolder.getTimeView().setText( timeString );
-        String joinNumberString = match.getTeamSize() + "/" + match.getMaxTeamSize();
-        viewHolder.getJoinNumberView().setText( joinNumberString );
+}
     }
 
 

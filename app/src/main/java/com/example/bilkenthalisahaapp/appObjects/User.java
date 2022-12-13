@@ -17,7 +17,7 @@ public class User {
     private int numberOfMVPRewards;
     private double averageRating;
     private String profilePictureURL;
-
+    private int voterCount;
 
     public User() {
 
@@ -28,7 +28,6 @@ public class User {
         this.name = name;
         this.surname = surname;
         matchIds = new ArrayList<String>();
-
     }
 
     public ArrayList<String> getMatchIds() {
@@ -68,18 +67,22 @@ public class User {
         return profilePictureURL;
     }
 
-    /*
-    public double calculateAverageRating(){
-        double average=0;
-        for(int i=0; i<players.size() ; i++){
-            //average+= player.get(i).getMatchRating().getAverageRating()
-        }
-
-        average = average/players.size();
-
-        return average;
+    public int getVoterCount() {
+        return voterCount;
     }
-*/
+
+    /*
+        public double calculateAverageRating(){
+            double average=0;
+            for(int i=0; i<players.size() ; i++){
+                //average+= player.get(i).getMatchRating().getAverageRating()
+            }
+
+            average = average/players.size();
+
+            return average;
+        }
+    */
     public void joinMatch(String matchID, int position, Team team){
 
         Player player = new Player(userID, position, matchID, team,false);

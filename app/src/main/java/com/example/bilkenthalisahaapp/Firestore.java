@@ -23,6 +23,14 @@ public class Firestore {
 
     private static ArrayList<Match> matches = new ArrayList<Match>();
 
+    public static void createMatch( Match match, User user ) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        long time = match.getTime().getSeconds();
+
+        //because there will be three stadiums add stadium name to the database key
+        db.collection("matches").document( match.getMatchId()).set(match);
+
+    }
 
     public static void updateMatch( Match match ) {
         //final int MIN_MATCH_RANGE_AS_SECONDS = 60*60; //only for each hour, there can be added matches
@@ -33,6 +41,16 @@ public class Firestore {
 
         //because there will be three stadiums add stadium name to the database key
         db.collection("matches").document( match.getMatchId()).set(match);
+
+    }
+
+    public static void addMatchToUser(User user, Match newMatch) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.
+                collection("users").
+                document(user.getUserID())
+                .update( "matchIds", FieldValue.arrayUnion( newMatch.getMatchId() ) );
 
     }
 

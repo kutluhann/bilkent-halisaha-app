@@ -10,7 +10,10 @@ public class Player {
     private MatchRating matchRating;
     private Team team;
     private boolean isOwner;
-    private Boolean hasAttended;
+
+    public Player() {
+
+    }
 
     public Player(String userID, int position, String matchID, Team team,boolean isOwner) {
         this.userID = userID;
@@ -18,7 +21,6 @@ public class Player {
         this.position = position;
         this.matchID = matchID;
         this.team = team;
-
     }
 
     public int getPosition() {
@@ -41,10 +43,6 @@ public class Player {
         return team;
     }
 
-    public Boolean getHasAttended() {
-        return hasAttended;
-    }
-
     public String getUserID() {
         return userID;
     }
@@ -52,6 +50,10 @@ public class Player {
     public void vote(int rating, Player player){
         // change the hashmap in the (use firebase)
 
+    }
+
+    public boolean hasAttended() {
+        return true;
     }
 
 

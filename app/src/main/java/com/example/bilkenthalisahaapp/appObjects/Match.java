@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -13,8 +14,8 @@ public class Match implements Comparable<Match> {
     private String matchId;
     private String location;
     private Timestamp time;
-    private int teamSize;
     private int maxTeamSize;
+    private ArrayList<Player> players;
 
 
     public Match() {
@@ -27,15 +28,18 @@ public class Match implements Comparable<Match> {
     }
 
 
-
-    public Match(String location, Timestamp time, int teamSize, int maxTeamSize) {
+    public Match(String location, Timestamp time, int maxTeamSize) {
         this.location = location;
         this.time = time;
-        this.teamSize = teamSize;
         this.maxTeamSize = maxTeamSize;
 
         this.matchId = time.getSeconds() + "-" +  formatStadiumName(location);
+        this.players = new ArrayList<Player>();
 
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     public String getMatchId() {
@@ -50,12 +54,14 @@ public class Match implements Comparable<Match> {
         return maxTeamSize;
     }
 
-    public int getTeamSize() {
-        return teamSize;
-    }
 
     public Timestamp getTime() {
         return time;
+    }
+
+    //only for initialization
+    public void addLocalPlayer(Player player) {
+        this.players.add(player);
     }
 
     @Override
@@ -86,8 +92,10 @@ public class Match implements Comparable<Match> {
         return "Match{" +
                 "location='" + location + '\'' +
                 ", time='" + time + '\'' +
-                ", teamSize='" + teamSize + '\'' +
+                ", teamSize='" + players.size() + '\'' +
                 ", maxTeamSize='" + maxTeamSize + '\'' +
                 '}';
     }
+
+
 }
