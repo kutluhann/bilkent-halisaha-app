@@ -22,16 +22,16 @@
     android:width="320dp"
     android:height="180dp"
     android:drawable="@drawable/bilkent_halisaha_logo"
-    android:gravity="center"
-    android:bottom="540dp">
+    android:gravity="top|center_horizontal"
+    android:top="40dp">
 </item>
 
 <item
     android:width="160dp"
     android:height="90dp"
     android:drawable="@drawable/thegoats_logo_white"
-    android:gravity="center"
-    android:top="540dp">
+    android:gravity="bottom|center_horizontal"
+    android:bottom="80dp">
 </item>
 
 

@@ -24,8 +24,6 @@ public class Match implements Comparable<Match> {
         this.time = time;
         this.teamSize = teamSize;
         this.maxTeamSize = maxTeamSize;
-
-
     }
 
     public String getLocation() {
