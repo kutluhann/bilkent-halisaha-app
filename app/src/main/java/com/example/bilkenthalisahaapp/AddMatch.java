@@ -1,8 +1,6 @@
 package com.example.bilkenthalisahaapp;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.bilkenthalisahaapp.appObjects.CommonMethods;
 import com.example.bilkenthalisahaapp.appObjects.Match;
 import com.example.bilkenthalisahaapp.databinding.FragmentAddMatchBinding;
 import com.google.firebase.Timestamp;
@@ -99,11 +97,18 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
                                 mYear = year;
                                 mMonth = monthOfYear;
                                 mDay = dayOfMonth;
+
+                                String stadiumName = location;
+                                Firestore.refreshAvailableHours(mDay, mMonth + 1, mYear, stadiumName, getThis() );
                             }
                         }, mYear, mMonth, mDay);
                     datePickerDialog.show();
                 }
             });
+    }
+
+    private AddMatch getThis() {
+        return this;
     }
 
     @Override
@@ -112,20 +117,14 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
         binding = null;
     }
 
-    private ArrayList<String> getAvailableTimes() {
-        ArrayList<String> times = new ArrayList<String>();
-        String time;
 
-        for (int i = 0; i < 24; i++) {
-            if (i < 10) {
-                time = "0" + i + ".00";
-            } else {
-                time = i + ".00";
-            }
-            times.add(time);
-        }
 
-        return times;
+    public void handleAvailableTimesChange(ArrayList<String> availableTimes) {
+
+        ArrayAdapter<String> timeAA = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, availableTimes);
+        timeAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.timeSpinner.setAdapter(timeAA);
+        binding.timeSpinner.setOnItemSelectedListener(this);
     }
 
     private void initializeSpinnerAdapters() {
@@ -137,11 +136,14 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
         binding.locationSpinner.setOnItemSelectedListener(this);
 
         // Time
-        ArrayList<String> availableTimes = getAvailableTimes();
-
+        //adapter
+        /*
+        ArrayList<String> availableTimes = CommonMethods.getAllHours();
         ArrayAdapter<String> timeAA = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, availableTimes);
         timeAA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.timeSpinner.setAdapter(timeAA);
+        */
+
         binding.timeSpinner.setOnItemSelectedListener(this);
 
         // Position
@@ -179,6 +181,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
         switch (parent.getId()) {
             case R.id.locationSpinner:
                 location = parent.getSelectedItem().toString();
+                Firestore.refreshAvailableHours(mDay, mMonth + 1, mYear, location, getThis() );
                 break;
             case R.id.timeSpinner:
                 time = parent.getSelectedItem().toString();

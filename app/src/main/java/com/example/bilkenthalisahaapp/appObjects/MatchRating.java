@@ -11,16 +11,27 @@ public class MatchRating {
         givenRatingsByPlayer = new HashMap<String,Integer>();
     }
 
-    public void getRatingGivenByPlayer(){
-        //There may not be need for that method.
+    public int getGivenRatingByPlayer( Player player ) {
+        return this.givenRatingsByPlayer.get( player.getUserID() );
     }
 
     public double calculateRating(){
-        for(int temp: givenRatingsByPlayer.values()){
-            averageRating += temp;
+        int totalRating = 0;
+        int result;
+
+        for(int rating: givenRatingsByPlayer.values()){
+            totalRating += rating;
         }
-        averageRating= averageRating/ givenRatingsByPlayer.values().size();
+        result = totalRating / givenRatingsByPlayer.values().size();
+        return result;
+    }
+
+    public double getAverageRating() {
         return averageRating;
+    }
+
+    public HashMap<String, Integer> getGivenRatingsByPlayer() {
+        return givenRatingsByPlayer;
     }
 
 }

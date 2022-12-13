@@ -5,18 +5,19 @@ import java.util.UUID;
 public class Player {
 
     private int position;
-    private UUID matchID;
+    private String matchID;
+    private String userID;
     private MatchRating matchRating;
     private Team team;
     private boolean isOwner;
     private Boolean hasAttended;
 
-    public Player(int position, UUID matchID, Team team,boolean isOwner) {
+    public Player(String userID, int position, String matchID, Team team,boolean isOwner) {
+        this.userID = userID;
         this.isOwner = isOwner;
         this.position = position;
         this.matchID = matchID;
         this.team = team;
-
 
     }
 
@@ -24,7 +25,7 @@ public class Player {
         return position;
     }
 
-    public UUID getMatchID() {
+    public String getMatchID() {
         return matchID;
     }
 
@@ -42,6 +43,10 @@ public class Player {
 
     public Boolean getHasAttended() {
         return hasAttended;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     public void vote(int rating, Player player){

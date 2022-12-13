@@ -5,10 +5,12 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.Timestamp;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class Match implements Comparable<Match> {
 
+    private String matchId;
     private String location;
     private Timestamp time;
     private int teamSize;
@@ -19,11 +21,25 @@ public class Match implements Comparable<Match> {
 
     }
 
+    public static String formatStadiumName( String text ) {
+        String output = text.toLowerCase(Locale.ENGLISH).replace(" ", "");
+        return output;
+    }
+
+
+
     public Match(String location, Timestamp time, int teamSize, int maxTeamSize) {
         this.location = location;
         this.time = time;
         this.teamSize = teamSize;
         this.maxTeamSize = maxTeamSize;
+
+        this.matchId = time.getSeconds() + "-" +  formatStadiumName(location);
+
+    }
+
+    public String getMatchId() {
+        return matchId;
     }
 
     public String getLocation() {
