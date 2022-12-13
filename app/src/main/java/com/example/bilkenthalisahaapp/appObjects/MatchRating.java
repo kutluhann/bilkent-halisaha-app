@@ -5,10 +5,12 @@ import java.util.HashMap;
 public class MatchRating {
 
     private double averageRating;
-    private HashMap<String,Integer> givenRatingsByPlayer;
+    private HashMap<String,Integer> givenRatingsByPlayer = new HashMap<String,Integer>();
+
+
 
     public MatchRating(){
-        givenRatingsByPlayer = new HashMap<String,Integer>();
+
     }
 
     public int getGivenRatingByPlayer( Player player ) {
