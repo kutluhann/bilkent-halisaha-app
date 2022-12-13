@@ -64,7 +64,7 @@
         android:id="@+id/point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/star_icon"
+        android:drawableLeft="@drawable/star_icon_black"
         android:layout_marginTop="2dp"
         android:drawablePadding="6dp"
         android:text="9.7"

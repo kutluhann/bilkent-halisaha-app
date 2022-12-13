@@ -21,6 +21,9 @@
     // Profile Fragment
     <string name="profile_page_title">Profile</string>
 
+    // Rate Players Fragment
+    <string name="rate_players_page_title">Rate Players</string>
+
     //Login Fragment
     <string name="sing_in">Sign In</string>
     <string name="email">   Email</string>
