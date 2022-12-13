@@ -23,7 +23,7 @@
     android:height="180dp"
     android:drawable="@drawable/bilkent_halisaha_logo"
     android:gravity="top|center_horizontal"
-    android:top="40dp">
+    android:top="80dp">
 </item>
 
 <item
