@@ -53,4 +53,17 @@
         <item>Central Campus 2</item>
         <item>East Campus</item>
     </string-array>
+
+    <string-array name="number_of_players">
+        <item>6</item>
+    </string-array>
+
+    <string-array name="positions_array">
+        <item>Goalkeeper</item>
+        <item>Defender 1</item>
+        <item>Defender 2</item>
+        <item>Midfielder 1</item>
+        <item>Midfielder 2</item>
+        <item>Forward</item>
+    </string-array>
 </resources>
