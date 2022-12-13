@@ -32,7 +32,7 @@ public class Profile extends Fragment {
 
     private FragmentProfileBinding binding;
     private User user;
-
+    private ListenerRegistration listenerRegistration;
 
     @Override
     public View onCreateView(
@@ -51,16 +51,24 @@ public class Profile extends Fragment {
 
     //When user info change and need refresh, update and refresh all changeable things
     private void handleUserInfoChange() {
-        binding.username.setText( generateFullName(user.getName(), user.getSurname()) );
-        binding.matchesAttendedNumber.setText( user.getNumberOfAttendedMatches() + "" );
 
+        try {
+            binding.username.setText(generateFullName(user.getName(), user.getSurname()));
+            binding.matchesAttendedNumber.setText(user.getNumberOfAttendedMatches() + "");
+            binding.mvpNumber.setText(user.getNumberOfMVPRewards() + "");
+            binding.missedMatchesNumber.setText(user.getNumberOfMissedMatches() + "");
+            binding.point.setText(user.getAverageRating() + "");
 
+            //change last 5 ratings below
+        } catch (Exception e) {
+
+        }
 
     }
 
     private void getUser( String userId ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        listenerRegistration = db.collection("users")
                 .document(userId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -103,6 +111,7 @@ public class Profile extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        //listenerRegistration.remove();
     }
 
 }
