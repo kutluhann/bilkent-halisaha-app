@@ -71,35 +71,33 @@ public class AddMatch extends Fragment {
                 Match newMatch = new Match(locationName, timestamp, teamSize, maxTeamSize);
 
                 Firestore.updateMatch(newMatch);
-            }
-        });
+                }
+            });
 
-                binding.selectDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final Calendar c = Calendar.getInstance();
-                        mYear = c.get(Calendar.YEAR);
-                        mMonth = c.get(Calendar.MONTH);
-                        mDay = c.get(Calendar.DAY_OF_MONTH);
+            binding.datePicker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Calendar c = Calendar.getInstance();
+                    mYear = c.get(Calendar.YEAR);
+                    mMonth = c.get(Calendar.MONTH);
+                    mDay = c.get(Calendar.DAY_OF_MONTH);
 
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
 
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                                new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
 
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year,
-                                                          int monthOfYear, int dayOfMonth) {
-
-                                        binding.textViewDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                                        mYear = year;
-                                        mMonth = monthOfYear;
-                                        mDay = dayOfMonth;
-
-                                    }
-                                }, mYear, mMonth, mDay);
-                        datePickerDialog.show();
-                    }
-                });
+                                binding.datePicker.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
+                                mYear = year;
+                                mMonth = monthOfYear;
+                                mDay = dayOfMonth;
+                            }
+                        }, mYear, mMonth, mDay);
+                    datePickerDialog.show();
+                }
+            });
 
         binding.selectTime.setOnClickListener(new View.OnClickListener() {
             @Override
