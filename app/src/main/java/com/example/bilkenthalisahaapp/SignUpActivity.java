@@ -55,8 +55,11 @@ public class SignUpActivity extends AppCompatActivity {
         String lastName = editTextLastName.getText().toString();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
+        String address = "";
 
-        String address = email.split("@")[1];
+        if (!TextUtils.isEmpty(email) && email.contains("@")) {
+             address = email.split("@")[1];
+        }
 
         if (TextUtils.isEmpty(firstName)) {
             editTextFirstName.setError("First name cannot be empty!");
@@ -89,6 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             .setPhotoUri(photoUri)
                                             .build();
 
+
                                     mAuth.getCurrentUser().updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -112,5 +116,13 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+        finish();
     }
 }

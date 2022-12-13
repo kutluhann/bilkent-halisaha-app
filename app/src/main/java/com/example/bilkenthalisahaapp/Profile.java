@@ -38,7 +38,7 @@ public class Profile extends Fragment {
         binding.logoutButton.setOnClickListener(view1 -> {
             mAuth.signOut();
 
-            Toast.makeText(getActivity(),"Logged our successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Logged out successfully", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getContext(), SignInActivity.class));
         });
 

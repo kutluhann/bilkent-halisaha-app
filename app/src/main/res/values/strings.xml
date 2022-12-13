@@ -23,7 +23,7 @@
 
     //Login Fragment
     <string name="sing_in">Sign In</string>
-    <string name="email">   Email</string>
+    <string name="email">Email (Bilkent Mail)</string>
     <string name="password">   Password</string>
     <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
 
@@ -40,5 +40,6 @@
 
     //Email Verification
     <string name="email_verification">Verify Your Email</string>
+    <string name="go_sign_up_back">Return sign up?</string>
 
 </resources>
