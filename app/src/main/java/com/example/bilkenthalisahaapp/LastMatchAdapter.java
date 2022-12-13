@@ -36,7 +36,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getPitch().setText(lastMatch.getLocation());
-        holder.getJoinNumberText().setText(lastMatch.getTeamSize() + "/" + lastMatch.getMaxTeamSize());
+        holder.getJoinNumberText().setText(lastMatch.getPlayers().size() + "/" + lastMatch.getMaxTeamSize());
         holder.getTime().setText(generateTimeString(lastMatch.getTime().getSeconds()));
         holder.getDate().setText(generateDateString(lastMatch.getTime().getSeconds()));
         //TODO implement ratePlayers button
