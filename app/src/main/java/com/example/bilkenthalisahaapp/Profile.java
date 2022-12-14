@@ -151,7 +151,7 @@ public class Profile extends Fragment {
             if (resultData != null) {
                 uri = resultData.getData();
                 FirebaseStorageMethods.uploadPhoto(uri, user, getContext());
-
+                Toast.makeText(getActivity(), "Photo is added successfully", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -165,7 +165,6 @@ public class Profile extends Fragment {
 
 
     public void handleNewPhoto() {
-        Toast.makeText(getActivity(), "Photo is added successfully", Toast.LENGTH_SHORT).show();
         openFile();
     }
 

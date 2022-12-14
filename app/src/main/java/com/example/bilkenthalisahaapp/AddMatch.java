@@ -134,7 +134,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
                     NavHostFragment.findNavController(AddMatch.this)
                             .navigate(R.id.matches_navigation);
                 } else {
-                    Toast.makeText(getContext(), "Please choose time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Choose an appropriate time", Toast.LENGTH_SHORT).show();
                 }
             }
             });

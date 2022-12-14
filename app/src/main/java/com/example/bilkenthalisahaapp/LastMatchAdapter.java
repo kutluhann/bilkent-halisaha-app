@@ -59,11 +59,11 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
     private String generateDateString(long currentTime) {
         LocalDate localDate = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
         int day = localDate.getDayOfMonth();
-        String month = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        int month = localDate.getMonthValue();
         int year = localDate.getYear();
         String dayName = localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
 
-        return String.format("%d %s %d - %s", day, month, year, dayName);
+        return String.format("%d.%d.%d / %s", day, month, year, dayName);
     }
 
     @Override
