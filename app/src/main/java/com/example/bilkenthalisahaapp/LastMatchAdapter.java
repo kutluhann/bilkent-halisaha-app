@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -76,7 +77,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         private TextView date;
         private TextView time;
         private TextView joinNumberText;
-        private Button ratePlayersButton;
+        private LinearLayout ratePlayersButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pitch = itemView.findViewById(R.id.stadiumName);
@@ -102,7 +103,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
             return joinNumberText;
         }
 
-        public Button getRatePlayersButton() {
+        public LinearLayout getRatePlayersButton() {
             return ratePlayersButton;
         }
     }
