@@ -29,21 +29,20 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/weatherItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/weatherItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/weather_card"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:elevation="15dp"
         app:cardCornerRadius="7dp">
 
@@ -110,12 +109,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/upcomingMatchesRecylerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weatherItem"
         android:id="@+id/lastMatchLayout"
-        tools:ignore="NotSibling">
+        android:layout_marginTop="10dp">
+
         <TextView
             android:id="@+id/lastMatchTextView"
             android:layout_width="wrap_content"
@@ -125,21 +124,22 @@
             android:textColor="@color/brown"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lastMatchRecylerView"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:id="@+id/lastMatchRecyler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lastMatchTextView"
-            tools:itemCount="1"
-            tools:listitem="@layout/last_matches_recycler_item" />
+            tools:itemCount="2"
+            tools:listitem="@layout/last_match_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,7 +148,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastMatchLayout">
+        app:layout_constraintTop_toBottomOf="@+id/lastMatchLayout"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/upcomingMatchesTextView"
@@ -161,26 +162,20 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="20dp"
             android:textStyle="bold"/>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:id="@+id/upcomingMatchesRecylerView"
+            android:id="@+id/upcomingMatchRecyler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:itemCount="1"
-            tools:listitem="@layout/upcoming_matches_recycler"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upcomingMatchesTextView"/>
+            app:layout_constraintTop_toBottomOf="@+id/upcomingMatchesTextView"
+            tools:itemCount="2"
+            tools:listitem="@layout/upcoming_matches_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="162dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

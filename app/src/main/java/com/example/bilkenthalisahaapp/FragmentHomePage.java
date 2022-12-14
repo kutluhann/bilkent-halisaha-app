@@ -39,11 +39,11 @@ public class FragmentHomePage extends Fragment {
 
     ArrayList<Match> upcomingMatches = new ArrayList<Match>();
     UpcomingMatchesAdapter upcomingMatchesAdapter = new UpcomingMatchesAdapter(upcomingMatches);
-    RecyclerView upcomingMatchesRecyclerView;
+    RecyclerView upcomingMatchRecyler;
 
     ArrayList<Match> lastMatches = new ArrayList<Match>();
     LastMatchAdapter lastMatchAdapter = new LastMatchAdapter(lastMatches);
-    RecyclerView lastMatchesRecyclerView;
+    RecyclerView lastMatchRecyler;
 
 
     @Override
@@ -86,12 +86,12 @@ public class FragmentHomePage extends Fragment {
 
     //upcoming matches adapter
     private void setupUpcomingMatchesAdapter(View view) {
-        upcomingMatchesRecyclerView = view.findViewById(R.id.upcomingMatchesRecylerView);
-        upcomingMatchesRecyclerView.setHasFixedSize(false);
+        upcomingMatchRecyler = view.findViewById(R.id.upcomingMatchRecyler);
+        upcomingMatchRecyler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        upcomingMatchesRecyclerView.setLayoutManager(linearLayoutManager);
-        upcomingMatchesRecyclerView.setAdapter(upcomingMatchesAdapter);
+        upcomingMatchRecyler.setLayoutManager(linearLayoutManager);
+        upcomingMatchRecyler.setAdapter(upcomingMatchesAdapter);
     }
 
     private void getUpcomingUserMatches() {
@@ -151,12 +151,12 @@ public class FragmentHomePage extends Fragment {
 
     //lastMatchesAdapter
     private void setupLastMatchesAdapter(View view) {
-        lastMatchesRecyclerView = view.findViewById(R.id.lastMatchRecylerView);
-        lastMatchesRecyclerView.setHasFixedSize(false);
+        lastMatchRecyler = view.findViewById(R.id.lastMatchRecyler);
+        lastMatchRecyler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        lastMatchesRecyclerView.setLayoutManager(linearLayoutManager);
-        lastMatchesRecyclerView.setAdapter(lastMatchAdapter);
+        lastMatchRecyler.setLayoutManager(linearLayoutManager);
+        lastMatchRecyler.setAdapter(lastMatchAdapter);
     }
 
     private void getLastMatches() {

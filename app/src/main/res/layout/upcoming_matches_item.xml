@@ -34,27 +34,27 @@
         android:textStyle="bold"
         android:layout_marginTop="10dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="4dp"
+        android:text="08.11.2022 / Thursday"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:id="@+id/dateText"
+        app:drawableLeftCompat="@drawable/date_icon"
+        app:layout_constraintEnd_toEndOf="@+id/upcomingMatchStadiumName"
+        app:layout_constraintStart_toStartOf="@+id/upcomingMatchStadiumName"
+        app:layout_constraintTop_toBottomOf="@+id/upcomingMatchStadiumName"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/joinNumberText"
-        app:layout_constraintEnd_toEndOf="@+id/upcomingMatchStadiumName"
-        app:layout_constraintStart_toStartOf="@+id/upcomingMatchStadiumName"
-        app:layout_constraintTop_toBottomOf="@+id/upcomingMatchStadiumName"
-        android:id="@+id/dateLayout"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
-            android:text="08.11.2022 / Thursday"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="10sp"
-            android:id="@+id/dateText"
-            android:layout_marginEnd="5dp"
-            app:drawableLeftCompat="@drawable/date_icon" />
+        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView1"
+        app:layout_constraintTop_toBottomOf="@+id/dateText"
+        android:id="@+id/dateLayout">
         <TextView
             android:id="@+id/matchTimeText"
             android:layout_width="wrap_content"
@@ -62,31 +62,24 @@
             android:drawablePadding="4dp"
             android:text="22.00"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="10sp"
-            app:drawableLeftCompat="@drawable/clock_svg" />
-
+            android:textSize="13sp"
+            app:drawableLeftCompat="@drawable/clock_svg"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:id="@+id/joinNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11/12"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:drawablePadding="4dp"
+            app:drawableLeftCompat="@drawable/player_svg"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/joinNumberText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="11/12"
-        android:textColor="@color/black"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView1"
-        app:layout_constraintTop_toBottomOf="@+id/dateLayout"
-        android:drawablePadding="4dp"
-        app:drawableLeftCompat="@drawable/player_svg"
-        android:layout_marginBottom="5dp"/>
 
     <Button
         android:id="@+id/cancelButton"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -100,10 +93,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView1"
-        app:layout_constraintTop_toBottomOf="@+id/joinNumberText"
-
-        />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/dateLayout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
