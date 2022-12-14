@@ -87,7 +87,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/rate_players_button"
-        android:drawableLeft="@drawable/star_icon"
+        android:drawableLeft="@drawable/star_icon_white"
         android:text="Rate Players"
         android:textAllCaps="false"
         android:textColor="@color/white"
