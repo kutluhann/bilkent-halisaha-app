@@ -16,6 +16,7 @@ public class Match implements Comparable<Match> {
     private Timestamp time;
     private int maxTeamSize;
     private ArrayList<Player> players;
+    private ArrayList<String> userIds;
 
 
     public Match() {
@@ -35,6 +36,7 @@ public class Match implements Comparable<Match> {
 
         this.matchId = time.getSeconds() + "-" +  formatStadiumName(location);
         this.players = new ArrayList<Player>();
+        this.userIds = new ArrayList<String>();
 
     }
 
@@ -54,6 +56,9 @@ public class Match implements Comparable<Match> {
         return maxTeamSize;
     }
 
+    public ArrayList<String> getUserIds() {
+        return userIds;
+    }
 
     public Timestamp getTime() {
         return time;
@@ -62,6 +67,7 @@ public class Match implements Comparable<Match> {
     //only for initialization
     public void addLocalPlayer(Player player) {
         this.players.add(player);
+        this.userIds.add(player.getUserID());
     }
 
     @Override

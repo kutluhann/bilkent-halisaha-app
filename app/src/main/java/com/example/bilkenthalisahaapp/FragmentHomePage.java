@@ -27,6 +27,9 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.sql.Time;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -70,8 +73,11 @@ public class FragmentHomePage extends Fragment {
                         if (snapshot != null && snapshot.exists()) {
                             //Log.d(TAG, "Current data: " + snapshot.getData());
                             user = snapshot.toObject(User.class);
+                            initialization();
                         } else {
                             //Log.d(TAG, "Current data: null");
+                            user = Firestore.createUserAndSave();
+                            initialization();
                         }
                     }
                 });
@@ -95,6 +101,7 @@ public class FragmentHomePage extends Fragment {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             Query query;
             query = db.collection("matches")
+                    .whereArrayContains("userIds", user.getUserID() )
                     .orderBy("time", Query.Direction.ASCENDING)
                     .startAt( Timestamp.now() )
                     .limit(MAX_FETCH_NUMBER);
@@ -111,12 +118,11 @@ public class FragmentHomePage extends Fragment {
 
                     for (DocumentChange dc : value.getDocumentChanges()) {
                         Match newMatch = dc.getDocument().toObject(Match.class);
-                        boolean doesContain = user.getMatchIds().contains(newMatch.getMatchId());
 
                             int indexOf = Collections.binarySearch(upcomingMatches, newMatch);
                             switch (dc.getType()) {
                                 case ADDED:
-                                    if(indexOf < 0 && doesContain) {
+                                    if(indexOf < 0) {
                                         int addTo = Math.abs(indexOf) - 1;
                                         upcomingMatches.add(addTo, newMatch);
                                         upcomingMatchesAdapter.notifyItemInserted(addTo);
@@ -124,14 +130,8 @@ public class FragmentHomePage extends Fragment {
                                     break;
                                 case MODIFIED:
                                     if(indexOf > - 1) {
-                                        if(doesContain) {
-                                            upcomingMatches.set(indexOf, newMatch);
-                                            upcomingMatchesAdapter.notifyItemChanged(indexOf);
-                                        } else {
-                                            upcomingMatches.remove(indexOf);
-                                            upcomingMatchesAdapter.notifyItemRemoved(indexOf);
-                                        }
-
+                                        upcomingMatches.set(indexOf, newMatch);
+                                        upcomingMatchesAdapter.notifyItemChanged(indexOf);
                                     }
                                     break;
                                 case REMOVED:
@@ -161,15 +161,20 @@ public class FragmentHomePage extends Fragment {
 
     private void getLastMatches() {
 
-        final int MAX_FETCH_NUMBER = 3;
+        final int LAST_DAYS_FETCH_NUMBER = 3;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query;
+
+        Instant instant = Instant.ofEpochSecond( Timestamp.now().getSeconds() );
+        Instant limitInstant = instant.minusSeconds( CommonMethods.ONE_DAY_AS_SECONDS * LAST_DAYS_FETCH_NUMBER );
+        Timestamp limit = new Timestamp(limitInstant.getEpochSecond(), 0);
+
         query = db.collection("matches")
+                .whereArrayContains("userIds", user.getUserID() )
                 .orderBy("time", Query.Direction.DESCENDING)
                 .startAt( Timestamp.now() )
-                .limit(MAX_FETCH_NUMBER);
-
+                .endBefore( limit );
 
         ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -182,12 +187,11 @@ public class FragmentHomePage extends Fragment {
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
                     Match newMatch = dc.getDocument().toObject(Match.class);
-                    boolean doesContain = user.getMatchIds().contains(newMatch.getMatchId());
 
                         int indexOf = Collections.binarySearch(lastMatches, newMatch, Collections.reverseOrder() );
                         switch (dc.getType()) {
                             case ADDED:
-                                if (indexOf < 0 && doesContain) {
+                                if (indexOf < 0) {
                                     int addTo = Math.abs(indexOf) - 1;
                                     lastMatches.add(addTo, newMatch);
                                     lastMatchAdapter.notifyItemInserted(addTo);
@@ -195,14 +199,8 @@ public class FragmentHomePage extends Fragment {
                                 break;
                             case MODIFIED:
                                 if (indexOf > -1) {
-                                    if(doesContain) {
-                                        lastMatches.set(indexOf, newMatch);
-                                        lastMatchAdapter.notifyItemChanged(indexOf);
-                                    } else {
-                                        lastMatches.remove(indexOf);
-                                        lastMatchAdapter.notifyItemRemoved(indexOf);
-                                    }
-
+                                    lastMatches.set(indexOf, newMatch);
+                                    lastMatchAdapter.notifyItemChanged(indexOf);
                                 }
                                 break;
                             case REMOVED:
@@ -225,19 +223,27 @@ public class FragmentHomePage extends Fragment {
         return binding.getRoot();
     }
 
+    private void initialization() {
+        try {
+            setupUpcomingMatchesAdapter(getView());
+            setupLastMatchesAdapter(getView());
+
+            getUpcomingUserMatches();
+            getLastMatches();
+        } catch (Exception e) {
+
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-            setupUpcomingMatchesAdapter(view);
-            setupLastMatchesAdapter(view);
 
             getCurrentUser();
 
-            getUpcomingUserMatches();
-            getLastMatches();
         } catch(Exception e) {
-
+            Exception exception = e;
         }
 
     }
