@@ -44,6 +44,14 @@ public class Firestore {
 
     }
 
+    public static void updateProfilePicture(String userId, String path) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users")
+                .document(userId)
+                .update("profilePictureURL", path);
+    }
+
     public static void addMatchToUser(User user, Match newMatch) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

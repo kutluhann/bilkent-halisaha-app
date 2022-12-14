@@ -16,6 +16,7 @@ import com.example.bilkenthalisahaapp.databinding.FragmentAddMatchBinding;
 import com.example.bilkenthalisahaapp.databinding.FragmentHomescreenBinding;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -51,7 +52,8 @@ public class FragmentHomePage extends Fragment {
 
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
-        String userId = mAuth.getCurrentUser().getUid();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        String userId = firebaseUser.getUid();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
@@ -226,12 +228,17 @@ public class FragmentHomePage extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupUpcomingMatchesAdapter(view);
-        setupLastMatchesAdapter(view);
+        try {
+            setupUpcomingMatchesAdapter(view);
+            setupLastMatchesAdapter(view);
 
-        getCurrentUser();
+            getCurrentUser();
 
-        getUpcomingUserMatches();
-        getLastMatches();
+            getUpcomingUserMatches();
+            getLastMatches();
+        } catch(Exception e) {
+
+        }
+
     }
 }
