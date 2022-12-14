@@ -1,6 +1,8 @@
 package com.example.bilkenthalisahaapp;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ public class Profile extends Fragment {
     private User user;
     private ListenerRegistration listenerRegistration;
 
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -58,6 +61,11 @@ public class Profile extends Fragment {
             binding.mvpNumber.setText(user.getNumberOfMVPRewards() + "");
             binding.missedMatchesNumber.setText(user.getNumberOfMissedMatches() + "");
             binding.point.setText(user.getAverageRating() + "");
+
+            if( user.getProfilePictureURL() != null ) {
+                FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL() );
+            }
+
 
             //change last 5 ratings below
         } catch (Exception e) {
@@ -104,7 +112,42 @@ public class Profile extends Fragment {
             startActivity(new Intent(getContext(), SignInActivity.class));
         });
 
+        binding.profilePicture.setClickable(true);
+        binding.profilePicture.setOnClickListener(
+                view1 -> {
+                    openFile();
+                }
+        );
+
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    // Request code for selecting a PDF document.
+    private static final int PICK_PHOTO_FILE = 2;
+
+    private void openFile() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+
+
+        startActivityForResult(intent, PICK_PHOTO_FILE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        if (requestCode == PICK_PHOTO_FILE
+                && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                FirebaseStorageMethods.uploadPhoto(uri, user, getContext());
+
+            }
+        }
     }
 
     @Override
