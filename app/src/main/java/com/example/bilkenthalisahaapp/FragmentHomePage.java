@@ -71,6 +71,7 @@ public class FragmentHomePage extends Fragment {
                             //Log.d(TAG, "Current data: " + snapshot.getData());
                             user = snapshot.toObject(User.class);
                         } else {
+                            user=user;
                             //Log.d(TAG, "Current data: null");
                         }
                     }
