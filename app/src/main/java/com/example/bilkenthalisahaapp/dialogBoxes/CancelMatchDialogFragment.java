@@ -23,6 +23,7 @@ public class CancelMatchDialogFragment extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // cancel the match
+                        //use database kaan ayden
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
