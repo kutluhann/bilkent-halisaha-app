@@ -48,10 +48,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
-            android:text="08.11.2022"
+            android:text="08.11.2022 / Thursday"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:id="@+id/dateText"
             android:layout_marginEnd="5dp"
             app:drawableLeftCompat="@drawable/date_icon" />
@@ -63,7 +63,7 @@
             android:text="22.00"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="13sp"
+            android:textSize="10sp"
             app:drawableLeftCompat="@drawable/clock_svg" />
 
     </LinearLayout>
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:text="11/12"
         android:textColor="@color/black"
-        android:textSize="13sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/ratePlayersButton"
         app:layout_constraintEnd_toEndOf="parent"

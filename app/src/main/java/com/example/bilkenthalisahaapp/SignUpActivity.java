@@ -16,7 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import com.example.bilkenthalisahaapp.appObjects.*;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -81,15 +84,21 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        String userId = currentUser.getUid();
+                        String fullName = firstName + " " + lastName;
+                        User user = new User( userId, firstName, lastName );
+                        Firestore.createUser(user);
+
                         mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    String fullName = firstName + " " + lastName;
-                                    Uri photoUri = Uri.parse("R.drawable.east_campus");
+
+                                    //Uri photoUri = Uri.parse("R.drawable.east_campus");
                                     UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(fullName)
-                                            .setPhotoUri(photoUri)
+                                            //.setPhotoUri(photoUri)
                                             .build();
 
 

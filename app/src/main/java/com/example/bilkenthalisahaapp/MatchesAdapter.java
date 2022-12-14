@@ -6,19 +6,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bilkenthalisahaapp.appObjects.CommonMethods;
 import com.example.bilkenthalisahaapp.appObjects.Match;
-import com.google.firebase.Timestamp;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHolder> {
 
@@ -87,32 +78,21 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+try {
+    // Get element from your dataset at this position and replace the
+    // contents of the view with that element
+    Match match = localDataSet.get(position);
+    viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        Match match = localDataSet.get(position);
-        viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
+    String timeString = CommonMethods.generateTimeString(match.getTime().getSeconds());
+    viewHolder.getTimeView().setText(timeString);
+    String joinNumberString = match.getPlayers().size() + "/" + match.getMaxTeamSize();
+    viewHolder.getJoinNumberView().setText(joinNumberString);
+}catch (Exception e) {
 
-        String timeString = generateTimeString( match.getTime().getSeconds()  );
-        viewHolder.getTimeView().setText( timeString );
-        String joinNumberString = match.getTeamSize() + "/" + match.getMaxTeamSize();
-        viewHolder.getJoinNumberView().setText( joinNumberString );
+}
     }
 
-    private String addZerosToLength(String text, int length ) {
-        while( text.length() < length ) {
-            text = "0" + text;
-        }
-        return text;
-    }
-
-    private String generateTimeString(long currentTime) {
-        LocalDateTime localDateTime = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        int hour = localDateTime.getHour();
-        int minute = localDateTime.getMinute();
-
-        return addZerosToLength( hour + "", 2) + "." + addZerosToLength( minute + "", 2);
-    }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

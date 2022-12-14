@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center_horizontal"
+android:orientation="vertical"
+android:padding="24dp">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Select Operation"
+    android:textSize="20sp"
+    android:layout_marginBottom="12dp"/>
+
+<Button
+    android:id="@+id/changePhoto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Add new photo"
+    android:textAllCaps="false"/>
+
+<Button
+    android:id="@+id/deletePhoto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Remove current photo"
+    android:textAllCaps="false"/>
+
+</LinearLayout>

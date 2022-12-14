@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.ViewHolder> {
-    private Match lastMatch;
+    private ArrayList<Match> lastMatches;
 
-    public LastMatchAdapter(Match lastMatch) {
-        this.lastMatch = lastMatch;
+    public LastMatchAdapter(ArrayList<Match> lastMatches) {
+        this.lastMatches = lastMatches;
     }
 
     @NonNull
@@ -35,8 +35,9 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Match lastMatch = lastMatches.get(position);
         holder.getPitch().setText(lastMatch.getLocation());
-        holder.getJoinNumberText().setText(lastMatch.getTeamSize() + "/" + lastMatch.getMaxTeamSize());
+        holder.getJoinNumberText().setText(lastMatch.getPlayers().size() + "/" + lastMatch.getMaxTeamSize());
         holder.getTime().setText(generateTimeString(lastMatch.getTime().getSeconds()));
         holder.getDate().setText(generateDateString(lastMatch.getTime().getSeconds()));
         //TODO implement ratePlayers button
@@ -67,10 +68,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
 
     @Override
     public int getItemCount() {
-        if(lastMatch == null){
-            return 0;
-        }
-        return 1;
+        return lastMatches.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

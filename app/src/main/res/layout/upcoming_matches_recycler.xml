@@ -6,18 +6,6 @@
     android:layout_marginTop="10dp"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/upcomingMatchesTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upcoming Matches"
-        android:textSize="17sp"
-        android:textColor="@color/brown"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="20dp"
-        android:textStyle="bold"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lastMatchRecyler"
         android:layout_width="match_parent"
@@ -27,7 +15,7 @@
         android:layout_marginRight="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upcomingMatchesTextView"
+        app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="2"
         tools:listitem="@layout/upcoming_matches_item">
 
