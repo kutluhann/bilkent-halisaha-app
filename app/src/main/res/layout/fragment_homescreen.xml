@@ -107,7 +107,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/upcomingMatchesRecylerView"
@@ -116,16 +116,33 @@
         app:layout_constraintTop_toBottomOf="@id/weatherItem"
         android:id="@+id/lastMatchLayout"
         tools:ignore="NotSibling">
+        <TextView
+            android:id="@+id/lastMatchTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Match"
+            android:textSize="17sp"
+            android:textColor="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="20dp"
+            android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lastMatchRecylerView"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/last_matches_recycler_item"
-            tools:itemCount="1" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lastMatchTextView"
+            tools:itemCount="1"
+            tools:listitem="@layout/last_matches_recycler_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -133,13 +150,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastMatchLayout">
 
+        <TextView
+            android:id="@+id/upcomingMatchesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upcoming Matches"
+            android:textSize="17sp"
+            android:textColor="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="20dp"
+            android:textStyle="bold"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:id="@+id/upcomingMatchesRecylerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:itemCount="1"
-            tools:listitem="@layout/upcoming_matches_recycler" />
-    </LinearLayout>
+            tools:listitem="@layout/upcoming_matches_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upcomingMatchesTextView"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"

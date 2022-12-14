@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white"></solid>
+                    <corners android:radius="12dp"></corners>
+                    <padding android:right="16dp" android:left="16dp"></padding>
+                </shape>
+            </item>
+
+            <item android:drawable="@drawable/date_icon"
+                android:gravity="center|end"></item>
+
+        </layer-list>
+    </item>
+</selector>
