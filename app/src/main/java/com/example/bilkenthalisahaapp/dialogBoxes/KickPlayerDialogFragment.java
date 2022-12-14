@@ -9,7 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.bilkenthalisahaapp.appObjects.Player;
+
 public class KickPlayerDialogFragment extends DialogFragment {
+
+    private Player kickedPlayer;
+
+    public KickPlayerDialogFragment(Player kickedPlayer) {
+        this.kickedPlayer = kickedPlayer;
+
+
+
+    }
 
     @NonNull
     @Override

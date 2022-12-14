@@ -9,9 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.bilkenthalisahaapp.appObjects.Match;
+import com.example.bilkenthalisahaapp.appObjects.User;
 
 
 public class CancelMatchDialogFragment extends DialogFragment {
+
+    private Match match;
+    public CancelMatchDialogFragment(Match match) {
+        this.match = match;
+    }
 
     @NonNull
     @Override

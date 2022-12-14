@@ -9,7 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.bilkenthalisahaapp.appObjects.User;
+
 public class RemoveProfilePhotoDialogFragment extends DialogFragment {
+
+    private User user;
+    public RemoveProfilePhotoDialogFragment(User user) {
+        this.user = user;
+    }
 
     @NonNull
     @Override

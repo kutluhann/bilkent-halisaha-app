@@ -9,9 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.bilkenthalisahaapp.appObjects.Match;
+import com.example.bilkenthalisahaapp.appObjects.User;
 
 
 public class LeaveMatchDialogFragment extends DialogFragment {
+    private User user;
+    private Match match;
+    public LeaveMatchDialogFragment(User user, Match match) {
+        this.user = user;
+        this.match = match;
+    }
 
     @NonNull
     @Override
