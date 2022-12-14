@@ -45,7 +45,6 @@ public class Profile extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
     private String generateFullName(String name, String surname) {
@@ -64,6 +63,8 @@ public class Profile extends Fragment {
 
             if( user.getProfilePictureURL() != null ) {
                 FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL() );
+            } else {
+                binding.profilePicture.setImageResource(R.drawable.default_profile_photo);
             }
 
 
@@ -115,11 +116,16 @@ public class Profile extends Fragment {
         binding.profilePicture.setClickable(true);
         binding.profilePicture.setOnClickListener(
                 view1 -> {
-                    openFile();
+                    openModal();
                 }
         );
 
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void openModal() {
+        BottomDialog bottomDialog = new BottomDialog(this);
+        bottomDialog.show(getParentFragmentManager(), "TAG");
     }
 
     // Request code for selecting a PDF document.
@@ -129,7 +135,6 @@ public class Profile extends Fragment {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-
 
         startActivityForResult(intent, PICK_PHOTO_FILE);
     }
@@ -155,6 +160,23 @@ public class Profile extends Fragment {
         super.onDestroyView();
         binding = null;
         //listenerRegistration.remove();
+    }
+
+
+    public void handleNewPhoto() {
+        Toast.makeText(getActivity(), "Photo is added successfully", Toast.LENGTH_SHORT).show();
+        openFile();
+    }
+
+    public void handleDeletePhoto() {
+        String photoUrl = user.getProfilePictureURL();
+        if (photoUrl != null) {
+            FirebaseStorageMethods.removePhoto(photoUrl);
+            Firestore.updateProfilePicture(user.getUserID(), null);
+            Toast.makeText(getActivity(), "Photo is deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Add a photo first", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
