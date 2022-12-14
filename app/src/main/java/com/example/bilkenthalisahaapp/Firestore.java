@@ -10,6 +10,8 @@ import com.example.bilkenthalisahaapp.appObjects.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.*;
 
 import java.time.Instant;
@@ -149,6 +151,17 @@ public class Firestore {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String path = user.getUserID();
         db.collection("users").document( path ).set(user);
+    }
+
+    public static User createUserAndSave() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userId = currentUser.getUid();
+        String firstName = mAuth.getCurrentUser().getDisplayName();
+        String lastName = "";
+        User user = new User( userId, firstName, lastName );
+        Firestore.createUser(user);
+        return user;
     }
 
     public static ArrayList<Match> getMatches() {

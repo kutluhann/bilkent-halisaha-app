@@ -76,6 +76,8 @@ public class FragmentHomePage extends Fragment {
                             initialization();
                         } else {
                             //Log.d(TAG, "Current data: null");
+                            user = Firestore.createUserAndSave();
+                            initialization();
                         }
                     }
                 });
