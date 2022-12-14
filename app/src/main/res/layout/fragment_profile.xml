@@ -60,14 +60,6 @@
         app:layout_constraintStart_toStartOf="@+id/profilePicture"
         app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
 
-
-    <View
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:background="@drawable/star_icon"
-        app:layout_constraintEnd_toStartOf="@id/point"
-        app:layout_constraintTop_toBottomOf="@id/username"
-        android:layout_marginTop="2dp"/>
     <TextView
         android:id="@+id/point"
         android:layout_width="wrap_content"

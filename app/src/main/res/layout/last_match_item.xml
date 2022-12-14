@@ -79,23 +79,38 @@
             app:drawableLeftCompat="@drawable/player_svg"/>
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:id="@+id/ratePlayersButton"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="0dp"
         android:layout_height="24dp"
+        android:background="@drawable/rate_players_button"
+        android:orientation="horizontal"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/rate_players_button"
-        android:drawableLeft="@drawable/star_icon_white"
-        android:text="Rate Players"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="13sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView1"
-        app:layout_constraintTop_toBottomOf="@+id/dateLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/dateLayout">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:adjustViewBounds="true"
+            android:background="#0000"
+            android:src="@drawable/star_icon_white"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:text="Rate Players"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingLeft="8dp"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
