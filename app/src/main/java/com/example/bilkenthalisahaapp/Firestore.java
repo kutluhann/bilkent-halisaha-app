@@ -127,7 +127,7 @@ public class Firestore {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if( dateTimeOfDay.isBefore(currentDateTime) && dateTimeOfDay.plusDays(1).isBefore(currentDateTime) == false ) {
-            Instant nowInstant = currentDateTime.toInstant(ZoneOffset.UTC);
+            Instant nowInstant = currentDateTime.toInstant( ZoneOffset.of("+03:00") );
             int currentHour = nowInstant.atZone( CommonMethods.ISTANBUL_ZONE_ID ).get( ChronoField.HOUR_OF_DAY );
 
             allHours = CommonMethods.getHoursUntilDayEnd(currentHour + 1);

@@ -74,7 +74,7 @@ public class Match implements Comparable<Match> {
     public boolean equals(Object obj) {
         try {
             Match match = (Match) obj;
-            if(this.time.getSeconds() == match.time.getSeconds()) {
+            if(this.time.getSeconds() == match.time.getSeconds() && this.location.equals(match.location) ) {
                 return true;
             }
         } finally {
@@ -82,12 +82,16 @@ public class Match implements Comparable<Match> {
         }
     }
 
+    public int compareStadiumName( Match match ) {
+        return this.location.compareTo( match.location );
+    }
+
     @Override
     public int compareTo(Match match) {
         if(  this.time.getSeconds() < match.time.getSeconds() ) {
             return -1;
         } else if (this.time.getSeconds() == match.time.getSeconds()) {
-            return 0;
+            return compareStadiumName( match );
         } else {
             return 1;
         }
