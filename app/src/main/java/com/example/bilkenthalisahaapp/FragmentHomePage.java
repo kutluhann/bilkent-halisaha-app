@@ -87,6 +87,7 @@ public class FragmentHomePage extends Fragment {
     //upcoming matches adapter
     private void setupUpcomingMatchesAdapter(View view) {
         upcomingMatchRecyler = view.findViewById(R.id.upcomingMatchRecyler);
+        upcomingMatchRecyler.setNestedScrollingEnabled(false);
         upcomingMatchRecyler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -152,6 +153,7 @@ public class FragmentHomePage extends Fragment {
     //lastMatchesAdapter
     private void setupLastMatchesAdapter(View view) {
         lastMatchRecyler = view.findViewById(R.id.lastMatchRecyler);
+        lastMatchRecyler.setNestedScrollingEnabled(false);
         lastMatchRecyler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
