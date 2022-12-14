@@ -54,17 +54,6 @@ public class Firestore {
                 .update("profilePictureURL", path);
     }
 
-    public static void addMatchToUser(User user, Match newMatch) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.
-                collection("users").
-                document(user.getUserID())
-                .update( "matchIds", FieldValue.arrayUnion( newMatch.getMatchId() ) );
-
-    }
-
-
     public static void addPlayerToMatch(Player player , Match match){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());

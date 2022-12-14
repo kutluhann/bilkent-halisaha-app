@@ -11,7 +11,6 @@ public class User {
     private String name;
     private String surname;
 
-    private ArrayList<String> matchIds;
     private int numberOfMissedMatches;
     private int numberOfAttendedMatches;
     private int numberOfMVPRewards;
@@ -27,11 +26,6 @@ public class User {
         this.userID = userId;
         this.name = name;
         this.surname = surname;
-        matchIds = new ArrayList<String>();
-    }
-
-    public ArrayList<String> getMatchIds() {
-        return matchIds;
     }
 
     public String getUserID() {

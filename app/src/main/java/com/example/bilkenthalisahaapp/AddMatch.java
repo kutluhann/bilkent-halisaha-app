@@ -127,7 +127,6 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
                     newMatch.addLocalPlayer(player);
 
                     Firestore.updateMatch(newMatch);
-                    Firestore.addMatchToUser(user, newMatch);
 
                     Toast.makeText(getContext(), "Match is created successfully", Toast.LENGTH_SHORT).show();
 
