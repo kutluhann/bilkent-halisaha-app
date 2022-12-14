@@ -21,6 +21,9 @@
     // Profile Fragment
     <string name="profile_page_title">Profile</string>
 
+    // Rate Players Fragment
+    <string name="rate_players_page_title">Rate Players</string>
+
     //Login Fragment
     <string name="sing_in">Sign In</string>
     <string name="email">Email (Bilkent Mail)</string>
@@ -53,6 +56,21 @@
         <item>Central Campus 1</item>
         <item>Central Campus 2</item>
         <item>East Campus</item>
+    </string-array>
+
+    <string-array name="ratings_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>Not Attended</item>
     </string-array>
 
     <string-array name="number_of_players">
