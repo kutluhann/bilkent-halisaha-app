@@ -18,6 +18,23 @@ public class User {
     private String profilePictureURL;
     private int voterCount;
 
+    public void setVoterCount(int voterCount) {
+        this.voterCount = voterCount;
+    }
+
+    public void setNumberOfMissedMatches(int numberOfMissedMatches) {
+        this.numberOfMissedMatches = numberOfMissedMatches;
+    }
+
+    public void setNumberOfAttendedMatches(int numberOfAttendedMatches) {
+        this.numberOfAttendedMatches = numberOfAttendedMatches;
+    }
+
+    public void setNumberOfMVPRewards(int numberOfMVPRewards) {
+        this.numberOfMVPRewards = numberOfMVPRewards;
+    }
+
+
     public User() {
 
     }
