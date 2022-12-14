@@ -1,5 +1,6 @@
 package com.example.bilkenthalisahaapp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bilkenthalisahaapp.appObjects.Match;
@@ -18,12 +21,15 @@ import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.NavigableMap;
 
 public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.ViewHolder> {
     private ArrayList<Match> lastMatches;
+    private Fragment fragment;
 
-    public LastMatchAdapter(ArrayList<Match> lastMatches) {
+    public LastMatchAdapter(ArrayList<Match> lastMatches, Fragment fragment) {
         this.lastMatches = lastMatches;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -40,7 +46,13 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         holder.getJoinNumberText().setText(lastMatch.getPlayers().size() + "/" + lastMatch.getMaxTeamSize());
         holder.getTime().setText(generateTimeString(lastMatch.getTime().getSeconds()));
         holder.getDate().setText(generateDateString(lastMatch.getTime().getSeconds()));
-        //TODO implement ratePlayers button
+        holder.getRatePlayersButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo);
+            }
+        });
     }
     private String addZerosToLength(String text, int length ) {
         while( text.length() < length ) {

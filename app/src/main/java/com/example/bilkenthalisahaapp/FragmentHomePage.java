@@ -35,11 +35,11 @@ public class FragmentHomePage extends Fragment {
     User user;
 
     ArrayList<Match> upcomingMatches = new ArrayList<Match>();
-    UpcomingMatchesAdapter upcomingMatchesAdapter = new UpcomingMatchesAdapter(upcomingMatches);
+    UpcomingMatchesAdapter upcomingMatchesAdapter = new UpcomingMatchesAdapter(upcomingMatches, FragmentHomePage.this);
     RecyclerView upcomingMatchesRecyclerView;
 
     ArrayList<Match> lastMatches = new ArrayList<Match>();
-    LastMatchAdapter lastMatchAdapter = new LastMatchAdapter(lastMatches);
+    LastMatchAdapter lastMatchAdapter = new LastMatchAdapter(lastMatches,FragmentHomePage.this);
     RecyclerView lastMatchesRecyclerView;
 
 
