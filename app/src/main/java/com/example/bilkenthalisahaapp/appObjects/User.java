@@ -71,32 +71,31 @@ public class User {
         return voterCount;
     }
 
-    /*
-        public double calculateAverageRating(){
-            double average=0;
-            for(int i=0; i<players.size() ; i++){
-                //average+= player.get(i).getMatchRating().getAverageRating()
-            }
 
-            average = average/players.size();
+    public double calculateAverageRating(){
+        double average=0;
 
-            return average;
-        }
-    */
+        // get all matchIDs and find all match ratings. Then add them to average and divide it to the voter count
+
+
+        return average;
+    }
+
     public void joinMatch(String matchID, int position, Team team){
 
         Player player = new Player(userID, position, matchID, team,false);
-        //players.add(player);
+        //matchIds.add(matchID);
+        //get the match object through using the matchID through firebase
+        //match.addLocalPlayer(player);
+        // This is the logic
 
-        //use firebase
+        //Do all these with firebase, do not use local operations
+
 
     }
 
-    public void createMatch(Location location , Timestamp time, int numberOfPlayersPerTeam, int myPosition){
-        //Match match = new Match();
-        //Adding the properties of match from the parameters of the method.
-        //Player p = new Player(myPosition,match.getID(), new Team(), true);
-        // players.add(p);
+    public void createMatch(String location , Timestamp time, int numberOfPlayersPerTeam, int myPosition){
+
 
     }
 }
