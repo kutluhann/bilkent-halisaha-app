@@ -19,12 +19,16 @@ public class MatchRating {
 
     public double calculateRating(){
         int totalRating = 0;
-        int result;
+        double result;
+        int voterCount = 0;
 
         for(int rating: givenRatingsByPlayer.values()){
-            totalRating += rating;
+            if( rating > 0 ){
+                totalRating += rating;
+                voterCount++;
+            }
         }
-        result = totalRating / givenRatingsByPlayer.values().size();
+        result = (double) totalRating / voterCount;
         return result;
     }
 

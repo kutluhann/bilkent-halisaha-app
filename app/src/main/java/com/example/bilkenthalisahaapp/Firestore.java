@@ -59,10 +59,24 @@ public class Firestore {
         DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
                 matchRef.update("players", FieldValue.arrayUnion( player ));
                 matchRef.update("userIds", FieldValue.arrayUnion( player.getUserID() ));
-        db.collection("users").
-                document(player.getUserID())
-                .update( "matchIds", FieldValue.arrayUnion( match.getMatchId() ) );
 
+    }
+
+    public static void removePlayerFromMatch(Player player , Match match){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
+        matchRef.update("players", FieldValue.arrayRemove( player ));
+        matchRef.update("userIds", FieldValue.arrayRemove( player.getUserID() ));
+    }
+
+    public static void removeMatch( Match match ) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
+        matchRef.delete();
+    }
+
+    public static void votePlayer( String userId, Player ) {
+        //TO DO
     }
 
     public static void refreshAvailableHours(int day, int month, int year, String stadiumName, AddMatch addMatchFragment ) {
