@@ -18,7 +18,6 @@ public class Match implements Comparable<Match> {
     private ArrayList<Player> players;
     private ArrayList<String> userIds;
 
-
     public Match() {
 
     }
@@ -38,6 +37,19 @@ public class Match implements Comparable<Match> {
         this.players = new ArrayList<Player>();
         this.userIds = new ArrayList<String>();
 
+    }
+
+    public Player calculateMVPPlayer() {
+        Player bestPlayer = null;
+        double bestRating = 0;
+        for( Player player : players ) {
+            double avgRating = player.getMatchRating().getAverageRating();
+            if(avgRating > 0 && avgRating > bestRating) {
+                bestPlayer = player;
+                bestRating = avgRating;
+            }
+        }
+        return bestPlayer;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -64,6 +76,11 @@ public class Match implements Comparable<Match> {
         return time;
     }
 
+    /*
+    public Player getMVPPlayer() {
+        return
+    }
+*/
     //only for initialization
     public void addLocalPlayer(Player player) {
         this.players.add(player);
