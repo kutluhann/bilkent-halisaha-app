@@ -16,13 +16,15 @@ import java.util.ArrayList;
 
 
 public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.ViewHolder> {
+    private Match match;
     private ArrayList<Player> players;
     //private ArrayList<User> users;
     private Context context;
 
-    public RatePlayersAdapter(ArrayList<Player> players, Context context) {
+    public RatePlayersAdapter(Match match, Context context) {
         this.context = context;
-        this.players = players;
+        this.match = match;
+        this.players = match.getPlayers();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

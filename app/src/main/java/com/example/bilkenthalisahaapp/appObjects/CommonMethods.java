@@ -13,6 +13,7 @@ import java.util.Collections;
 public class CommonMethods {
 
     public static final ZoneId ISTANBUL_ZONE_ID = ZoneId.of( "Europe/Istanbul" ) ;
+    public static final long ONE_DAY_AS_SECONDS = 60*60*24;
 
     public static String addZerosToLength(String text, int length ) {
         while( text.length() < length ) {

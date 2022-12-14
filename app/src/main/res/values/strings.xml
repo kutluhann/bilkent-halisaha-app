@@ -81,8 +81,8 @@
         <item>Goalkeeper</item>
         <item>Defender 1</item>
         <item>Defender 2</item>
-        <item>Midfielder 1</item>
-        <item>Midfielder 2</item>
-        <item>Forward</item>
+        <item>Midfielder</item>
+        <item>Forward 1</item>
+        <item>Forward 2</item>
     </string-array>
 </resources>
