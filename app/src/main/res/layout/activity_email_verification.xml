@@ -96,5 +96,4 @@
         app:layout_constraintTop_toBottomOf="@+id/emailVerificationText" />
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,85 +6,181 @@
     android:layout_height="match_parent"
     tools:context=".AddMatch">
 
-    <EditText
-        android:id="@+id/editLocationName"
+    <ImageView
+        android:id="@+id/signUpView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Stadium Name"
-        android:inputType="textPersonName"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/header_image" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="0dp"
+        android:text="@string/homepage_title"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextTeamSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:ems="10"
-        android:hint="Team Size"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/selectTime"
-        tools:layout_editor_absoluteX="100dp" />
-
-    <EditText
-        android:id="@+id/editTextMaxTeamSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint="Max Team Size"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTeamSize"
-        tools:layout_editor_absoluteX="100dp" />
-
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextMaxTeamSize" />
-
-    <Button
-        android:id="@+id/selectDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Date"
-        app:layout_constraintEnd_toStartOf="@+id/textViewDate"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editLocationName" />
-
-    <Button
-        android:id="@+id/selectTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Time"
-        app:layout_constraintEnd_toStartOf="@+id/textViewTime"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectDate" />
-
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:text="Date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editLocationName" />
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="120dp">
 
-    <TextView
-        android:id="@+id/textViewTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+        <TextView
+            android:id="@+id/pitchText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pitch"
+            android:textSize="17sp"
+            android:textColor="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/locationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/pitchText"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/spinner"
+            android:elevation="10dp"
+            android:dropDownVerticalOffset="40dp"
+            android:dropDownWidth="match_parent"/>
+
+        <TextView
+            android:id="@+id/dateAndTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_and_time"
+            android:textSize="17sp"
+            android:textColor="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/locationSpinner"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <TextView android:id="@+id/datePicker"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeText"
+            app:layout_constraintEnd_toStartOf="@+id/timeSpinner"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="8dp"
+            android:textAllCaps="false"
+            android:background="@drawable/time_picker"
+            android:gravity="start|center_vertical"
+            android:paddingLeft="20dp"
+            android:elevation="10dp"
+            android:textColor="@color/black"/>
+
+        <Spinner android:id="@+id/timeSpinner"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeText"
+            app:layout_constraintStart_toEndOf="@+id/datePicker"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/spinner"
+            android:elevation="10dp"
+            android:dropDownVerticalOffset="40dp"
+            android:dropDownWidth="match_parent"/>
+
+        <TextView
+            android:id="@+id/numberOfPlayersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_players"
+            android:textSize="17sp"
+            android:textColor="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeSpinner"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/playerCountSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/numberOfPlayersText"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/spinner"
+            android:elevation="10dp"
+            android:dropDownVerticalOffset="40dp"
+            android:dropDownWidth="match_parent"/>
+
+        <TextView
+            android:id="@+id/yourPositionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_position"
+            android:textSize="17sp"
+            android:textColor="@color/brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playerCountSpinner"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/positionSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/yourPositionText"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/spinner"
+            android:elevation="10dp"
+            android:dropDownVerticalOffset="40dp"
+            android:dropDownWidth="match_parent"/>
+
+        <Button android:id="@+id/createButton"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/create_button"
+            android:textAllCaps="false"
+            android:background="@drawable/button"
+            app:layout_constraintTop_toBottomOf="@id/positionSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

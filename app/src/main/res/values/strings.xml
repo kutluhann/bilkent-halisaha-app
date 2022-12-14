@@ -23,7 +23,7 @@
 
     //Login Fragment
     <string name="sing_in">Sign In</string>
-    <string name="email">   Email</string>
+    <string name="email">Email (Bilkent Mail)</string>
     <string name="password">   Password</string>
     <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
 
@@ -38,7 +38,33 @@
     <string name="weather_type">Sunny</string>
     <string name="degree">23 °C</string>
 
-    //Email Verification
+    // Email Verification
     <string name="email_verification">Verify Your Email</string>
+    <string name="go_sign_up_back">Return sign up?</string>
 
+    // Create Match
+    <string name="pitch">Pitch</string>
+    <string name="date_and_time">Date and Time</string>
+    <string name="number_of_players">Number of Players per Team</string>
+    <string name="your_position">Your Position</string>
+    <string name="create_button">Create</string>
+
+    <string-array name="locations_array">
+        <item>Central Campus 1</item>
+        <item>Central Campus 2</item>
+        <item>East Campus</item>
+    </string-array>
+
+    <string-array name="number_of_players">
+        <item>6</item>
+    </string-array>
+
+    <string-array name="positions_array">
+        <item>Goalkeeper</item>
+        <item>Defender 1</item>
+        <item>Defender 2</item>
+        <item>Midfielder 1</item>
+        <item>Midfielder 2</item>
+        <item>Forward</item>
+    </string-array>
 </resources>

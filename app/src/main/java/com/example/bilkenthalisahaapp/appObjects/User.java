@@ -1,47 +1,54 @@
 package com.example.bilkenthalisahaapp.appObjects;
 
+import com.example.bilkenthalisahaapp.Firestore;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class User {
-    private UUID userID;
-    private String fullName;
-    private String userName;
+    private String userID;
+    private String name;
+    private String surname;
 
-    private ArrayList<Player> players;
+    private ArrayList<String> matchIds;
     private int numberOfMissedMatches;
     private int numberOfAttendedMatches;
     private int numberOfMVPRewards;
-    //private double averageRating; this variable may not be there
+    private double averageRating;
     private String profilePictureURL;
+    private int voterCount;
 
-    public User(UUID userID, String fullName, String userName) {
-        this.userID = userID;
-        this.fullName = fullName;
-        this.userName = userName;
+    public User() {
 
-        players = new ArrayList<Player>();
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public User(String userId, String name, String surname) {
+        this.userID = userId;
+        this.name = name;
+        this.surname = surname;
+        matchIds = new ArrayList<String>();
     }
 
-    public UUID getUserID() {
+    public ArrayList<String> getMatchIds() {
+        return matchIds;
+    }
+
+    public String getUserID() {
         return userID;
     }
 
-    public String getFullName() {
-        return fullName;
+    public double getAverageRating() {
+        return averageRating;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-
+    public String getSurname() {
+        return surname;
+    }
 
     public int getNumberOfMissedMatches() {
         return numberOfMissedMatches;
@@ -59,21 +66,27 @@ public class User {
     public String getProfilePictureURL() {
         return profilePictureURL;
     }
-    public double calculateAverageRating(){
-        double average=0;
-        for(int i=0; i<players.size() ; i++){
-            //average+= player.get(i).getMatchRating().getAverageRating()
-        }
 
-        average = average/players.size();
-
-        return average;
+    public int getVoterCount() {
+        return voterCount;
     }
 
-    public void joinMatch(UUID matchID , int position, Team team){
+    /*
+        public double calculateAverageRating(){
+            double average=0;
+            for(int i=0; i<players.size() ; i++){
+                //average+= player.get(i).getMatchRating().getAverageRating()
+            }
 
-        Player player = new Player(position,matchID,team,false);
-        players.add(player);
+            average = average/players.size();
+
+            return average;
+        }
+    */
+    public void joinMatch(String matchID, int position, Team team){
+
+        Player player = new Player(userID, position, matchID, team,false);
+        //players.add(player);
 
         //use firebase
 

@@ -40,7 +40,7 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
         holder.getPitch().setText(match.getLocation());
         holder.getDate().setText(generateDateString(match.getTime().getSeconds()));
         holder.getTime().setText(generateTimeString(match.getTime().getSeconds()));
-        holder.getNumberOfPlayers().setText(match.getTeamSize() + "/" + match.getMaxTeamSize());
+        holder.getNumberOfPlayers().setText(match.getPlayers().size() + "/" + match.getMaxTeamSize());
         //TODO implement cancel button
     }
 

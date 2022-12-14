@@ -92,4 +92,12 @@ public class EmailVerificationActivity extends AppCompatActivity {
 
         handler.removeCallbacks(runnable);
     }
+
+    @Override
+    public void onBackPressed() {
+        mAuth.signOut();
+        Toast.makeText(EmailVerificationActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(EmailVerificationActivity.this, MainActivity.class));
+        finish();
+    }
 }
