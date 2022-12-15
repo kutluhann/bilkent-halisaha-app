@@ -1,6 +1,9 @@
 package com.example.bilkenthalisahaapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.example.bilkenthalisahaapp.databinding.FragmentFirstBinding;
 import com.example.bilkenthalisahaapp.databinding.FragmentProfileBinding;
+import com.example.bilkenthalisahaapp.dialogBoxes.LogOutDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -76,7 +81,7 @@ public class Profile extends Fragment {
 
     }
 
-    private void getUser( String userId ) {
+    public  void getUser( String userId ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         listenerRegistration = db.collection("users")
                 .document(userId)
@@ -108,10 +113,13 @@ public class Profile extends Fragment {
         getUser(userId);
 
         binding.logoutButton.setOnClickListener(view1 -> {
-            mAuth.signOut();
 
-            Toast.makeText(getActivity(),"Logged out successfully", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getContext(), SignInActivity.class));
+
+            DialogFragment logOutDialog = new LogOutDialogFragment();
+            logOutDialog.show(getActivity().getSupportFragmentManager(),"logout");
+
+
+
         });
 
         binding.profilePicture.setClickable(true);
