@@ -1,13 +1,17 @@
 package com.example.bilkenthalisahaapp.appObjects;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import java.util.Objects;
 import java.util.UUID;
 
-public class Player {
+public class Player implements Comparable<Player> {
 
     private int position;
     private String matchID;
     private String userID;
-    private MatchRating matchRating;
+    private MatchRating matchRating = new MatchRating();;
     private Team team;
     private boolean isOwner;
 
@@ -22,6 +26,7 @@ public class Player {
         this.matchID = matchID;
         this.team = team;
     }
+
 
     public int getPosition() {
         return position;
@@ -47,19 +52,21 @@ public class Player {
         return userID;
     }
 
-    public void vote(int rating, Player player){
-        // change the hashmap in the (use firebase)
-
+    public void vote(String voterUserId, int rating){
+        matchRating.setVote(voterUserId, rating);
     }
 
-    public boolean hasAttended() {
-        return true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return this.matchID.equals(player.matchID) && this.userID.equals(player.userID);
     }
 
 
-
-
-
-
-
+    @Override
+    public int compareTo(Player player) {
+        return this.userID.compareTo( player.userID );
+    }
 }

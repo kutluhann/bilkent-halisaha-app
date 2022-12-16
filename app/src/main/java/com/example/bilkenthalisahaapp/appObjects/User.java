@@ -11,13 +11,29 @@ public class User {
     private String name;
     private String surname;
 
-    private ArrayList<String> matchIds;
     private int numberOfMissedMatches;
     private int numberOfAttendedMatches;
     private int numberOfMVPRewards;
     private double averageRating;
     private String profilePictureURL;
     private int voterCount;
+
+    public void setVoterCount(int voterCount) {
+        this.voterCount = voterCount;
+    }
+
+    public void setNumberOfMissedMatches(int numberOfMissedMatches) {
+        this.numberOfMissedMatches = numberOfMissedMatches;
+    }
+
+    public void setNumberOfAttendedMatches(int numberOfAttendedMatches) {
+        this.numberOfAttendedMatches = numberOfAttendedMatches;
+    }
+
+    public void setNumberOfMVPRewards(int numberOfMVPRewards) {
+        this.numberOfMVPRewards = numberOfMVPRewards;
+    }
+
 
     public User() {
 
@@ -27,11 +43,6 @@ public class User {
         this.userID = userId;
         this.name = name;
         this.surname = surname;
-        matchIds = new ArrayList<String>();
-    }
-
-    public ArrayList<String> getMatchIds() {
-        return matchIds;
     }
 
     public String getUserID() {

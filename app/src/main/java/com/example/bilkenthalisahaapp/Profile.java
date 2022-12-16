@@ -1,6 +1,9 @@
 package com.example.bilkenthalisahaapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,13 +14,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.example.bilkenthalisahaapp.databinding.FragmentFirstBinding;
 import com.example.bilkenthalisahaapp.databinding.FragmentProfileBinding;
+import com.example.bilkenthalisahaapp.dialogBoxes.LogOutDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -45,7 +51,6 @@ public class Profile extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
     private String generateFullName(String name, String surname) {
@@ -64,6 +69,8 @@ public class Profile extends Fragment {
 
             if( user.getProfilePictureURL() != null ) {
                 FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL() );
+            } else {
+                binding.profilePicture.setImageResource(R.drawable.default_profile_photo);
             }
 
 
@@ -106,20 +113,28 @@ public class Profile extends Fragment {
         getUser(userId);
 
         binding.logoutButton.setOnClickListener(view1 -> {
-            mAuth.signOut();
 
-            Toast.makeText(getActivity(),"Logged out successfully", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getContext(), SignInActivity.class));
+
+            DialogFragment logOutDialog = new LogOutDialogFragment();
+            logOutDialog.show(getActivity().getSupportFragmentManager(),"logout");
+
+
+
         });
 
         binding.profilePicture.setClickable(true);
         binding.profilePicture.setOnClickListener(
                 view1 -> {
-                    openFile();
+                    openModal();
                 }
         );
 
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void openModal() {
+        BottomDialog bottomDialog = new BottomDialog(this);
+        bottomDialog.show(getParentFragmentManager(), "TAG");
     }
 
     // Request code for selecting a PDF document.
@@ -129,7 +144,6 @@ public class Profile extends Fragment {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-
 
         startActivityForResult(intent, PICK_PHOTO_FILE);
     }
@@ -145,7 +159,7 @@ public class Profile extends Fragment {
             if (resultData != null) {
                 uri = resultData.getData();
                 FirebaseStorageMethods.uploadPhoto(uri, user, getContext());
-
+                Toast.makeText(getActivity(), "Photo is added successfully", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -156,5 +170,31 @@ public class Profile extends Fragment {
         binding = null;
         //listenerRegistration.remove();
     }
+
+
+    public void handleNewPhoto() {
+        openFile();
+    }
+
+    public void handleDeletePhoto() {
+        String photoUrl = user.getProfilePictureURL();
+        if (photoUrl != null) {
+            FirebaseStorageMethods.removePhoto(photoUrl);
+            Firestore.updateProfilePicture(user.getUserID(), null);
+            Toast.makeText(getActivity(), "Photo is deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Add a photo first", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -8,8 +8,12 @@ import androidx.annotation.NonNull;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.*;
 
 import java.time.Instant;
@@ -18,6 +22,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalField;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Firestore {
 
@@ -52,25 +57,127 @@ public class Firestore {
                 .update("profilePictureURL", path);
     }
 
-    public static void addMatchToUser(User user, Match newMatch) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.
-                collection("users").
-                document(user.getUserID())
-                .update( "matchIds", FieldValue.arrayUnion( newMatch.getMatchId() ) );
-
-    }
-
-
     public static void addPlayerToMatch(Player player , Match match){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
                 matchRef.update("players", FieldValue.arrayUnion( player ));
                 matchRef.update("userIds", FieldValue.arrayUnion( player.getUserID() ));
-        db.collection("users").
-                document(player.getUserID())
-                .update( "matchIds", FieldValue.arrayUnion( match.getMatchId() ) );
+
+    }
+
+    public static void removePlayerFromMatch(Player player , Match match){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
+        matchRef.update("players", FieldValue.arrayRemove( player ));
+        matchRef.update("userIds", FieldValue.arrayRemove( player.getUserID() ));
+    }
+
+    public static void removeMatch( Match match ) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
+        matchRef.delete();
+    }
+
+
+    public static void votePlayer( String voterUserId, Player refPlayer, int rating) {
+
+        //TO DO
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = refPlayer.getUserID();
+        String matchId = refPlayer.getMatchID();
+        final DocumentReference userRef = db.collection("users").document(userId);
+        final DocumentReference matchRef = db.collection("matches").document(matchId);
+
+        db.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        User user = transaction.get(userRef).toObject(User.class);
+                        Match match = transaction.get(matchRef).toObject(Match.class);
+                        ArrayList<Player> players = match.getPlayers();
+                        int playerPosition = Collections.binarySearch(players, refPlayer);
+                        //to receive the current player
+                        Player player = players.get(playerPosition);
+
+                        //to handle attended change and number
+                        Boolean oldAttended = player.getMatchRating().getAttended();
+                        //get old mvp
+                        Player oldMVP = match.calculateMVPPlayer();
+
+                        //changed match data
+                        player.vote(voterUserId, rating);
+
+                        Boolean newAttended = player.getMatchRating().getAttended();
+                        Player newMVP = match.calculateMVPPlayer();
+                        DocumentReference mvpReference = null;
+                        User mvpUser = null;
+
+                        DocumentReference oldMvpReference = null;
+                        User oldMvpUser = null;
+                        if(newMVP != null) {
+                            mvpReference = db.collection("users").document( newMVP.getUserID() );
+                            mvpUser = transaction.get( mvpReference ).toObject( User.class );
+                        }
+
+                        if(oldMVP != null) {
+                            oldMvpReference = db.collection("users").document( oldMVP.getUserID() );
+                            oldMvpUser = transaction.get( oldMvpReference ).toObject( User.class );
+                        }
+
+                        if (oldAttended == null) {
+                            if (newAttended == true) {
+                                transaction.update(userRef, "numberOfAttendedMatches", user.getNumberOfAttendedMatches() + 1);
+                            } else {
+                                transaction.update(userRef, "numberOfMissedMatches", user.getNumberOfMissedMatches() + 1);
+                            }
+                        } else if (oldAttended != newAttended) {
+                            //it means attendance data changed
+                            if (newAttended == true) {
+                                transaction.update(userRef, "numberOfAttendedMatches", user.getNumberOfAttendedMatches() + 1);
+                                transaction.update(userRef, "numberOfMissedMatches", user.getNumberOfMissedMatches() - 1);
+                            } else {
+                                transaction.update(userRef, "numberOfAttendedMatches", user.getNumberOfAttendedMatches() - 1);
+                                transaction.update(userRef, "numberOfMissedMatches", user.getNumberOfMissedMatches() + 1);
+                            }
+                        }
+                        //can be updated here
+
+                        //Handle MVP change
+
+                        if (newMVP != null) {
+                            if (oldMVP == null) {
+                                //when there is no old mvp
+                                transaction.update(mvpReference, "numberOfMVPRewards", mvpUser.getNumberOfMVPRewards() + 1);
+
+                            } else if (oldMVP != newMVP) {
+                                //when there is old mvp
+                                transaction.update(mvpReference, "numberOfMVPRewards", mvpUser.getNumberOfMVPRewards() + 1);
+                                transaction.update(oldMvpReference, "numberOfMVPRewards", oldMvpUser.getNumberOfMVPRewards() - 1);
+
+                            }
+                        }
+
+                            //set Match
+                            transaction.set( matchRef, match );
+
+                            // Success
+                            return null;
+
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Log.d(TAG, "Transaction success!");
+                        //toast
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.w(TAG, "Transaction failure.", e);
+                        //toast
+                    }
+                });
 
     }
 
@@ -125,7 +232,7 @@ public class Firestore {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if( dateTimeOfDay.isBefore(currentDateTime) && dateTimeOfDay.plusDays(1).isBefore(currentDateTime) == false ) {
-            Instant nowInstant = currentDateTime.toInstant(ZoneOffset.UTC);
+            Instant nowInstant = currentDateTime.toInstant( ZoneOffset.of("+03:00") );
             int currentHour = nowInstant.atZone( CommonMethods.ISTANBUL_ZONE_ID ).get( ChronoField.HOUR_OF_DAY );
 
             allHours = CommonMethods.getHoursUntilDayEnd(currentHour + 1);
@@ -149,6 +256,17 @@ public class Firestore {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String path = user.getUserID();
         db.collection("users").document( path ).set(user);
+    }
+
+    public static User createUserAndSave() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userId = currentUser.getUid();
+        String firstName = mAuth.getCurrentUser().getDisplayName();
+        String lastName = "";
+        User user = new User( userId, firstName, lastName );
+        Firestore.createUser(user);
+        return user;
     }
 
     public static ArrayList<Match> getMatches() {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,11 +72,11 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
     private String generateDateString(long currentTime) {
         LocalDate localDate = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
         int day = localDate.getDayOfMonth();
-        String month = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        int month = localDate.getMonthValue();
         int year = localDate.getYear();
         String dayName = localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
 
-        return String.format("%d %s %d - %s", day, month, year, dayName);
+        return String.format("%d.%d.%d / %s", day, month, year, dayName);
     }
 
     @Override
@@ -88,7 +89,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         private TextView date;
         private TextView time;
         private TextView joinNumberText;
-        private Button ratePlayersButton;
+        private LinearLayout ratePlayersButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pitch = itemView.findViewById(R.id.stadiumName);
@@ -114,7 +115,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
             return joinNumberText;
         }
 
-        public Button getRatePlayersButton() {
+        public LinearLayout getRatePlayersButton() {
             return ratePlayersButton;
         }
     }

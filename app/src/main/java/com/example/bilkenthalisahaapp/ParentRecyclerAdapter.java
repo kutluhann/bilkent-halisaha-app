@@ -106,7 +106,7 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         int year = localDate.getYear();
         String dayName = localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
 
-        return String.format("%d %s %d - %s", day, month, year, dayName);
+        return String.format("%d %s %d / %s", day, month, year, dayName);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
