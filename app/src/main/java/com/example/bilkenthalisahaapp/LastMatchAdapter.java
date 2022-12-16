@@ -1,6 +1,7 @@
 package com.example.bilkenthalisahaapp;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +48,16 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         holder.getJoinNumberText().setText(lastMatch.getPlayers().size() + "/" + lastMatch.getMaxTeamSize());
         holder.getTime().setText(generateTimeString(lastMatch.getTime().getSeconds()));
         holder.getDate().setText(generateDateString(lastMatch.getTime().getSeconds()));
+
+        Bundle matchBundle = new Bundle();
+        matchBundle.putString("matchId", lastMatch.getMatchId() );
+
         holder.getRatePlayersButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 NavHostFragment.findNavController(fragment)
-                        .navigate(R.id.action_HomeScreen_to_MatchInfo);
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
             }
         });
     }

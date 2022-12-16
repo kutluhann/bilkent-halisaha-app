@@ -17,6 +17,7 @@ import com.example.bilkenthalisahaapp.databinding.FragmentHomescreenBinding;
 public class MatchInfo extends Fragment {
     FragmentFormationBinding binding;
     Button cancelButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,7 +29,14 @@ public class MatchInfo extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cancelButton = view.findViewById(R.id.cancelMatchButton);
+
+        Bundle matchBundle = getArguments();
+        String matchId = matchBundle.getString("matchId");
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
+
+
+            //im not sure of that because it can create problem about navigation and navigating up(return back)
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(MatchInfo.this)

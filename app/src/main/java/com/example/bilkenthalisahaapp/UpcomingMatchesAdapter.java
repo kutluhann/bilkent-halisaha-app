@@ -1,5 +1,6 @@
 package com.example.bilkenthalisahaapp;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,15 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
         holder.getDate().setText(generateDateString(match.getTime().getSeconds()));
         holder.getTime().setText(generateTimeString(match.getTime().getSeconds()));
         holder.getNumberOfPlayers().setText(match.getPlayers().size() + "/" + match.getMaxTeamSize());
+
+        Bundle matchBundle = new Bundle();
+        matchBundle.putString("matchId", match.getMatchId() );
+
         holder.getCancelButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(fragment)
-                        .navigate(R.id.action_HomeScreen_to_MatchInfo);
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
             }
         });
     }

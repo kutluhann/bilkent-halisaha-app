@@ -99,27 +99,29 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
-        viewHolder.getJoinButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), localDataSet.get(position).getMatchId(), Toast.LENGTH_SHORT).show();
-                
-                Navigation.findNavController(viewHolder.itemView).
-                        navigate(R.id.action_matches_to_MatchInfo);
-            }
-        });
-
         try {
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
             Match match = localDataSet.get(position);
-            viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
+            viewHolder.getStadiumNameView().setText(match.getLocation());// Problem
 
             String timeString = CommonMethods.generateTimeString(match.getTime().getSeconds());
             viewHolder.getTimeView().setText(timeString);
             String joinNumberString = match.getPlayers().size() + "/" + match.getMaxTeamSize();
             viewHolder.getJoinNumberView().setText(joinNumberString);
+
+            Bundle matchBundle = new Bundle();
+            matchBundle.putString("matchId", match.getMatchId() );
+
+            viewHolder.getJoinButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Navigation.findNavController(viewHolder.itemView).
+                            navigate(R.id.action_matches_to_MatchInfo, matchBundle);
+                }
+            });
+
         }catch (Exception e) {
 
         }
