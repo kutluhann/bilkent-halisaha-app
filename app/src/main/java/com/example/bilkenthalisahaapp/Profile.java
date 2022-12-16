@@ -81,7 +81,7 @@ public class Profile extends Fragment {
 
     }
 
-    public  void getUser( String userId ) {
+    private void getUser( String userId ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         listenerRegistration = db.collection("users")
                 .document(userId)

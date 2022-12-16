@@ -66,10 +66,7 @@ public class LogOutDialogFragment extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mAuth = FirebaseAuth.getInstance();
-                        String userId = mAuth.getCurrentUser().getUid();
-
-                        Profile p = new Profile();
-                        p.getUser(userId);
+                       
                         mAuth.signOut();
                         Toast.makeText(getActivity(),"Logged out successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getContext(), SignInActivity.class));
