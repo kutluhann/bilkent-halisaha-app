@@ -9,7 +9,12 @@
         android:id="@+id/home_navigation"
         android:name="com.example.bilkenthalisahaapp.FragmentHomePage"
         android:label="HomeScreen"
-        tools:layout="@layout/fragment_homescreen"/>
+        tools:layout="@layout/fragment_homescreen"
+        >
+        <action
+            android:id="@+id/action_HomeScreen_to_MatchInfo"
+            app:destination="@+id/match_info"/>
+    </fragment>
     <fragment
         android:id="@+id/matches_navigation"
         android:name="com.example.bilkenthalisahaapp.MatchDisplay"
@@ -18,12 +23,20 @@
         <action
             android:id="@+id/action_matchDisplay_to_addMatch"
             app:destination="@id/addMatch" />
+        <action
+            android:id="@+id/action_matches_to_MatchInfo"
+            app:destination="@+id/match_info"/>
     </fragment>
     <fragment
         android:id="@+id/profile_navigation"
         android:name="com.example.bilkenthalisahaapp.Profile"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_profile"/>
+    <fragment
+        android:id="@+id/match_info"
+        android:name="com.example.bilkenthalisahaapp.MatchInfo"
+        android:label="Match Info"
+        tools:layout="@layout/fragment_formation"/>
     <fragment
         android:id="@+id/addMatch"
         android:name="com.example.bilkenthalisahaapp.AddMatch"

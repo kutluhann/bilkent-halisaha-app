@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bilkenthalisahaapp.appObjects.Match;
@@ -23,9 +25,11 @@ import java.util.Locale;
 
 public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatchesAdapter.ViewHolder>{
     private ArrayList<Match> upcomingMatches;
+    private Fragment fragment;
 
-    public UpcomingMatchesAdapter(ArrayList<Match> upcomingMatches) {
+    public UpcomingMatchesAdapter(ArrayList<Match> upcomingMatches, Fragment fragment) {
         this.upcomingMatches = upcomingMatches;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -41,7 +45,13 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
         holder.getDate().setText(generateDateString(match.getTime().getSeconds()));
         holder.getTime().setText(generateTimeString(match.getTime().getSeconds()));
         holder.getNumberOfPlayers().setText(match.getPlayers().size() + "/" + match.getMaxTeamSize());
-        //TODO implement cancel button
+        holder.getCancelButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo);
+            }
+        });
     }
 
     @Override
