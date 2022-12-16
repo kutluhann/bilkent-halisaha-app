@@ -7,4 +7,6 @@ public class JoinMatchFragment extends Fragment {
     public JoinMatchFragment(){
         super(R.layout.fragment_formation);
     }
+
+    
 }
