@@ -1,13 +1,16 @@
 package com.example.bilkenthalisahaapp;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,9 +46,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         private final Button joinButton;
 
 
-
-
-
         public ViewHolder(View view) {
             super(view);
 
@@ -55,27 +55,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
             timeView = (TextView) view.findViewById(R.id.matchTimeText);
             joinNumberView = (TextView) view.findViewById(R.id.joinNumberText);
             joinButton = (Button) view.findViewById(R.id.button);
-
-
-            joinButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MatchDisplay d = new MatchDisplay();
-
-
-
-                    NavHostFragment.findNavController(d.matchDisplayFragment).
-                            navigate(R.id.action_matches_to_MatchInfo);
-
-
-
-
-                }
-            });
-
-
-
-
 
         }
 
@@ -119,19 +98,31 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-try {
-    // Get element from your dataset at this position and replace the
-    // contents of the view with that element
-    Match match = localDataSet.get(position);
-    viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
 
-    String timeString = CommonMethods.generateTimeString(match.getTime().getSeconds());
-    viewHolder.getTimeView().setText(timeString);
-    String joinNumberString = match.getPlayers().size() + "/" + match.getMaxTeamSize();
-    viewHolder.getJoinNumberView().setText(joinNumberString);
-}catch (Exception e) {
+        viewHolder.getJoinButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-}
+                Toast.makeText(view.getContext(), localDataSet.get(position).getMatchId(), Toast.LENGTH_SHORT).show();
+                
+                Navigation.findNavController(viewHolder.itemView).
+                        navigate(R.id.action_matches_to_MatchInfo);
+            }
+        });
+
+        try {
+            // Get element from your dataset at this position and replace the
+            // contents of the view with that element
+            Match match = localDataSet.get(position);
+            viewHolder.getStadiumNameView().setText(match.getLocation().toString());// Problem
+
+            String timeString = CommonMethods.generateTimeString(match.getTime().getSeconds());
+            viewHolder.getTimeView().setText(timeString);
+            String joinNumberString = match.getPlayers().size() + "/" + match.getMaxTeamSize();
+            viewHolder.getJoinNumberView().setText(joinNumberString);
+        }catch (Exception e) {
+
+        }
     }
 
 
