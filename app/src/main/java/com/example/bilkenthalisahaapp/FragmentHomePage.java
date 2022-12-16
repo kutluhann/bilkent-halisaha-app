@@ -39,11 +39,11 @@ public class FragmentHomePage extends Fragment {
 
     ArrayList<Match> upcomingMatches = new ArrayList<Match>();
     UpcomingMatchesAdapter upcomingMatchesAdapter = new UpcomingMatchesAdapter(upcomingMatches, FragmentHomePage.this);
-    RecyclerView upcomingMatchesRecyclerView;
+    RecyclerView upcomingMatchRecyler;
 
     ArrayList<Match> lastMatches = new ArrayList<Match>();
     LastMatchAdapter lastMatchAdapter = new LastMatchAdapter(lastMatches,FragmentHomePage.this);
-    RecyclerView lastMatchesRecyclerView;
+    RecyclerView lastMatchRecyler;
 
 
     @Override
@@ -94,7 +94,6 @@ public class FragmentHomePage extends Fragment {
         upcomingMatchRecyler.setLayoutManager(linearLayoutManager);
         upcomingMatchRecyler.setAdapter(upcomingMatchesAdapter);
     }
-
     private void getUpcomingUserMatches() {
 
             final int MAX_FETCH_NUMBER = 5;
