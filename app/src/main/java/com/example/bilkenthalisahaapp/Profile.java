@@ -186,5 +186,47 @@ public class Profile extends Fragment {
             Toast.makeText(getActivity(), "Add a photo first", Toast.LENGTH_SHORT).show();
         }
     }
+    public class LogOutDialogFragment extends DialogFragment {
+
+        FirebaseAuth mAuth;
+
+
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+
+
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure to log out?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mAuth = FirebaseAuth.getInstance();
+
+                            mAuth.signOut();
+                            Toast.makeText(getActivity(),"Logged out successfully", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getContext(), SignInActivity.class));
+                            // log out
+                            //
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+
+
+        }
+
+
+
+
+
+    }
 
 }
