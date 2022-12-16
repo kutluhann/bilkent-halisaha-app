@@ -1,5 +1,7 @@
 package com.example.bilkenthalisahaapp;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
@@ -41,6 +43,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         private final Button joinButton;
 
 
+
+
+
         public ViewHolder(View view) {
             super(view);
 
@@ -51,7 +56,22 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
             joinNumberView = (TextView) view.findViewById(R.id.joinNumberText);
             joinButton = (Button) view.findViewById(R.id.button);
 
-            
+
+            joinButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MatchDisplay d = new MatchDisplay();
+
+
+
+                    NavHostFragment.findNavController(d.matchDisplayFragment).
+                            navigate(R.id.action_matches_to_MatchInfo);
+
+
+
+
+                }
+            });
 
 
 

@@ -32,6 +32,7 @@ public class MatchDisplay extends Fragment {
     private ParentRecyclerAdapter adapter = new ParentRecyclerAdapter(childRecyclerDatasets);
     private LinkedList<ListenerRegistration> listeners = new LinkedList<ListenerRegistration>();
     private long currentTime;
+    public final Fragment matchDisplayFragment = MatchDisplay.this;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
