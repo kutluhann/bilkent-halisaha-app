@@ -4,10 +4,25 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+
 
 import com.example.bilkenthalisahaapp.appObjects.CommonMethods;
 import com.example.bilkenthalisahaapp.appObjects.Match;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.bilkenthalisahaapp.appObjects.*;
+import com.example.bilkenthalisahaapp.databinding.FragmentFirstBinding;
+import com.example.bilkenthalisahaapp.databinding.FragmentProfileBinding;
+import com.example.bilkenthalisahaapp.dialogBoxes.LogOutDialogFragment;
 
 import java.util.ArrayList;
 
@@ -25,14 +40,20 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         private final TextView joinNumberView;
         private final Button joinButton;
 
+
         public ViewHolder(View view) {
             super(view);
+
             // Define click listener for the ViewHolder's View
 
             stadiumNameView = (TextView) view.findViewById(R.id.stadiumName);
             timeView = (TextView) view.findViewById(R.id.matchTimeText);
             joinNumberView = (TextView) view.findViewById(R.id.joinNumberText);
             joinButton = (Button) view.findViewById(R.id.button);
+
+            
+
+
 
 
 
