@@ -52,6 +52,9 @@
     <string name="your_position">Your Position</string>
     <string name="create_button">Create</string>
 
+    //Formation
+    <string name="example_match_sum">15 December 16:00 - East Campus</string>
+
     <string-array name="locations_array">
         <item>Central Campus 1</item>
         <item>Central Campus 2</item>

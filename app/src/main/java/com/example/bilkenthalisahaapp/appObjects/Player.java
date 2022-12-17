@@ -64,6 +64,10 @@ public class Player implements Comparable<Player> {
         return this.matchID.equals(player.matchID) && this.userID.equals(player.userID);
     }
 
+    @Override
+    public int hashCode() {
+        return this.userID.hashCode();
+    }
 
     @Override
     public int compareTo(Player player) {

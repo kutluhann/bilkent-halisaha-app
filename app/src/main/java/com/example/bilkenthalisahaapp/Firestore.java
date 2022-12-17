@@ -5,8 +5,10 @@ package com.example.bilkenthalisahaapp;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
+import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,13 +22,12 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class Firestore {
 
-    private static ArrayList<Match> matches = new ArrayList<Match>();
 
     public static void createMatch( Match match, User user ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -269,7 +270,49 @@ public class Firestore {
         return user;
     }
 
-    public static ArrayList<Match> getMatches() {
-        return matches;
+    public static void fetchTheUserInFragment(Player player, HashMap<Player, User> users, MatchUpdateHandleable fragment) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference userRef = db.collection("users").document(player.getUserID());
+        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    //Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    //Log.d(TAG, "Current data: " + snapshot.getData());
+                    User newUser = snapshot.toObject(User.class);
+                    users.put(player, newUser);
+                    fragment.handleDataUpdate();
+                }
+            }
+        });
     }
+
+    public static void fetchMatchInFragment(String matchId, MatchUpdateHandleable fragment) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference matchRef = db.collection("matches").document(matchId);
+        matchRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    //Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    //Log.d(TAG, "Current data: " + snapshot.getData());
+                    Match newMatch = snapshot.toObject(Match.class);
+                    fragment.setMatch(newMatch);
+                    fragment.fetchUsers();
+                    fragment.handleDataUpdate();
+                }
+            }
+        });
+    }
+
+
+
 }

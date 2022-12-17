@@ -258,4 +258,12 @@
         android:clickable="false"
         />
 
+    <TextView
+        android:id="@+id/matchSumTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/example_match_sum"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="145dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
