@@ -124,7 +124,6 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     }
 
 
-
     public int getDefaultDrawableOfPosition( int position ) {
         //position is in range of 1-6 or -1-(-6)
         position = Math.abs(position);
@@ -200,7 +199,15 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                         });
 
                     } else {
+                        playerBox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Bundle playerBundle = new Bundle();
+                                playerBundle.putString("userId", player.getUserID());
 
+                                NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.action_match_info_to_profilePlayer, playerBundle);
+                            }
+                        });
                     }
 
                     Player activeUsersPlayer = getPlayerOfActiveUser();
