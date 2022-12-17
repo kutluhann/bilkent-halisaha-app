@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.example.bilkenthalisahaapp.databinding.FragmentFormationBinding;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
@@ -134,4 +135,19 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         return hour + "." + minute;
     }
 
+    private ShapeableImageView getPlayerBox(Player p) {
+        if(p.getPosition() == 1) {
+            return binding.player1;
+        }else if (p.getPosition() == 2) {
+            return binding.player2;
+        }else if (p.getPosition() == 2) {
+            return binding.player3;
+        }else if (p.getPosition() == 2) {
+            return binding.player4;
+        }else if (p.getPosition() == 2) {
+            return binding.player5;
+        }else {
+            return binding.player6;
+        }
+    }
 }
