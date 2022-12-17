@@ -61,6 +61,15 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
                         .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
             }
         });
+
+        holder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
+            }
+        });
     }
     private String addZerosToLength(String text, int length ) {
         while( text.length() < length ) {
@@ -81,6 +90,8 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         private TextView time;
         private TextView joinNumberText;
         private LinearLayout ratePlayersButton;
+        private View view;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pitch = itemView.findViewById(R.id.stadiumName);
@@ -88,6 +99,7 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
             time = itemView.findViewById(R.id.matchTimeText);
             joinNumberText = itemView.findViewById(R.id.joinNumberText);
             ratePlayersButton = itemView.findViewById(R.id.ratePlayersButton);
+            this.view = itemView;
         }
 
         public TextView getPitch() {
@@ -108,6 +120,10 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
 
         public LinearLayout getRatePlayersButton() {
             return ratePlayersButton;
+        }
+
+        public View getView() {
+            return view;
         }
     }
 }
