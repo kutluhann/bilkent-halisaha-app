@@ -135,10 +135,13 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             //im not sure of that because it can create problem about navigation and navigating up(return back)
+            //also it removes match and it is very dangerous
+            //also we don't know its old page whether it is home page or match display page
+            //changed it to navigateUp
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(MatchInfo.this)
-                        .navigate(R.id.home_navigation);
+                //NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.home_navigation);
+                NavHostFragment.findNavController(MatchInfo.this).navigateUp();
             }
         });
     }
