@@ -1,5 +1,8 @@
 package com.example.bilkenthalisahaapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -203,7 +207,42 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                                 public boolean onLongClick(View view) {
                                     User kickedUser = user;
                                     Player kickedPlayer = player;
-                                    kickPlayerFromMatch(kickedPlayer);
+
+                                    class KickPlayerDialogFragment extends DialogFragment {
+
+
+                                        @NonNull
+                                        @Override
+                                        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+                                            // Use the Builder class for convenient dialog construction
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                            builder.setMessage("Are you sure to kick "+ user.getName() + " " + user.getSurname()+  " from the match?")
+                                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            // kick the player from the match
+                                                            kickPlayerFromMatch(kickedPlayer);
+                                                        }
+                                                    })
+                                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            // User cancelled the dialog
+                                                            // return back
+
+                                                        }
+                                                    });
+                                            // Create the AlertDialog object and return it
+                                            return builder.create();
+
+                                        }
+
+                                    }
+                                    DialogFragment fragment = new KickPlayerDialogFragment();
+                                    fragment.show(getActivity().getSupportFragmentManager(), "kickPlayer");
+
+
+
+
                                     return true;
                                 }
                             });
