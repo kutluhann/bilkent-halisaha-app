@@ -122,6 +122,7 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         RecyclerView currentRecyclerView = viewHolder.getChildRecycler();
         MatchesAdapter adapter = new MatchesAdapter(currentDataset.getMatchList());
 
+
         currentRecyclerView.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( context );
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

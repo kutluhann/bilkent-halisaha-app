@@ -35,6 +35,7 @@ public class ChildRecyclerDataset {
 
     public void setMatchesAdapter(MatchesAdapter matchesAdapter) {
         this.matchesAdapter = matchesAdapter;
+
     }
 
     public void setListenerRegistration(ListenerRegistration listenerRegistration) {
