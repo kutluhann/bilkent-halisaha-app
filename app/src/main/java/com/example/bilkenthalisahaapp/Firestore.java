@@ -73,6 +73,13 @@ public class Firestore {
                 int indexOf = currentMatch.getPlayers().indexOf(player);
                 if(indexOf > -1 ) return null; //error if already in
 
+                //if time passed
+                if(CommonMethods.isMatchPassed(currentMatch)) return  null;
+
+                //if position is filled
+                HashMap<Integer, Player> positionMap = currentMatch.generatePositionMap();
+                if( positionMap.get(player.getPosition()) != null ) return null;
+
                 transaction.update(matchRef, "players", FieldValue.arrayUnion(player));
                 transaction.update(matchRef, "userIds", FieldValue.arrayUnion(player.getUserID()));
 
@@ -107,6 +114,13 @@ public class Firestore {
                 Match currentMatch = transaction.get( matchRef ).toObject(Match.class);
                 int indexOf = currentMatch.getPlayers().indexOf( oldPlayer );
                 Player currentPlayer = currentMatch.getPlayers().get(indexOf);
+
+                //if time passed
+                if(CommonMethods.isMatchPassed(currentMatch)) return null;
+
+                //if position is filled
+                HashMap<Integer, Player> positionMap = currentMatch.generatePositionMap();
+                if( positionMap.get(newPlayer.getPosition()) != null ) return null;
 
                 transaction.update( matchRef, "players", FieldValue.arrayRemove( currentPlayer ) );
                 transaction.update( matchRef, "userIds", FieldValue.arrayRemove( currentPlayer.getUserID() ) );

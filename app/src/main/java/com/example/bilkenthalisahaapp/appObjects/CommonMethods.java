@@ -115,6 +115,11 @@ public class CommonMethods {
         return times;
     }
 
+    public static boolean isMatchPassed(Match match) {
+        long currentEpochSeconds = System.currentTimeMillis() / 1000;
+        return match.getTime().getSeconds() < currentEpochSeconds;
+    }
+
 
 
 }

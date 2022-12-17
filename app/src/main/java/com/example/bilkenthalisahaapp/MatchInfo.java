@@ -76,16 +76,11 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 });
     }
 
-    private boolean isMatchPassed() {
-        long currentEpochSeconds = System.currentTimeMillis() / 1000;
-        return match.getTime().getSeconds() >= currentEpochSeconds;
-    }
-
     public void updateButtonVisibilities() {
         Player activePlayer = getPlayerOfActiveUser();
         if(activePlayer != null) {
             //if match is passed
-            if( isMatchPassed() ) {
+            if( !CommonMethods.isMatchPassed(match) ) {
                 if(activePlayer.isOwner()) {
                     binding.cancelMatchButton.setVisibility(View.VISIBLE);
                     binding.leaveMatchButton.setVisibility(View.GONE);
@@ -181,6 +176,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 Player player = getPlayerOfPosition(position);
                 ShapeableImageView playerBox = getPositionImageView(position);
                 if(player != null) {
+                    playerBox.setClickable(false);
                     User user = users.get(player);
 
                     if(user != null) {
@@ -198,6 +194,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                     //is it working correct, if it is already in not array the remove function?
                     int finalPosition = position;
                     Player oldPlayer = getPlayerOfActiveUser();
+                    playerBox.setClickable(true);
                     playerBox.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

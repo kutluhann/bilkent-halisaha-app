@@ -75,7 +75,7 @@ try {
         imageView.setImageResource(defaultDrawable);
     }
 } catch (Exception e) {
-    
+
 }
 
 
