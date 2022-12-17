@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,27 +147,22 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         });
     }
 
-    private LocalDateTime convertTimestampToDateTime(Timestamp timestamp) {
-        //is returning correct time?
-        long epochSeconds = timestamp.getSeconds();
-        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(epochSeconds, 0, ZoneOffset.UTC);
-        return localDateTime;
-
-    }
 
     private String getDateString() {
-        LocalDateTime localDateTime = convertTimestampToDateTime( match.getTime() );
-        String monthName = localDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        String dayOfMonth = localDateTime.getDayOfMonth() + "";
+        long epochSeconds = match.getTime().getSeconds();
+        ZonedDateTime zonedDateTime = CommonMethods.getZonedDateTime(epochSeconds);
+        String monthName = zonedDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        String dayOfMonth = zonedDateTime.getDayOfMonth() + "";
         dayOfMonth = CommonMethods.addZerosToLength(dayOfMonth, 2);
         return dayOfMonth + " " + monthName;
     }
 
     private String getTimeString() {
-        LocalDateTime localDateTime = convertTimestampToDateTime( match.getTime() );
-        String hour = localDateTime.getHour() + "";
+        long epochSeconds = match.getTime().getSeconds();
+        ZonedDateTime zonedDateTime = CommonMethods.getZonedDateTime(epochSeconds);
+        String hour = zonedDateTime.getHour() + "";
         hour = CommonMethods.addZerosToLength(hour, 2);
-        String minute = localDateTime.getMinute() + "";
+        String minute = zonedDateTime.getMinute() + "";
         minute = CommonMethods.addZerosToLength(minute, 2);
         return hour + "." + minute;
     }

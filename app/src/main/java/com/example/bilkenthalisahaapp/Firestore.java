@@ -21,8 +21,10 @@ import com.google.firebase.firestore.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -182,15 +184,14 @@ public class Firestore {
 
     }
 
-    public static void refreshAvailableHours(int day, int month, int year, String stadiumName, AddMatch addMatchFragment ) {
+    public static void refreshAvailableHours(Calendar cal, String stadiumName, AddMatch addMatchFragment ) {
         //there might be utc bug
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        LocalDateTime localDateTime = LocalDateTime.of(year, month, day, 0, 0);
+        long epochSeconds = cal.toInstant().getEpochSecond();
 
         final long DAY_AS_SECONDS = 24*60*60;
-        ZoneOffset istanbulZoneOffset = CommonMethods.ISTANBUL_ZONE_ID.getRules().getOffset(localDateTime);
-        long indexTime = localDateTime.toEpochSecond( istanbulZoneOffset );
+        long indexTime = epochSeconds;
         long limit = indexTime + DAY_AS_SECONDS;
 
         Timestamp indexTimestamp = new Timestamp(indexTime, 0);
@@ -214,7 +215,7 @@ public class Firestore {
                                 Match newMatch = document.toObject( Match.class );
                                 matchesOfDay.add( newMatch );
                             }
-                            ArrayList<String> availableHours = findAvailableHours( matchesOfDay, localDateTime );
+                            ArrayList<String> availableHours = findAvailableHours( matchesOfDay, cal );
                             addMatchFragment.handleAvailableTimesChange( availableHours );
 
                         } else {
@@ -228,16 +229,16 @@ public class Firestore {
 
 
 
-    private static ArrayList<String> findAvailableHours(ArrayList<Match> matchesOfDay, LocalDateTime dateTimeOfDay) {
+    private static ArrayList<String> findAvailableHours(ArrayList<Match> matchesOfDay, Calendar cal) {
         ArrayList<String> allHours;
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        ZonedDateTime currentZonedDateTime = CommonMethods.getZonedDateTime(System.currentTimeMillis() / 1000);
+        ZonedDateTime matchZonedDateTime = CommonMethods.getZonedDateTime(cal.toInstant().toEpochMilli() / 1000);
 
-        if( dateTimeOfDay.isBefore(currentDateTime) && dateTimeOfDay.plusDays(1).isBefore(currentDateTime) == false ) {
-            Instant nowInstant = currentDateTime.toInstant( ZoneOffset.of("+03:00") );
-            int currentHour = nowInstant.atZone( CommonMethods.ISTANBUL_ZONE_ID ).get( ChronoField.HOUR_OF_DAY );
+        if( matchZonedDateTime.isBefore(currentZonedDateTime) && matchZonedDateTime.plusDays(1).isBefore(currentZonedDateTime) == false ) {
+            int currentHour = currentZonedDateTime.getHour();
 
             allHours = CommonMethods.getHoursUntilDayEnd(currentHour + 1);
-        } else if( dateTimeOfDay.isBefore(currentDateTime) ) {
+        } else if( matchZonedDateTime.isBefore(currentZonedDateTime) ) {
             allHours = new ArrayList<String>();
         } else {
             allHours = CommonMethods.getAllHours();

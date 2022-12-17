@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bilkenthalisahaapp.appObjects.CommonMethods;
 import com.example.bilkenthalisahaapp.appObjects.Match;
 
 import java.time.Instant;
@@ -46,8 +47,8 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         Match lastMatch = lastMatches.get(position);
         holder.getPitch().setText(lastMatch.getLocation());
         holder.getJoinNumberText().setText(lastMatch.getPlayers().size() + "/" + lastMatch.getMaxTeamSize());
-        holder.getTime().setText(generateTimeString(lastMatch.getTime().getSeconds()));
-        holder.getDate().setText(generateDateString(lastMatch.getTime().getSeconds()));
+        holder.getTime().setText(CommonMethods.generateTimeString(lastMatch.getTime().getSeconds()));
+        holder.getDate().setText(CommonMethods.generateDateString(lastMatch.getTime().getSeconds()));
 
         Bundle matchBundle = new Bundle();
         matchBundle.putString("matchId", lastMatch.getMatchId() );
@@ -68,22 +69,6 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
         return text;
     }
 
-    private String generateTimeString(long currentTime) {
-        LocalDateTime localDateTime = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        int hour = localDateTime.getHour();
-        int minute = localDateTime.getMinute();
-
-        return addZerosToLength( hour + "", 2) + "." + addZerosToLength( minute + "", 2);
-    }
-    private String generateDateString(long currentTime) {
-        LocalDate localDate = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
-        int day = localDate.getDayOfMonth();
-        int month = localDate.getMonthValue();
-        int year = localDate.getYear();
-        String dayName = localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-
-        return String.format("%d.%d.%d / %s", day, month, year, dayName);
-    }
 
     @Override
     public int getItemCount() {
