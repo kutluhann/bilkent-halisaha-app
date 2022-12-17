@@ -35,7 +35,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
 
     private Match match;
     private HashMap<Player, User> users = new HashMap<Player, User>();
-
+    private Team displayedTeam = Team.TEAM_A;
 
     private void fetchMatch(String matchId) {
         Firestore.fetchMatchInFragment(matchId, this);
