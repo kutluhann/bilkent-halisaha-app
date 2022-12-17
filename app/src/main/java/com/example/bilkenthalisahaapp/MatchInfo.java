@@ -181,21 +181,31 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 ShapeableImageView playerBox = getPositionImageView(position);
                 if(player != null) {
                     //change with profile navigation
-                    User user = users.get(player);
+
+
+                    //TO-DO
+                    //Add navigate to profile fragment
+                    if( activeUser.getUserID().equals(player.getUserID()) ) {
+                        playerBox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.profile_navigation);
+                            }
+                        });
+
+                    } else {
+
+                    }
 
                     Player activeUsersPlayer = getPlayerOfActiveUser();
-
+                    User user = users.get(player);
                     if(user != null) {
                         FirebaseStorageMethods.showImage( getContext(), playerBox, user.getProfilePictureURL(), getDefaultDrawableOfPosition(position) );
-                        //TO-DO
-                        //Add navigate to profile fragment
-
-
 
                         //TO-DO
                         //Add long click listener to remove player, first open a dialog box with an inner class
                         if( activeUsersPlayer != null && !CommonMethods.isMatchPassed(match)
-                                && activeUsersPlayer.isOwner() && !activeUsersPlayer.equals(player) ) {
+                                && activeUsersPlayer.isOwner() && !activeUser.getUserID().equals( player.getUserID() ) ) {
                             playerBox.setLongClickable(true);
                             playerBox.setOnLongClickListener(new View.OnLongClickListener() {
                                 //TO-DO dialog box
