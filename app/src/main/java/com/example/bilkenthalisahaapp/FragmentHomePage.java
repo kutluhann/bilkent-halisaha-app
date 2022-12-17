@@ -16,10 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.bilkenthalisahaapp.appObjects.*;
-import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Forecast;
-import com.example.bilkenthalisahaapp.appObjects.weatherObjects.ForecastWeather;
-import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Forecastday;
-import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
 import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Weather;
 import com.example.bilkenthalisahaapp.databinding.FragmentHomescreenBinding;
 import com.google.firebase.Timestamp;

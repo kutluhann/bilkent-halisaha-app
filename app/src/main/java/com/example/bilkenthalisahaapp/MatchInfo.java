@@ -162,13 +162,15 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         if(match != null) {
             //handle match data update
 
-            String matchSummary = String.format("%s %s - %s", getDateString(), getTimeString(), match.getLocation());
-            binding.matchSumTextView.setText(matchSummary);
+            binding.pitchInfo.setText(match.getLocation());
+
+            String matchSummary = String.format("%s / %s", getDateString(), getTimeString());
+            binding.timeAndDateInfo.setText(matchSummary);
 
             ForecastAPI forecastAPI = ForecastAPI.getInstance();
             Hour hour = forecastAPI.getHour(match.getTime().getSeconds());
             if (hour != null) {
-                binding.weatherInfo.setText((hour.getCondition().getText()));
+                binding.weatherInfo.setText(hour.getCondition().getText() + " (" + hour.getTemp_c() + " °C)");
             } else {
                 binding.weatherInfo.setText("No weather data");
             }

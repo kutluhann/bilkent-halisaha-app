@@ -53,7 +53,9 @@
     <string name="create_button">Create</string>
 
     //Formation
-    <string name="example_match_sum">15 December 16:00 - East Campus</string>
+    <string name="example_pitch_info">East Campus</string>
+    <string name="example_date_and_time_info">15 December 16.00</string>
+    <string name="example_weather_info">Sunny (14.8 °C)</string>
 
     <string-array name="locations_array">
         <item>Central Campus 1</item>
