@@ -213,7 +213,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                     Player activeUsersPlayer = getPlayerOfActiveUser();
                     User user = users.get(player);
                     if(user != null) {
-                        FirebaseStorageMethods.showImage( getContext(), playerBox, user.getProfilePictureURL(), getDefaultDrawableOfPosition(position) );
+                        FirebaseStorageMethods.showImage( getContext(), playerBox, user.getProfilePictureURL(), R.drawable.default_profile_photo );
 
                         //TO-DO
                         //Add long click listener to remove player, first open a dialog box with an inner class
@@ -241,7 +241,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                             playerBox.setLongClickable(false);
                         }
                     } else {
-                        FirebaseStorageMethods.showImage( getContext(), playerBox, null, getDefaultDrawableOfPosition(position) );
+                        FirebaseStorageMethods.showImage( getContext(), playerBox, null, R.drawable.default_profile_photo );
                     }
                 } else {
                     FirebaseStorageMethods.showImage( getContext(), playerBox, null, getDefaultDrawableOfPosition(position) );
