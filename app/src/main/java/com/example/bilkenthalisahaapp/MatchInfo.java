@@ -150,6 +150,10 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         return player;
     }
 
+    private void kickPlayerFromMatch(Player player) {
+        Firestore.removePlayerFromMatch(player, match);
+    }
+
     @Override
     public void handleDataUpdate() {
         //refreshes the page according to new data or available data
@@ -176,15 +180,37 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 Player player = getPlayerOfPosition(position);
                 ShapeableImageView playerBox = getPositionImageView(position);
                 if(player != null) {
-                    playerBox.setClickable(false);
+                    //change with profile navigation
                     User user = users.get(player);
+
+                    Player activeUsersPlayer = getPlayerOfActiveUser();
 
                     if(user != null) {
                         FirebaseStorageMethods.showImage( getContext(), playerBox, user.getProfilePictureURL(), getDefaultDrawableOfPosition(position) );
                         //TO-DO
                         //Add navigate to profile fragment
+
+
+
                         //TO-DO
                         //Add long click listener to remove player, first open a dialog box with an inner class
+                        if( activeUsersPlayer != null && !CommonMethods.isMatchPassed(match)
+                                && activeUsersPlayer.isOwner() && !activeUsersPlayer.equals(player) ) {
+                            playerBox.setLongClickable(true);
+                            playerBox.setOnLongClickListener(new View.OnLongClickListener() {
+                                //TO-DO dialog box
+                                @Override
+                                public boolean onLongClick(View view) {
+                                    User kickedUser = user;
+                                    Player kickedPlayer = player;
+                                    kickPlayerFromMatch(kickedPlayer);
+                                    return true;
+                                }
+                            });
+
+                        } else {
+                            playerBox.setLongClickable(false);
+                        }
                     } else {
                         FirebaseStorageMethods.showImage( getContext(), playerBox, null, getDefaultDrawableOfPosition(position) );
                     }
@@ -194,7 +220,6 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                     //is it working correct, if it is already in not array the remove function?
                     int finalPosition = position;
                     Player oldPlayer = getPlayerOfActiveUser();
-                    playerBox.setClickable(true);
                     playerBox.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -209,9 +234,6 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                         }
                     });
                 }
-
-
-
             }
         }
 
