@@ -31,7 +31,7 @@ public class KickPlayerDialogFragment extends DialogFragment {
 
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Are you sure to kick "+ kickedUser.getName() + " " + kickedUser.getSurname()+  " from the match?")
+        builder.setMessage("Are you sure to kick "+ kickedUser.getFullName()+  " from the match?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // kick the player from the match
