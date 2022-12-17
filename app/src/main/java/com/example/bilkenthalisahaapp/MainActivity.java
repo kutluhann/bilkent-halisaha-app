@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager manager;
     private FirebaseAuth mAuth;
 
-    TextView salutation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        salutation = findViewById(R.id.salutation);
+        ForecastAPI api = ForecastAPI.getInstance();
     }
 
     @Override

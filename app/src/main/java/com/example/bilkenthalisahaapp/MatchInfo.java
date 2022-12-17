@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
 import com.example.bilkenthalisahaapp.databinding.FragmentFormationBinding;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
@@ -159,8 +161,17 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
 
         if(match != null) {
             //handle match data update
+
             String matchSummary = String.format("%s %s - %s", getDateString(), getTimeString(), match.getLocation());
             binding.matchSumTextView.setText(matchSummary);
+
+            ForecastAPI forecastAPI = ForecastAPI.getInstance();
+            Hour hour = forecastAPI.getHour(match.getTime().getSeconds());
+            if (hour != null) {
+                binding.weatherInfo.setText((hour.getCondition().getText()));
+            } else {
+                binding.weatherInfo.setText("No weather data");
+            }
 
             ArrayList<Player> players = match.getPlayers();
 
@@ -270,9 +281,8 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         Bundle matchBundle = getArguments();
         String matchId = matchBundle.getString("matchId");
         fetchMatch(matchId);
-
         //can change the color
-        //it can work more beautiul with color filter or animation or both.
+        //it can work more beautiful with color filter or animation or both.
         binding.buttonTeamA.setBackground( selectedBackgroundDrawable );
         binding.buttonTeamB.setBackground( normalBackgroundDrawable );
 

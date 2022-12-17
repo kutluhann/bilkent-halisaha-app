@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,8 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bilkenthalisahaapp.appObjects.*;
-import com.example.bilkenthalisahaapp.databinding.FragmentAddMatchBinding;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Forecast;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.ForecastWeather;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Forecastday;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Weather;
 import com.example.bilkenthalisahaapp.databinding.FragmentHomescreenBinding;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,18 +28,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Time;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentHomePage extends Fragment {
     FragmentHomescreenBinding binding;
@@ -45,6 +55,9 @@ public class FragmentHomePage extends Fragment {
     LastMatchAdapter lastMatchAdapter = new LastMatchAdapter(lastMatches,FragmentHomePage.this);
     RecyclerView lastMatchRecyler;
 
+    TextView weatherType;
+    TextView degree;
+    ImageView weatherImage;
 
     @Override
     public void onDestroyView() {
@@ -221,6 +234,11 @@ public class FragmentHomePage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomescreenBinding.inflate(inflater, container, false);
+
+        weatherType = binding.weatherType;
+        degree = binding.degree;
+        weatherImage = binding.weatherImage;
+
         return binding.getRoot();
     }
 
@@ -240,12 +258,31 @@ public class FragmentHomePage extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-
             getCurrentUser();
-
+            getWeather();
         } catch(Exception e) {
             Exception exception = e;
         }
 
+    }
+
+    private void getWeather() {
+        Call<Weather> call = RetrofitClient.getInstance().getApi().getCurrentWeather(WeatherAPI.KEY, "Ankara", "no");
+
+        call.enqueue(new Callback<Weather>() {
+            @Override
+            public void onResponse(Call<Weather> call, Response<Weather> response) {
+                Weather weather = response.body();
+
+                weatherType.setText(weather.getCurrent().getCondition().getText());
+                degree.setText(weather.getCurrent().getTemp_c() + " °C");
+                Glide.with(getView()).load("https:" + weather.getCurrent().getCondition().getIcon()).into(weatherImage);
+            }
+
+            @Override
+            public void onFailure(Call<Weather> call, Throwable t) {
+                Toast.makeText(getContext(), "An error has occured while loading weather info", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

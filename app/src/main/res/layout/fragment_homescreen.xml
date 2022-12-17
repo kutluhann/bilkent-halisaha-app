@@ -38,26 +38,25 @@
         android:id="@+id/weatherItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/weather_card"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:elevation="15dp"
-        app:cardCornerRadius="7dp">
+        android:elevation="10dp"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="75dp">
 
             <ImageView
-                android:id="@+id/weatherView"
+                android:id="@+id/weatherImage"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="15dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:contentDescription="@string/weather_type"
-                android:src="@mipmap/ic_launcher_round"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/weatherType"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,11 +80,10 @@
                 android:id="@+id/weatherType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/weather_type"
                 android:textColor="@color/black"
-                android:textSize="17sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/degree"
                 app:layout_constraintEnd_toStartOf="@+id/degree"
                 app:layout_constraintTop_toTopOf="@+id/degree" />
@@ -94,12 +92,11 @@
                 android:id="@+id/degree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/degree"
                 android:textColor="@color/black"
-                android:textSize="17sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
