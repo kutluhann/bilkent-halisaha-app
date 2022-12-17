@@ -58,6 +58,14 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
                         .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
             }
         });
+
+        holder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
+            }
+        });
     }
 
     @Override
@@ -77,6 +85,8 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
         private TextView time;
         private TextView numberOfPlayers;
         private Button cancelButton;
+        private View view;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pitch = itemView.findViewById(R.id.upcomingMatchStadiumName);
@@ -84,6 +94,7 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
             time = itemView.findViewById(R.id.matchTimeText);
             numberOfPlayers = itemView.findViewById(R.id.joinNumberText);
             cancelButton = itemView.findViewById(R.id.cancelButton);
+            this.view = itemView;
         }
 
         public TextView getPitch() {
@@ -104,6 +115,10 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
 
         public Button getCancelButton() {
             return cancelButton;
+        }
+
+        public View getView() {
+            return view;
         }
     }
 }
