@@ -1,5 +1,6 @@
 package com.example.bilkenthalisahaapp;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -38,6 +40,9 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     private HashMap<Player, User> users = new HashMap<Player, User>();
     private Team displayedTeam = Team.TEAM_A;
 
+    private Drawable selectedBackgroundDrawable;
+    private Drawable normalBackgroundDrawable;
+
     private void fetchMatch(String matchId) {
         Firestore.fetchMatchInFragment(matchId, this);
     }
@@ -58,6 +63,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     @Override
     public void handleDataUpdate() {
         //refreshes the page according to new data or available data
+
         if(match != null) {
             //handle match data update
             String matchSummary = String.format("%s %s - %s", getDateString(), getTimeString(), match.getLocation());
@@ -95,10 +101,37 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         super.onViewCreated(view, savedInstanceState);
         cancelButton = view.findViewById(R.id.cancelMatchButton);
 
+        selectedBackgroundDrawable = ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.team_selected_background, null );
+        normalBackgroundDrawable = ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.team_button, null );
+
         Bundle matchBundle = getArguments();
         String matchId = matchBundle.getString("matchId");
         fetchMatch(matchId);
 
+        //can change the color
+        //it can work more beautiul with color filter or animation or both.
+        binding.buttonTeamA.setBackground( selectedBackgroundDrawable );
+        binding.buttonTeamB.setBackground( normalBackgroundDrawable );
+
+        binding.buttonTeamA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayedTeam = Team.TEAM_A;
+                binding.buttonTeamA.setBackground( selectedBackgroundDrawable );
+                binding.buttonTeamB.setBackground( normalBackgroundDrawable );
+                handleDataUpdate();
+            }
+        });
+
+        binding.buttonTeamB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayedTeam = Team.TEAM_B;
+                binding.buttonTeamB.setBackground( selectedBackgroundDrawable );
+                binding.buttonTeamA.setBackground( normalBackgroundDrawable );
+                handleDataUpdate();
+            }
+        });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             //im not sure of that because it can create problem about navigation and navigating up(return back)
@@ -135,19 +168,29 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         return hour + "." + minute;
     }
 
-    private ShapeableImageView getPlayerBox(Player p) {
-        if(p.getPosition() == 1) {
-            return binding.player1;
-        }else if (p.getPosition() == 2) {
-            return binding.player2;
-        }else if (p.getPosition() == 2) {
-            return binding.player3;
-        }else if (p.getPosition() == 2) {
-            return binding.player4;
-        }else if (p.getPosition() == 2) {
-            return binding.player5;
-        }else {
-            return binding.player6;
+    private ShapeableImageView getPlayerImageView(Player p) {
+
+        if( p.getTeam() == displayedTeam ) {
+            if(p.getPosition() == 1) {
+                return binding.player1;
+            }else if (p.getPosition() == 2) {
+                return binding.player2;
+            }else if (p.getPosition() == 3) {
+                return binding.player3;
+            }else if (p.getPosition() == 4) {
+                return binding.player4;
+            }else if (p.getPosition() == 5) {
+                return binding.player5;
+            }else if(p.getPosition() == 6) {
+                return binding.player6;
+            } else {
+                return null;
+            }
+        } else {
+            return  null;
         }
+
     }
+
+
 }

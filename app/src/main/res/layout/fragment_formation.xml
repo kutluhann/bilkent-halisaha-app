@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         android:layout_marginTop="120dp">
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/buttonTeamB"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="8dp"
@@ -56,11 +56,11 @@
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button3"
-            app:layout_constraintTop_toTopOf="@+id/button3" />
+            app:layout_constraintStart_toEndOf="@+id/buttonTeamA"
+            app:layout_constraintTop_toTopOf="@+id/buttonTeamA" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/buttonTeamA"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="30dp"
@@ -71,7 +71,7 @@
             android:text="Team A"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button4"
+            app:layout_constraintEnd_toStartOf="@+id/buttonTeamB"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectTeamText" />
 
@@ -83,7 +83,7 @@
             android:text="Select Team"
             android:textColor="@color/brown"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
+            app:layout_constraintBottom_toTopOf="@+id/buttonTeamA"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
