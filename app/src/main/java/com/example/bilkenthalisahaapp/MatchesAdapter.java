@@ -44,6 +44,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         private final TextView timeView;
         private final TextView joinNumberView;
         private final Button joinButton;
+        private final View view;
 
 
         public ViewHolder(View view) {
@@ -55,7 +56,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
             timeView = (TextView) view.findViewById(R.id.matchTimeText);
             joinNumberView = (TextView) view.findViewById(R.id.joinNumberText);
             joinButton = (Button) view.findViewById(R.id.button);
-
+            this.view = view;
         }
 
         public TextView getStadiumNameView() {
@@ -72,6 +73,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
         public TextView getTimeView() {
             return timeView;
+        }
+
+        public View getView() {
+            return view;
         }
     }
 
@@ -114,6 +119,15 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
             matchBundle.putString("matchId", match.getMatchId() );
 
             viewHolder.getJoinButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Navigation.findNavController(viewHolder.itemView).
+                            navigate(R.id.action_matches_to_MatchInfo, matchBundle);
+                }
+            });
+
+            viewHolder.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 

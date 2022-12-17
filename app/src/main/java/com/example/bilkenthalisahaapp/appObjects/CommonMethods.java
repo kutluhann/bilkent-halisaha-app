@@ -3,12 +3,16 @@ package com.example.bilkenthalisahaapp.appObjects;
 import com.google.firebase.Timestamp;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 public class CommonMethods {
 
@@ -22,6 +26,17 @@ public class CommonMethods {
         return text;
     }
 
+    public static String generateDateString(long matchEpochTime) {
+        Instant matchInstant = Instant.ofEpochSecond( matchEpochTime );
+        ZonedDateTime zonedDateTime = getZonedDateTime(matchEpochTime);
+        int day = zonedDateTime.getDayOfMonth();
+        int month = zonedDateTime.getMonthValue();
+        int year = zonedDateTime.getYear();
+        String dayName = zonedDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+        return String.format("%d.%d.%d / %s", day, month, year, dayName);
+    }
+
     public static String generateTimeString(long currentTime) {
         long matchEpochTime = currentTime;
         //LocalDateTime matchDateTime = LocalDateTime.ofEpochSecond( matchEpochTime, 0, ZoneOffset.UTC);
@@ -32,6 +47,13 @@ public class CommonMethods {
         String minuteText = CommonMethods.addZerosToLength(matchMinute + "", 2);
         String formattedCurrentTime = hourText + "." + minuteText;
         return formattedCurrentTime;
+    }
+
+    public static ZonedDateTime getZonedDateTime(long currentTime) {
+        long matchEpochTime = currentTime;
+        Instant matchInstant = Instant.ofEpochSecond( matchEpochTime );
+        ZonedDateTime zonedDateTime = matchInstant.atZone( ISTANBUL_ZONE_ID );
+        return zonedDateTime;
     }
 
     public static String generateOClockHour( int hour ) {

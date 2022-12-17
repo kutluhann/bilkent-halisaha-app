@@ -43,6 +43,8 @@ public class Profile extends Fragment {
     private ListenerRegistration listenerRegistration;
 
 
+
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -67,7 +69,7 @@ public class Profile extends Fragment {
             binding.missedMatchesNumber.setText(user.getNumberOfMissedMatches() + "");
             binding.point.setText(user.getAverageRating() + "");
 
-            FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL() );
+            FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL(), R.drawable.default_profile_photo );
 
             //change last 5 ratings below
         } catch (Exception e) {

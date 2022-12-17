@@ -13,7 +13,7 @@ public class Player implements Comparable<Player> {
     private String userID;
     private MatchRating matchRating = new MatchRating();;
     private Team team;
-    private boolean isOwner;
+    private boolean owner;
 
     public Player() {
 
@@ -21,7 +21,10 @@ public class Player implements Comparable<Player> {
 
     public Player(String userID, int position, String matchID, Team team,boolean isOwner) {
         this.userID = userID;
-        this.isOwner = isOwner;
+        this.owner = owner;
+        if(team == Team.TEAM_B) {
+            position = -position;
+        }
         this.position = position;
         this.matchID = matchID;
         this.team = team;
@@ -37,7 +40,7 @@ public class Player implements Comparable<Player> {
     }
 
     public boolean isOwner() {
-        return isOwner;
+        return owner;
     }
 
     public MatchRating getMatchRating() {
@@ -64,6 +67,10 @@ public class Player implements Comparable<Player> {
         return this.matchID.equals(player.matchID) && this.userID.equals(player.userID);
     }
 
+    @Override
+    public int hashCode() {
+        return this.userID.hashCode();
+    }
 
     @Override
     public int compareTo(Player player) {

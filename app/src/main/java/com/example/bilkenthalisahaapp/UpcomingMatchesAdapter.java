@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bilkenthalisahaapp.appObjects.CommonMethods;
 import com.example.bilkenthalisahaapp.appObjects.Match;
 
 import org.w3c.dom.Text;
@@ -43,14 +44,22 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Match match = upcomingMatches.get(position);
         holder.getPitch().setText(match.getLocation());
-        holder.getDate().setText(generateDateString(match.getTime().getSeconds()));
-        holder.getTime().setText(generateTimeString(match.getTime().getSeconds()));
+        holder.getDate().setText(CommonMethods.generateDateString(match.getTime().getSeconds()));
+        holder.getTime().setText(CommonMethods.generateTimeString(match.getTime().getSeconds()));
         holder.getNumberOfPlayers().setText(match.getPlayers().size() + "/" + match.getMaxTeamSize());
 
         Bundle matchBundle = new Bundle();
         matchBundle.putString("matchId", match.getMatchId() );
 
         holder.getCancelButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_HomeScreen_to_MatchInfo, matchBundle);
+            }
+        });
+
+        holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(fragment)
@@ -69,22 +78,6 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
         }
         return text;
     }
-    private String generateTimeString(long currentTime) {
-        LocalDateTime localDateTime = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        int hour = localDateTime.getHour();
-        int minute = localDateTime.getMinute();
-
-        return addZerosToLength( hour + "", 2) + "." + addZerosToLength( minute + "", 2);
-    }
-    private String generateDateString(long currentTime) {
-        LocalDate localDate = Instant.ofEpochMilli(currentTime * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
-        int day = localDate.getDayOfMonth();
-        int month = localDate.getMonthValue();
-        int year = localDate.getYear();
-        String dayName = localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-
-        return String.format("%d.%d.%d / %s", day, month, year, dayName);
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView pitch;
@@ -92,6 +85,8 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
         private TextView time;
         private TextView numberOfPlayers;
         private Button cancelButton;
+        private View view;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pitch = itemView.findViewById(R.id.upcomingMatchStadiumName);
@@ -99,6 +94,7 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
             time = itemView.findViewById(R.id.matchTimeText);
             numberOfPlayers = itemView.findViewById(R.id.joinNumberText);
             cancelButton = itemView.findViewById(R.id.cancelButton);
+            this.view = itemView;
         }
 
         public TextView getPitch() {
@@ -119,6 +115,10 @@ public class UpcomingMatchesAdapter extends RecyclerView.Adapter<UpcomingMatches
 
         public Button getCancelButton() {
             return cancelButton;
+        }
+
+        public View getView() {
+            return view;
         }
     }
 }
