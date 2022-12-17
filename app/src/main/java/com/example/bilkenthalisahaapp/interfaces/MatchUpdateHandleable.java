@@ -11,5 +11,6 @@ public interface MatchUpdateHandleable {
     public void setMatch(Match match);
     public void fetchUsers();
     public void setPositionMap(HashMap<Integer, Player> positionMap);
+    public void updateButtonVisibilities();
 
 }

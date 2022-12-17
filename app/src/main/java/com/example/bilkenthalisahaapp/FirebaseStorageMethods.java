@@ -58,23 +58,25 @@ public class FirebaseStorageMethods {
     }
 
     public static void showImage( Context context, ImageView imageView, String path, int defaultDrawable ) {
+try {
+    if (path != null) {
+        try {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+            StorageReference photoReference = storageRef.child(path);
 
-        if( path != null ) {
-            try {
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
-                StorageReference photoReference = storageRef.child(path);
-
-                GlideApp.with(context)
-                        .load(photoReference)
-                        .into(imageView);
-            } catch (Exception e) {
-                imageView.setImageResource( defaultDrawable );
-            }
-        } else {
-            imageView.setImageResource( defaultDrawable );
+            GlideApp.with(context)
+                    .load(photoReference)
+                    .into(imageView);
+        } catch (Exception e) {
+            imageView.setImageResource(defaultDrawable);
         }
-
+    } else {
+        imageView.setImageResource(defaultDrawable);
+    }
+} catch (Exception e) {
+    
+}
 
 
    }

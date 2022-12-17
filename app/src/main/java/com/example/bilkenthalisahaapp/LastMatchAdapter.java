@@ -71,12 +71,6 @@ public class LastMatchAdapter extends RecyclerView.Adapter<LastMatchAdapter.View
             }
         });
     }
-    private String addZerosToLength(String text, int length ) {
-        while( text.length() < length ) {
-            text = "0" + text;
-        }
-        return text;
-    }
 
 
     @Override

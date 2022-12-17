@@ -74,6 +74,37 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 });
     }
 
+    private boolean isMatchPassed() {
+        long currentEpochSeconds = System.currentTimeMillis() / 1000;
+        return match.getTime().getSeconds() >= currentEpochSeconds;
+    }
+
+    public void updateButtonVisibilities() {
+        Player activePlayer = getPlayerOfActiveUser();
+        if(activePlayer != null) {
+            //if match is passed
+            if( isMatchPassed() ) {
+                if(activePlayer.isOwner()) {
+                    binding.cancelMatchButton.setVisibility(View.VISIBLE);
+                    binding.leaveMatchButton.setVisibility(View.GONE);
+                    binding.ratePlayersButton.setVisibility(View.GONE);
+                } else {
+                    binding.cancelMatchButton.setVisibility(View.GONE);
+                    binding.leaveMatchButton.setVisibility(View.VISIBLE);
+                    binding.ratePlayersButton.setVisibility(View.GONE);
+                }
+            } else {
+                binding.cancelMatchButton.setVisibility(View.GONE);
+                binding.leaveMatchButton.setVisibility(View.GONE);
+                binding.ratePlayersButton.setVisibility(View.VISIBLE);
+            }
+        } else {
+            binding.cancelMatchButton.setVisibility(View.GONE);
+            binding.leaveMatchButton.setVisibility(View.GONE);
+            binding.ratePlayersButton.setVisibility(View.GONE);
+        }
+    }
+
     private void fetchMatch(String matchId) {
         Firestore.fetchMatchInFragment(matchId, this);
     }
@@ -162,8 +193,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                                 Firestore.addPlayerToMatch(newPlayer, match);
                             } else {
                                 Player newPlayer = new Player(activeUser.getUserID(), finalPosition, match.getMatchId(), displayedTeam, oldPlayer.isOwner() );
-                                Firestore.removePlayerFromMatch(oldPlayer, match);
-                                Firestore.addPlayerToMatch(newPlayer, match);
+                                Firestore.changePositionOfPlayer(oldPlayer, newPlayer, match);
                             }
 
                         }
@@ -207,6 +237,14 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     private void cancelMatch() {
         NavHostFragment.findNavController(MatchInfo.this).navigateUp();
         Firestore.removeMatch(match);
+    }
+
+    private void leaveMatch() {
+        Firestore.removePlayerFromMatch( getPlayerOfActiveUser(), match );
+    }
+
+    private void handleRatePlayersButtonClicked() {
+        //TO-DO
     }
 
     @Nullable
@@ -255,6 +293,21 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 binding.buttonTeamB.setBackground( selectedBackgroundDrawable );
                 binding.buttonTeamA.setBackground( normalBackgroundDrawable );
                 handleDataUpdate();
+            }
+        });
+
+
+        binding.leaveMatchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               leaveMatch();
+            }
+        });
+
+        binding.ratePlayersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleRatePlayersButtonClicked();
             }
         });
 

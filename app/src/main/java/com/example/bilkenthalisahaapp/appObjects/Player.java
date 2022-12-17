@@ -19,7 +19,7 @@ public class Player implements Comparable<Player> {
 
     }
 
-    public Player(String userID, int position, String matchID, Team team,boolean isOwner) {
+    public Player(String userID, int position, String matchID, Team team,boolean owner) {
         this.userID = userID;
         this.owner = owner;
         if(team == Team.TEAM_B) {

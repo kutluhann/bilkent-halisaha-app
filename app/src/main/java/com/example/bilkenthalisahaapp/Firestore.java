@@ -60,12 +60,28 @@ public class Firestore {
                 .update("profilePictureURL", path);
     }
 
-    public static void addPlayerToMatch(Player player , Match match){
+    public static void addPlayerToMatch(Player player , Match match) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
-                matchRef.update("players", FieldValue.arrayUnion( player ));
-                matchRef.update("userIds", FieldValue.arrayUnion( player.getUserID() ));
+        DocumentReference matchRef = db.collection("matches").document(match.getMatchId());
+        matchRef.update("players", FieldValue.arrayUnion(player));
+        matchRef.update("userIds", FieldValue.arrayUnion(player.getUserID()));
 
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                Match currentMatch = transaction.get(matchRef).toObject(Match.class);
+                int indexOf = currentMatch.getPlayers().indexOf(player);
+                if(indexOf > -1 ) return null; //error if already in
+
+                transaction.update(matchRef, "players", FieldValue.arrayUnion(player));
+                transaction.update(matchRef, "userIds", FieldValue.arrayUnion(player.getUserID()));
+
+                // Success
+                return null;
+
+            }
+
+        });
     }
 
     public static void removePlayerFromMatch(Player player , Match match){
@@ -79,6 +95,30 @@ public class Firestore {
             matchRef.update("userIds", FieldValue.arrayRemove( playerToRemove.getUserID() ));
         }
 
+    }
+
+    public static void changePositionOfPlayer(Player oldPlayer, Player newPlayer, Match match) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
+
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                Match currentMatch = transaction.get( matchRef ).toObject(Match.class);
+                int indexOf = currentMatch.getPlayers().indexOf( oldPlayer );
+                Player currentPlayer = currentMatch.getPlayers().get(indexOf);
+
+                transaction.update( matchRef, "players", FieldValue.arrayRemove( currentPlayer ) );
+                transaction.update( matchRef, "userIds", FieldValue.arrayRemove( currentPlayer.getUserID() ) );
+
+                transaction.update( matchRef, "players", FieldValue.arrayUnion( newPlayer ) );
+                transaction.update( matchRef, "userIds", FieldValue.arrayUnion( newPlayer.getUserID() ) );
+
+                // Success
+                return null;
+
+            }
+        });
     }
 
     public static void removeMatch( Match match ) {
@@ -319,6 +359,7 @@ public class Firestore {
                     fragment.setMatch(newMatch);
                     fragment.setPositionMap( generatePositionMap(newMatch) );
                     fragment.fetchUsers();
+                    fragment.updateButtonVisibilities();
                     fragment.handleDataUpdate();
                 }
             }

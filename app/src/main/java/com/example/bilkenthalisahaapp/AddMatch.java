@@ -77,7 +77,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
     }
 
     private int getPositionInfo() {
-        return 0;
+        return binding.positionSpinner.getSelectedItemPosition() + 1;
     }
 
     @Override
