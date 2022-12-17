@@ -59,13 +59,19 @@ public class FirebaseStorageMethods {
 
     public static void showImage( Context context, ImageView imageView, String path ) {
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-        StorageReference photoReference = storageRef.child(path);
+        if( path != null ) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+            StorageReference photoReference = storageRef.child(path);
 
-        GlideApp.with(context)
-                .load(photoReference)
-                .into(imageView);
+            GlideApp.with(context)
+                    .load(photoReference)
+                    .into(imageView);
+        } else {
+            imageView.setImageResource(R.drawable.default_profile_photo);
+        }
+
+
 
    }
 

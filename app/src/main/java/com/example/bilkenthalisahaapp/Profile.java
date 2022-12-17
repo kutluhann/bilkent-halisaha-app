@@ -67,12 +67,7 @@ public class Profile extends Fragment {
             binding.missedMatchesNumber.setText(user.getNumberOfMissedMatches() + "");
             binding.point.setText(user.getAverageRating() + "");
 
-            if( user.getProfilePictureURL() != null ) {
-                FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL() );
-            } else {
-                binding.profilePicture.setImageResource(R.drawable.default_profile_photo);
-            }
-
+            FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL() );
 
             //change last 5 ratings below
         } catch (Exception e) {
