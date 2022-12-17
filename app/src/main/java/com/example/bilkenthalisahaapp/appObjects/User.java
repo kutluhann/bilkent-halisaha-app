@@ -109,4 +109,9 @@ public class User {
 
 
     }
+
+
+    public String getFullName(){
+        return this.getName()+ " " + this.getSurname();
+    }
 }
