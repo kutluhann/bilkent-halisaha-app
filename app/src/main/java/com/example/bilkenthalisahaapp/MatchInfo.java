@@ -1,5 +1,8 @@
 package com.example.bilkenthalisahaapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +14,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
 import com.example.bilkenthalisahaapp.databinding.FragmentFormationBinding;
+import com.example.bilkenthalisahaapp.dialogBoxes.KickPlayerDialogFragment;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
 import com.google.firebase.Timestamp;
@@ -150,9 +155,10 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         return player;
     }
 
-    private void kickPlayerFromMatch(Player player) {
+    public void kickPlayerFromMatch(Player player) {
         Firestore.removePlayerFromMatch(player, match);
     }
+
 
     @Override
     public void handleDataUpdate() {
@@ -195,7 +201,9 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                         //TO-DO
                         //Add long click listener to remove player, first open a dialog box with an inner class
                         if( activeUsersPlayer != null && !CommonMethods.isMatchPassed(match)
-                                && activeUsersPlayer.isOwner() && !activeUsersPlayer.equals(player) ) {
+                                && activeUsersPlayer.isOwner()
+                                && !activeUsersPlayer.equals(player)
+                        ) {
                             playerBox.setLongClickable(true);
                             playerBox.setOnLongClickListener(new View.OnLongClickListener() {
                                 //TO-DO dialog box
@@ -203,7 +211,11 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                                 public boolean onLongClick(View view) {
                                     User kickedUser = user;
                                     Player kickedPlayer = player;
-                                    kickPlayerFromMatch(kickedPlayer);
+
+
+                                    DialogFragment fragment = new KickPlayerDialogFragment(kickedPlayer, kickedUser, getThis());
+                                    fragment.show(getActivity().getSupportFragmentManager(), "kickPlayer");
+
                                     return true;
                                 }
                             });
@@ -237,6 +249,10 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
             }
         }
 
+    }
+
+    private MatchInfo getThis() {
+        return this;
     }
 
     private Player getPlayerOfActiveUser() {
