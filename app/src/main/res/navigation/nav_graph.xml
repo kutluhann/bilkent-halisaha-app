@@ -42,4 +42,7 @@
         android:name="com.example.bilkenthalisahaapp.AddMatch"
         android:label="fragment_add_match2"
         tools:layout="@layout/fragment_add_match" />
+    <action
+        android:id="@+id/action_global_match_info"
+        app:destination="@id/match_info" />
 </navigation>

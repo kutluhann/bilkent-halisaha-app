@@ -134,8 +134,14 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
                     Toast.makeText(getContext(), "Match is created successfully", Toast.LENGTH_SHORT).show();
 
+                    Bundle matchBundle = new Bundle();
+                    matchBundle.putString("matchId", newMatch.getMatchId() );
+
                     NavHostFragment.findNavController(AddMatch.this)
-                            .navigate(R.id.matches_navigation);
+                            .navigateUp();
+
+                    NavHostFragment.findNavController(AddMatch.this)
+                            .navigate(R.id.action_global_match_info, matchBundle);
                 } else {
                     Toast.makeText(getContext(), "Choose an appropriate time", Toast.LENGTH_SHORT).show();
                 }

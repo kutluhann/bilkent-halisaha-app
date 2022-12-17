@@ -71,8 +71,14 @@ public class Firestore {
     public static void removePlayerFromMatch(Player player , Match match){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
-        matchRef.update("players", FieldValue.arrayRemove( player ));
-        matchRef.update("userIds", FieldValue.arrayRemove( player.getUserID() ));
+
+        int indexOf = match.getPlayers().indexOf(player);
+        if(indexOf > -1 ) {
+            Player playerToRemove = match.getPlayers().get(indexOf);
+            matchRef.update("players", FieldValue.arrayRemove( playerToRemove ));
+            matchRef.update("userIds", FieldValue.arrayRemove( playerToRemove.getUserID() ));
+        }
+
     }
 
     public static void removeMatch( Match match ) {
@@ -311,11 +317,20 @@ public class Firestore {
                     //Log.d(TAG, "Current data: " + snapshot.getData());
                     Match newMatch = snapshot.toObject(Match.class);
                     fragment.setMatch(newMatch);
+                    fragment.setPositionMap( generatePositionMap(newMatch) );
                     fragment.fetchUsers();
                     fragment.handleDataUpdate();
                 }
             }
         });
+    }
+
+    private static HashMap<Integer,Player> generatePositionMap( Match match ) {
+        HashMap<Integer,Player> positionMap = new HashMap<Integer, Player>();
+        for(Player player : match.getPlayers()) {
+            positionMap.put(player.getPosition(), player);
+        }
+        return positionMap;
     }
 
 

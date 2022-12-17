@@ -57,18 +57,22 @@ public class FirebaseStorageMethods {
         photoReference.delete();
     }
 
-    public static void showImage( Context context, ImageView imageView, String path ) {
+    public static void showImage( Context context, ImageView imageView, String path, int defaultDrawable ) {
 
         if( path != null ) {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference();
-            StorageReference photoReference = storageRef.child(path);
+            try {
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                StorageReference photoReference = storageRef.child(path);
 
-            GlideApp.with(context)
-                    .load(photoReference)
-                    .into(imageView);
+                GlideApp.with(context)
+                        .load(photoReference)
+                        .into(imageView);
+            } catch (Exception e) {
+                imageView.setImageResource( defaultDrawable );
+            }
         } else {
-            imageView.setImageResource(R.drawable.default_profile_photo);
+            imageView.setImageResource( defaultDrawable );
         }
 
 

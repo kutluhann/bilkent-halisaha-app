@@ -18,6 +18,7 @@ import com.example.bilkenthalisahaapp.databinding.FragmentFormationBinding;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,6 +30,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -37,12 +39,40 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     private FragmentFormationBinding binding;
     private Button cancelButton;
 
+    private User activeUser;
+
     private Match match;
     private HashMap<Player, User> users = new HashMap<Player, User>();
+    //minus positions are teamB and plus positive positions are teamA, like 1,3 -2.
+    private HashMap<Integer, Player> positionMap = new HashMap<Integer, Player>();
     private Team displayedTeam = Team.TEAM_A;
 
     private Drawable selectedBackgroundDrawable;
     private Drawable normalBackgroundDrawable;
+
+    private void getUser( String userId ) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(userId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            //Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            //Log.d(TAG, "Current data: " + snapshot.getData());
+                            activeUser = snapshot.toObject(User.class);
+                            handleDataUpdate();
+                        } else {
+                            //Log.d(TAG, "Current data: null");
+                        }
+                    }
+                });
+    }
 
     private void fetchMatch(String matchId) {
         Firestore.fetchMatchInFragment(matchId, this);
@@ -61,6 +91,37 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     }
 
 
+
+    public int getDefaultDrawableOfPosition( int position ) {
+        //position is in range of 1-6 or -1-(-6)
+        position = Math.abs(position);
+        if( position == 1 ) {
+            return R.drawable.goalkeeper;
+        } else if(position == 2) {
+            return R.drawable.defender1;
+        } else if(position == 3) {
+            return R.drawable.defender2;
+        } else if(position == 4) {
+            return R.drawable.midfielder;
+        } else if(position == 5) {
+            return R.drawable.forward1;
+        } else if(position == 6) {
+            return R.drawable.forward2;
+        } else {
+            return R.drawable.default_profile_photo;
+        }
+    }
+
+    //position is in range of 1-6
+    private Player getPlayerOfPosition(int position) {
+        position = Math.abs(position);
+        if(displayedTeam == Team.TEAM_B) {
+            position = -position;
+        }
+        Player player = positionMap.get(position);
+        return player;
+    }
+
     @Override
     public void handleDataUpdate() {
         //refreshes the page according to new data or available data
@@ -71,24 +132,82 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
             binding.matchSumTextView.setText(matchSummary);
 
             ArrayList<Player> players = match.getPlayers();
-            for( Player player : players ) {
-                User user = users.get(player);
-                if(user != null) {
-                    //handle player-user iteration
 
+            for(int position = 1; position <= match.getMaxTeamSize() / 2; position++) {
+                Player player = getPlayerOfPosition(position);
+                ShapeableImageView playerBox = getPositionImageView(position);
+                if(player != null) {
+                    User user = users.get(player);
 
+                    if(user != null) {
+                        FirebaseStorageMethods.showImage( getContext(), playerBox, user.getProfilePictureURL(), getDefaultDrawableOfPosition(position) );
+                        //TO-DO
+                        //Add navigate to profile fragment
+                        //TO-DO
+                        //Add long click listener to remove player, first open a dialog box with an inner class
+                    } else {
+                        FirebaseStorageMethods.showImage( getContext(), playerBox, null, getDefaultDrawableOfPosition(position) );
+                    }
+                } else {
+                    FirebaseStorageMethods.showImage( getContext(), playerBox, null, getDefaultDrawableOfPosition(position) );
+                    //if he is already in match first remove and after that add
+                    //is it working correct, if it is already in not array the remove function?
+                    int finalPosition = position;
+                    Player oldPlayer = getPlayerOfActiveUser();
+                    playerBox.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(oldPlayer == null) {
+                                Player newPlayer = new Player(activeUser.getUserID(), finalPosition, match.getMatchId(), displayedTeam, false );
+                                Firestore.addPlayerToMatch(newPlayer, match);
+                            } else {
+                                Player newPlayer = new Player(activeUser.getUserID(), finalPosition, match.getMatchId(), displayedTeam, oldPlayer.isOwner() );
+                                Firestore.removePlayerFromMatch(oldPlayer, match);
+                                Firestore.addPlayerToMatch(newPlayer, match);
+                            }
+
+                        }
+                    });
                 }
+
+
+
             }
         }
 
     }
+
+    private Player getPlayerOfActiveUser() {
+        try {
+            Player tempPlayer = new Player(activeUser.getUserID(), 0, match.getMatchId(), displayedTeam, false);
+            int index = match.getPlayers().indexOf(tempPlayer);
+            if (index > -1) {
+                //already in match
+                return match.getPlayers().get(index);
+
+            } else {
+                //not in match
+                return null;
+            }
+        } catch (Exception e) {
+            return  null;
+        }
+    }
+
 
     @Override
     public void setMatch(Match match) {
         this.match = match;
     }
 
+    public void setPositionMap(HashMap<Integer, Player> positionMap) {
+        this.positionMap = positionMap;
+    }
 
+    private void cancelMatch() {
+        NavHostFragment.findNavController(MatchInfo.this).navigateUp();
+        Firestore.removeMatch(match);
+    }
 
     @Nullable
     @Override
@@ -104,6 +223,11 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
 
         selectedBackgroundDrawable = ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.team_selected_background, null );
         normalBackgroundDrawable = ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.team_button, null );
+
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+        getUser(userId);
 
         Bundle matchBundle = getArguments();
         String matchId = matchBundle.getString("matchId");
@@ -142,7 +266,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
             @Override
             public void onClick(View view) {
                 //NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.home_navigation);
-                NavHostFragment.findNavController(MatchInfo.this).navigateUp();
+                cancelMatch();
             }
         });
     }
@@ -188,6 +312,27 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         } else {
             return  null;
         }
+
+    }
+
+    private ShapeableImageView getPositionImageView(int position) {
+
+        position = Math.abs(position);
+            if(position == 1) {
+                return binding.player1;
+            }else if (position == 2) {
+                return binding.player2;
+            }else if (position == 3) {
+                return binding.player3;
+            }else if (position == 4) {
+                return binding.player4;
+            }else if (position == 5) {
+                return binding.player5;
+            }else if(position== 6) {
+                return binding.player6;
+            } else {
+                return null;
+            }
 
     }
 
