@@ -104,8 +104,6 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
         getCurrentUser();
 
-
-
         binding.datePicker.setText(getFormattedDate(mDay, mMonth + 1, mYear));
 
         binding.createButton.setOnClickListener(new View.OnClickListener() {

@@ -159,6 +159,10 @@ public class Firestore {
                             }
                         }
 
+                        double newAvgRating = (user.getAverageRating() * user.getVoterCount() + rating ) / (user.getVoterCount() + 1);
+                        transaction.update( userRef, "averageRating", newAvgRating );
+                        transaction.update( userRef, "voterCount", user.getVoterCount() + 1 );
+
                             //set Match
                             transaction.set( matchRef, match );
 
