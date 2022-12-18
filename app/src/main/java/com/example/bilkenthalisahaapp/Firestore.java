@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
 import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -248,6 +249,35 @@ public class Firestore {
 
     }
 
+    private static void addWeatherToHours(ArrayList<String> hours, Calendar cal) {
+        for(int i = 0; i < hours.size(); i++) {
+            String hourString = hours.get(i);
+            String formattedText;
+            //is it working correct
+            int indexOfDot = hourString.indexOf(".");
+            int hour = Integer.parseInt(hourString.substring(0, indexOfDot));
+            ZonedDateTime zonedDateTime = cal.toInstant().atZone(CommonMethods.ISTANBUL_ZONE_ID);
+            zonedDateTime = zonedDateTime.plusHours(hour);
+            zonedDateTime = ZonedDateTime.of(
+                    zonedDateTime.getYear(), zonedDateTime.getMonthValue(),
+                    zonedDateTime.getDayOfMonth(), zonedDateTime.getHour(),
+                    0, 0, 0, CommonMethods.ISTANBUL_ZONE_ID );
+
+            try {
+                ForecastAPI forecastAPI = ForecastAPI.getInstance();
+                long epochSeconds = zonedDateTime.toEpochSecond();
+                Hour weatherHourData = forecastAPI.getHour( epochSeconds );
+                String condition = weatherHourData.getCondition().getText();
+                //bozuk durumlar için dene (farklı veri dönüşü ve internet olmaması ve yanlış link) (try atılabilir buraya catch'te de boşluk olur ya da formatted date değişir)
+                formattedText = String.format("%s (%s)", hourString, condition);
+            } catch (Exception e) {
+                formattedText = hourString;
+            }
+
+            hours.set(i, formattedText );
+        }
+    }
+
     public static void refreshAvailableHours(Calendar cal, String stadiumName, AddMatch addMatchFragment ) {
         //there might be utc bug
 
@@ -280,6 +310,7 @@ public class Firestore {
                                 matchesOfDay.add( newMatch );
                             }
                             ArrayList<String> availableHours = findAvailableHours( matchesOfDay, cal );
+                            addWeatherToHours(availableHours, cal);
                             addMatchFragment.handleAvailableTimesChange( availableHours );
 
                         } else {

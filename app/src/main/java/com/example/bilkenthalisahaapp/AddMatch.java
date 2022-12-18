@@ -113,6 +113,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
                 Object hourAsObject = binding.timeSpinner.getSelectedItem();
                 if (hourAsObject != null) {
                     String hourAsString = (String) hourAsObject;
+                    hourAsString = hourAsString.substring(0,5);
                     Calendar cal = Calendar.getInstance();
 
                     int indexOfDot = hourAsString.indexOf(".");
