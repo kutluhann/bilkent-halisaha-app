@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -30,20 +31,24 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
-public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAdapter.ViewHolder> {
+public class ParentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<ChildRecyclerDataset> localDataSet;
     private Context context;
+    private MatchDisplay fragment;
+
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
         private final RecyclerView childRecycler;
         private final TextView dayView;
 
-        public ViewHolder(View view) {
+        public ItemViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
 
@@ -63,39 +68,59 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         }
     }
 
+    public static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        private final ProgressBar progressBar;
+
+        public LoadingViewHolder(View view) {
+            super(view);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        }
+
+    }
+
     /**
      * Initialize the dataset of the Adapter.
      *
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public ParentRecyclerAdapter(ArrayList<ChildRecyclerDataset> dataSet) {
+    public ParentRecyclerAdapter(ArrayList<ChildRecyclerDataset> dataSet, MatchDisplay fragment) {
 
         localDataSet = dataSet;
+        this.fragment = fragment;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         context = viewGroup.getContext();
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.parent_recycler, viewGroup, false);
+        if(viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(context)
+                    .inflate(R.layout.parent_recycler, viewGroup, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(context)
+                    .inflate(R.layout.match_loading, viewGroup, false);
+            return new LoadingViewHolder(view);
+        }
 
-        return new ViewHolder(view);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        ChildRecyclerDataset currentDataset = localDataSet.get(position);
-        viewHolder.getDayView().setText( generateTimeString(currentDataset.getCurrentTime()) );
+        if( viewHolder instanceof ItemViewHolder ) {
+            ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
+            ChildRecyclerDataset currentDataset = localDataSet.get(position);
+            itemViewHolder.getDayView().setText( generateTimeString(currentDataset.getCurrentTime()) );
+            setupChildAdapter(itemViewHolder, position);
+            getDateMatches(position);
+        } else if ( viewHolder instanceof LoadingViewHolder ) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) viewHolder;
 
-        setupChildAdapter(viewHolder, position);
-        getDateMatches(position);
+        }
+
 
     }
 
@@ -109,14 +134,19 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
         return String.format("%d %s %d / %s", day, month, year, dayName);
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemViewType(int position) {
+        return localDataSet.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
     @Override
     public int getItemCount() {
         return localDataSet.size();
     }
 
 
-    private void setupChildAdapter(ViewHolder viewHolder, int index) {
+
+    private void setupChildAdapter(ItemViewHolder viewHolder, int index) {
 
         ChildRecyclerDataset currentDataset = localDataSet.get(index);
         RecyclerView currentRecyclerView = viewHolder.getChildRecycler();
@@ -162,6 +192,9 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
 
 
         ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+
+
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
                                 @Nullable FirebaseFirestoreException e) {
@@ -169,7 +202,7 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
                 if (e != null) {
                     return;
                 }
-
+                fragment.minusLoading(1);
                 for (DocumentChange dc : value.getDocumentChanges()) {
                     Match newMatch = dc.getDocument().toObject(Match.class);
                     int indexOf = Collections.binarySearch(matches, newMatch);
