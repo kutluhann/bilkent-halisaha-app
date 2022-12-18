@@ -268,6 +268,15 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
 
     }
 
+    @Override
+    public void handleMatchRemove() {
+        try {
+            NavHostFragment.findNavController(MatchInfo.this).navigateUp();
+        } catch (Exception e) {
+
+        }
+        }
+
     private MatchInfo getThis() {
         return this;
     }
@@ -300,7 +309,6 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     }
 
     private void cancelMatch() {
-        NavHostFragment.findNavController(MatchInfo.this).navigateUp();
         Firestore.removeMatch(match);
     }
 

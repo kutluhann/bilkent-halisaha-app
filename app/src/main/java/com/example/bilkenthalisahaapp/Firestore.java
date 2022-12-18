@@ -405,6 +405,8 @@ public class Firestore {
                     fragment.fetchUsers();
                     fragment.updateButtonVisibilities();
                     fragment.handleDataUpdate();
+                } else {
+                    fragment.handleMatchRemove();
                 }
             }
         });
