@@ -140,10 +140,9 @@ public class ParentRecyclerAdapter extends RecyclerView.Adapter<ParentRecyclerAd
 
         final long DAY_AS_SECONDS = 24*60*60;
         long indexTime = currentDataset.getCurrentTime();
+        indexTime -= TIMEZONE_OFFSET;
         long limit = indexTime + DAY_AS_SECONDS;
 
-        indexTime -= TIMEZONE_OFFSET;
-        limit -= TIMEZONE_OFFSET;
 
         //if it is today, only take future matches
         if(index == 0) {
