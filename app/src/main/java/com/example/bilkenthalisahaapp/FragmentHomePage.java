@@ -270,10 +270,14 @@ public class FragmentHomePage extends Fragment {
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 Weather weather = response.body();
 
-                weatherType.setText(weather.getCurrent().getCondition().getText());
-                degree.setText(weather.getCurrent().getTemp_c() + " °C");
-                Glide.with(getView()).load("https:" + weather.getCurrent().getCondition().getIcon()).into(weatherImage);
-            }
+                try {
+                    weatherType.setText(weather.getCurrent().getCondition().getText());
+                    degree.setText(weather.getCurrent().getTemp_c() + " °C");
+                    Glide.with(getView()).load("https:" + weather.getCurrent().getCondition().getIcon()).into(weatherImage);
+                } catch (Exception e ) {
+
+                }
+                }
 
             @Override
             public void onFailure(Call<Weather> call, Throwable t) {

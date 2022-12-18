@@ -21,13 +21,17 @@ public class ForecastAPI {
         call.enqueue(new Callback<ForecastWeather>() {
             @Override
             public void onResponse(Call<ForecastWeather> call, Response<ForecastWeather> response) {
-                forecastWeather = response.body();
-                hours = new ArrayList<Hour>();
+                try {
+                    forecastWeather = response.body();
+                    hours = new ArrayList<Hour>();
 
-                for (Forecastday forecastday: forecastWeather.getForecast().getForecastday()) {
-                    for (Hour hour: forecastday.getHour()) {
-                        hours.add(hour);
+                    for (Forecastday forecastday : forecastWeather.getForecast().getForecastday()) {
+                        for (Hour hour : forecastday.getHour()) {
+                            hours.add(hour);
+                        }
                     }
+                } catch (Exception e) {
+
                 }
             }
 

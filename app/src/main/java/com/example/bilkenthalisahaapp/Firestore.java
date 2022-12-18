@@ -268,7 +268,6 @@ public class Firestore {
                 long epochSeconds = zonedDateTime.toEpochSecond();
                 Hour weatherHourData = forecastAPI.getHour( epochSeconds );
                 String condition = weatherHourData.getCondition().getText();
-                //bozuk durumlar için dene (farklı veri dönüşü ve internet olmaması ve yanlış link) (try atılabilir buraya catch'te de boşluk olur ya da formatted date değişir)
                 formattedText = String.format("%s (%s)", hourString, condition);
             } catch (Exception e) {
                 formattedText = hourString;
