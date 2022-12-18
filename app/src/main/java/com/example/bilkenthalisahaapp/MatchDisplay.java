@@ -29,9 +29,11 @@ public class MatchDisplay extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Match> matches = new ArrayList<Match>();
     private ArrayList<ChildRecyclerDataset> childRecyclerDatasets = new ArrayList<ChildRecyclerDataset>();
-    private ParentRecyclerAdapter adapter = new ParentRecyclerAdapter(childRecyclerDatasets);
+    private ParentRecyclerAdapter adapter = new ParentRecyclerAdapter(childRecyclerDatasets, this);
     private LinkedList<ListenerRegistration> listeners = new LinkedList<ListenerRegistration>();
     private long currentTime;
+    private int remainingLoading = 0;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class MatchDisplay extends Fragment {
         //initial methods
         Timestamp timestamp = Timestamp.now();
         currentTime = timestamp.getSeconds() - timestamp.getSeconds() % DAY_AS_SECONDS;
+
+        childRecyclerDatasets.add(null);
 
     }
 
@@ -68,21 +72,13 @@ public class MatchDisplay extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupParentAdapter(view);
+        initScrollListener();
 
         //initial
-        if(childRecyclerDatasets.size() == 0) {
+        if(childRecyclerDatasets.size() == 1) {
             final int INITIAL_FETCH_COUNT = 2;
             getNewDays(INITIAL_FETCH_COUNT);
         }
-
-            binding.refreshButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //firebase refresh
-                    final int FETCH_DAYS_AMOUNT = 3;
-                    getNewDays(FETCH_DAYS_AMOUNT);
-                }
-            });
 
             binding.createMatch.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,9 +133,40 @@ public class MatchDisplay extends Fragment {
 
         ChildRecyclerDataset childRecyclerDataset = new ChildRecyclerDataset(currentTime);
         currentTime += PAGE_LIMIT;
-        childRecyclerDatasets.add(childRecyclerDataset);
+        childRecyclerDatasets.add(childRecyclerDatasets.size() - 1 ,childRecyclerDataset);
         adapter.notifyItemInserted( childRecyclerDatasets.size() - 1 );
 
+    }
+
+    private void initScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (remainingLoading == 0) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == childRecyclerDatasets.size() - 1) {
+                        //bottom of list!
+                        final int FETCH_DAYS_AMOUNT = 3;
+                        getNewDays(FETCH_DAYS_AMOUNT);
+                    }
+                }
+            }
+        });
+
+    }
+
+
+    public void minusLoading(int minus) {
+        this.remainingLoading -= minus;
+        if(this.remainingLoading < 0) remainingLoading = 0;
     }
 
 }
