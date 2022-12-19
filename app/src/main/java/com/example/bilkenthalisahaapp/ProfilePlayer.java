@@ -49,8 +49,8 @@ public class ProfilePlayer extends Fragment {
     private ArrayList<Match> lastMatches = new ArrayList<Match>();
 
     private void handleGraphRender() {
-        if (lastMatches.size() > 0) {
-            for (int i = 1; i < lastMatches.size() + 1; i++) {
+        for (int i = 1; i < lastMatches.size() + 1; i++) {
+            try {
                 Player p = lastMatches.get(i - 1).getPlayerByID(user.getUserID());
                 if (p != null) {
                     MatchRating matchRating = p.getMatchRating();
@@ -103,6 +103,8 @@ public class ProfilePlayer extends Fragment {
                     });
                     view.requestLayout();
                 }
+            } catch (Exception e) {
+
             }
         }
     }
