@@ -162,6 +162,10 @@ public class Firestore {
                         //to receive the current player
                         Player player = players.get(playerPosition);
 
+                        //check whether vote is given or not
+                        if( player.getMatchRating().isUserVoted(voterUserId) )
+                            return null;
+
                         //to handle attended change and number
                         Boolean oldAttended = player.getMatchRating().getAttended();
                         //get old mvp
@@ -220,9 +224,11 @@ public class Firestore {
                             }
                         }
 
-                        double newAvgRating = (user.getAverageRating() * user.getVoterCount() + rating ) / (user.getVoterCount() + 1);
-                        transaction.update( userRef, "averageRating", newAvgRating );
-                        transaction.update( userRef, "voterCount", user.getVoterCount() + 1 );
+                        if(rating > 0) {
+                            double newAvgRating = (user.getAverageRating() * user.getVoterCount() + rating ) / (user.getVoterCount() + 1);
+                            transaction.update( userRef, "averageRating", newAvgRating );
+                            transaction.update( userRef, "voterCount", user.getVoterCount() + 1 );
+                        }
 
                             //set Match
                             transaction.set( matchRef, match );

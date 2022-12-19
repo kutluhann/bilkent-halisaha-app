@@ -188,7 +188,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                     //change with profile navigation
 
 
-                    //TO-DO
+
                     //Add navigate to profile fragment
                     if( activeUser.getUserID().equals(player.getUserID()) ) {
                         playerBox.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +205,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                                 Bundle playerBundle = new Bundle();
                                 playerBundle.putString("userId", player.getUserID());
 
-                                NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.action_match_info_to_profilePlayer, playerBundle);
+                                NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.action_match_info_to_profilePlayer3, playerBundle);
                             }
                         });
                     }
@@ -215,7 +215,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                     if(user != null) {
                         FirebaseStorageMethods.showImage( getContext(), playerBox, user.getProfilePictureURL(), R.drawable.default_profile_photo );
 
-                        //TO-DO
+
                         //Add long click listener to remove player, first open a dialog box with an inner class
                         if( activeUsersPlayer != null && !CommonMethods.isMatchPassed(match)
                                 && activeUsersPlayer.isOwner()
@@ -223,7 +223,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                         ) {
                             playerBox.setLongClickable(true);
                             playerBox.setOnLongClickListener(new View.OnLongClickListener() {
-                                //TO-DO dialog box
+
                                 @Override
                                 public boolean onLongClick(View view) {
                                     User kickedUser = user;
@@ -317,7 +317,11 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
     }
 
     private void handleRatePlayersButtonClicked() {
-        //TO-DO
+        Bundle matchBundle = new Bundle();
+        matchBundle.putString("matchId", match.getMatchId());
+
+        NavHostFragment.findNavController(MatchInfo.this)
+                .navigate(R.id.action_match_info_to_fragmentRatePlayers2, matchBundle);
     }
 
     @Nullable
