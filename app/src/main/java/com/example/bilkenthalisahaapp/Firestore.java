@@ -5,8 +5,11 @@ package com.example.bilkenthalisahaapp;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
+import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
+import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,14 +22,15 @@ import com.google.firebase.firestore.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class Firestore {
 
-    private static ArrayList<Match> matches = new ArrayList<Match>();
 
     public static void createMatch( Match match, User user ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -57,19 +61,79 @@ public class Firestore {
                 .update("profilePictureURL", path);
     }
 
-    public static void addPlayerToMatch(Player player , Match match){
+    public static void addPlayerToMatch(Player player , Match match) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
-                matchRef.update("players", FieldValue.arrayUnion( player ));
-                matchRef.update("userIds", FieldValue.arrayUnion( player.getUserID() ));
+        DocumentReference matchRef = db.collection("matches").document(match.getMatchId());
+        matchRef.update("players", FieldValue.arrayUnion(player));
+        matchRef.update("userIds", FieldValue.arrayUnion(player.getUserID()));
 
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                Match currentMatch = transaction.get(matchRef).toObject(Match.class);
+                int indexOf = currentMatch.getPlayers().indexOf(player);
+                if(indexOf > -1 ) return null; //error if already in
+
+                //if time passed
+                if(CommonMethods.isMatchPassed(currentMatch)) return  null;
+
+                //if position is filled
+                HashMap<Integer, Player> positionMap = currentMatch.generatePositionMap();
+                if( positionMap.get(player.getPosition()) != null ) return null;
+
+                transaction.update(matchRef, "players", FieldValue.arrayUnion(player));
+                transaction.update(matchRef, "userIds", FieldValue.arrayUnion(player.getUserID()));
+
+                // Success
+                return null;
+
+            }
+
+        });
     }
 
     public static void removePlayerFromMatch(Player player , Match match){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
-        matchRef.update("players", FieldValue.arrayRemove( player ));
-        matchRef.update("userIds", FieldValue.arrayRemove( player.getUserID() ));
+
+        int indexOf = match.getPlayers().indexOf(player);
+        if(indexOf > -1 ) {
+            Player playerToRemove = match.getPlayers().get(indexOf);
+            matchRef.update("players", FieldValue.arrayRemove( playerToRemove ));
+            matchRef.update("userIds", FieldValue.arrayRemove( playerToRemove.getUserID() ));
+        }
+
+    }
+
+    public static void changePositionOfPlayer(Player oldPlayer, Player newPlayer, Match match) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference matchRef =  db.collection("matches").document(match.getMatchId());
+
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                Match currentMatch = transaction.get( matchRef ).toObject(Match.class);
+                int indexOf = currentMatch.getPlayers().indexOf( oldPlayer );
+                Player currentPlayer = currentMatch.getPlayers().get(indexOf);
+
+                //if time passed
+                if(CommonMethods.isMatchPassed(currentMatch)) return null;
+
+                //if position is filled
+                HashMap<Integer, Player> positionMap = currentMatch.generatePositionMap();
+                if( positionMap.get(newPlayer.getPosition()) != null ) return null;
+
+                transaction.update( matchRef, "players", FieldValue.arrayRemove( currentPlayer ) );
+                transaction.update( matchRef, "userIds", FieldValue.arrayRemove( currentPlayer.getUserID() ) );
+
+                transaction.update( matchRef, "players", FieldValue.arrayUnion( newPlayer ) );
+                transaction.update( matchRef, "userIds", FieldValue.arrayUnion( newPlayer.getUserID() ) );
+
+                // Success
+                return null;
+
+            }
+        });
     }
 
     public static void removeMatch( Match match ) {
@@ -156,6 +220,10 @@ public class Firestore {
                             }
                         }
 
+                        double newAvgRating = (user.getAverageRating() * user.getVoterCount() + rating ) / (user.getVoterCount() + 1);
+                        transaction.update( userRef, "averageRating", newAvgRating );
+                        transaction.update( userRef, "voterCount", user.getVoterCount() + 1 );
+
                             //set Match
                             transaction.set( matchRef, match );
 
@@ -181,15 +249,42 @@ public class Firestore {
 
     }
 
-    public static void refreshAvailableHours(int day, int month, int year, String stadiumName, AddMatch addMatchFragment ) {
+    private static void addWeatherToHours(ArrayList<String> hours, Calendar cal) {
+        for(int i = 0; i < hours.size(); i++) {
+            String hourString = hours.get(i);
+            String formattedText;
+            //is it working correct
+            int indexOfDot = hourString.indexOf(".");
+            int hour = Integer.parseInt(hourString.substring(0, indexOfDot));
+            ZonedDateTime zonedDateTime = cal.toInstant().atZone(CommonMethods.ISTANBUL_ZONE_ID);
+            zonedDateTime = zonedDateTime.plusHours(hour);
+            zonedDateTime = ZonedDateTime.of(
+                    zonedDateTime.getYear(), zonedDateTime.getMonthValue(),
+                    zonedDateTime.getDayOfMonth(), zonedDateTime.getHour(),
+                    0, 0, 0, CommonMethods.ISTANBUL_ZONE_ID );
+
+            try {
+                ForecastAPI forecastAPI = ForecastAPI.getInstance();
+                long epochSeconds = zonedDateTime.toEpochSecond();
+                Hour weatherHourData = forecastAPI.getHour( epochSeconds );
+                String condition = weatherHourData.getCondition().getText();
+                formattedText = String.format("%s (%s)", hourString, condition);
+            } catch (Exception e) {
+                formattedText = hourString;
+            }
+
+            hours.set(i, formattedText );
+        }
+    }
+
+    public static void refreshAvailableHours(Calendar cal, String stadiumName, AddMatch addMatchFragment ) {
         //there might be utc bug
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        LocalDateTime localDateTime = LocalDateTime.of(year, month, day, 0, 0);
+        long epochSeconds = cal.toInstant().getEpochSecond();
 
         final long DAY_AS_SECONDS = 24*60*60;
-        ZoneOffset istanbulZoneOffset = CommonMethods.ISTANBUL_ZONE_ID.getRules().getOffset(localDateTime);
-        long indexTime = localDateTime.toEpochSecond( istanbulZoneOffset );
+        long indexTime = epochSeconds;
         long limit = indexTime + DAY_AS_SECONDS;
 
         Timestamp indexTimestamp = new Timestamp(indexTime, 0);
@@ -213,7 +308,8 @@ public class Firestore {
                                 Match newMatch = document.toObject( Match.class );
                                 matchesOfDay.add( newMatch );
                             }
-                            ArrayList<String> availableHours = findAvailableHours( matchesOfDay, localDateTime );
+                            ArrayList<String> availableHours = findAvailableHours( matchesOfDay, cal );
+                            addWeatherToHours(availableHours, cal);
                             addMatchFragment.handleAvailableTimesChange( availableHours );
 
                         } else {
@@ -227,16 +323,16 @@ public class Firestore {
 
 
 
-    private static ArrayList<String> findAvailableHours(ArrayList<Match> matchesOfDay, LocalDateTime dateTimeOfDay) {
+    private static ArrayList<String> findAvailableHours(ArrayList<Match> matchesOfDay, Calendar cal) {
         ArrayList<String> allHours;
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        ZonedDateTime currentZonedDateTime = CommonMethods.getZonedDateTime(System.currentTimeMillis() / 1000);
+        ZonedDateTime matchZonedDateTime = CommonMethods.getZonedDateTime(cal.toInstant().toEpochMilli() / 1000);
 
-        if( dateTimeOfDay.isBefore(currentDateTime) && dateTimeOfDay.plusDays(1).isBefore(currentDateTime) == false ) {
-            Instant nowInstant = currentDateTime.toInstant( ZoneOffset.of("+03:00") );
-            int currentHour = nowInstant.atZone( CommonMethods.ISTANBUL_ZONE_ID ).get( ChronoField.HOUR_OF_DAY );
+        if( matchZonedDateTime.isBefore(currentZonedDateTime) && matchZonedDateTime.plusDays(1).isBefore(currentZonedDateTime) == false ) {
+            int currentHour = currentZonedDateTime.getHour();
 
             allHours = CommonMethods.getHoursUntilDayEnd(currentHour + 1);
-        } else if( dateTimeOfDay.isBefore(currentDateTime) ) {
+        } else if( matchZonedDateTime.isBefore(currentZonedDateTime) ) {
             allHours = new ArrayList<String>();
         } else {
             allHours = CommonMethods.getAllHours();
@@ -269,7 +365,61 @@ public class Firestore {
         return user;
     }
 
-    public static ArrayList<Match> getMatches() {
-        return matches;
+    public static void fetchTheUserInFragment(Player player, HashMap<Player, User> users, MatchUpdateHandleable fragment) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference userRef = db.collection("users").document(player.getUserID());
+        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    //Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    //Log.d(TAG, "Current data: " + snapshot.getData());
+                    User newUser = snapshot.toObject(User.class);
+                    users.put(player, newUser);
+                    fragment.handleDataUpdate();
+                }
+            }
+        });
     }
+
+    public static void fetchMatchInFragment(String matchId, MatchUpdateHandleable fragment) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference matchRef = db.collection("matches").document(matchId);
+        matchRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    //Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    //Log.d(TAG, "Current data: " + snapshot.getData());
+                    Match newMatch = snapshot.toObject(Match.class);
+                    fragment.setMatch(newMatch);
+                    fragment.setPositionMap( generatePositionMap(newMatch) );
+                    fragment.fetchUsers();
+                    fragment.updateButtonVisibilities();
+                    fragment.handleDataUpdate();
+                } else {
+                    fragment.handleMatchRemove();
+                }
+            }
+        });
+    }
+
+    private static HashMap<Integer,Player> generatePositionMap( Match match ) {
+        HashMap<Integer,Player> positionMap = new HashMap<Integer, Player>();
+        for(Player player : match.getPlayers()) {
+            positionMap.put(player.getPosition(), player);
+        }
+        return positionMap;
+    }
+
+
+
 }

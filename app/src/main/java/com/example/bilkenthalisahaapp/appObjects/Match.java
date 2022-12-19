@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -97,6 +98,14 @@ public class Match implements Comparable<Match> {
         } finally {
             return false;
         }
+    }
+
+    public HashMap<Integer, Player> generatePositionMap() {
+        HashMap<Integer, Player> positionMap = new HashMap<Integer, Player>();
+        for(Player player : players) {
+            positionMap.put(player.getPosition(), player);
+        }
+        return positionMap;
     }
 
     public int compareStadiumName( Match match ) {

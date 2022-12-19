@@ -30,6 +30,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -44,6 +45,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
     private String location, time, playerCount, position;
 
     final Calendar c = Calendar.getInstance();
+
 
 
     private void getCurrentUser() {
@@ -75,7 +77,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
     }
 
     private int getPositionInfo() {
-        return 0;
+        return binding.positionSpinner.getSelectedItemPosition() + 1;
     }
 
     @Override
@@ -91,14 +93,16 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initializeSpinnerAdapters();
-
-        getCurrentUser();
-
+        c.setTimeZone(TimeZone.getTimeZone("Europe/Istanbul"));
         // Set the text of datePicket to current date
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
+        c.set(mYear, mMonth, mDay, 0, 0);
+
+        initializeSpinnerAdapters();
+
+        getCurrentUser();
 
         binding.datePicker.setText(getFormattedDate(mDay, mMonth + 1, mYear));
 
@@ -109,6 +113,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
                 Object hourAsObject = binding.timeSpinner.getSelectedItem();
                 if (hourAsObject != null) {
                     String hourAsString = (String) hourAsObject;
+                    hourAsString = hourAsString.substring(0,5);
                     Calendar cal = Calendar.getInstance();
 
                     int indexOfDot = hourAsString.indexOf(".");
@@ -116,7 +121,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
                     cal.set(mYear, mMonth, mDay, hour, 0, 0);
                     cal.setTimeZone(TimeZone.getTimeZone("Europe/Istanbul"));
-                    Timestamp timestamp = new Timestamp(cal.getTime());
+                    Timestamp timestamp = new Timestamp( cal.getTime() );
 
                     int totalPlayerCount = Integer.parseInt(playerCount) * 2;
 
@@ -130,8 +135,14 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
                     Toast.makeText(getContext(), "Match is created successfully", Toast.LENGTH_SHORT).show();
 
+                    Bundle matchBundle = new Bundle();
+                    matchBundle.putString("matchId", newMatch.getMatchId() );
+
                     NavHostFragment.findNavController(AddMatch.this)
-                            .navigate(R.id.matches_navigation);
+                            .navigateUp();
+
+                    NavHostFragment.findNavController(AddMatch.this)
+                            .navigate(R.id.action_global_match_info, matchBundle);
                 } else {
                     Toast.makeText(getContext(), "Choose an appropriate time", Toast.LENGTH_SHORT).show();
                 }
@@ -152,9 +163,10 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
                                 mYear = year;
                                 mMonth = monthOfYear;
                                 mDay = dayOfMonth;
+                                c.set(mYear, mMonth, mDay);
 
                                 String stadiumName = location;
-                                Firestore.refreshAvailableHours(mDay, mMonth + 1, mYear, stadiumName, getThis() );
+                                Firestore.refreshAvailableHours(c, stadiumName, getThis() );
                             }
                         }, mYear, mMonth, mDay);
                     datePickerDialog.show();
@@ -235,7 +247,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
         switch (parent.getId()) {
             case R.id.locationSpinner:
                 location = parent.getSelectedItem().toString();
-                Firestore.refreshAvailableHours(mDay, mMonth + 1, mYear, location, getThis() );
+                Firestore.refreshAvailableHours(c, location, getThis() );
                 break;
             case R.id.timeSpinner:
                 time = parent.getSelectedItem().toString();

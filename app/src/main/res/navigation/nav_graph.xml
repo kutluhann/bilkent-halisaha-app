@@ -36,10 +36,21 @@
         android:id="@+id/match_info"
         android:name="com.example.bilkenthalisahaapp.MatchInfo"
         android:label="Match Info"
-        tools:layout="@layout/fragment_formation"/>
+        tools:layout="@layout/fragment_formation">
+        <action
+            android:id="@+id/action_match_info_to_profilePlayer"
+            app:destination="@id/profilePlayer" />
+    </fragment>
     <fragment
         android:id="@+id/addMatch"
         android:name="com.example.bilkenthalisahaapp.AddMatch"
         android:label="fragment_add_match2"
         tools:layout="@layout/fragment_add_match" />
+    <action
+        android:id="@+id/action_global_match_info"
+        app:destination="@id/match_info" />
+    <fragment
+        android:id="@+id/profilePlayer"
+        android:name="com.example.bilkenthalisahaapp.ProfilePlayer"
+        android:label="ProfilePlayer" />
 </navigation>
