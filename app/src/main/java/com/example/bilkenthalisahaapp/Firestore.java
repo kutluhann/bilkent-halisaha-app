@@ -1,7 +1,5 @@
 package com.example.bilkenthalisahaapp;
 
-
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -376,10 +374,10 @@ public class Firestore {
         return user;
     }
 
-    public static void fetchTheUserInFragment(Player player, HashMap<Player, User> users, MatchUpdateHandleable fragment) {
+    public static ListenerRegistration fetchTheUserInFragment(Player player, HashMap<Player, User> users, MatchUpdateHandleable fragment) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference userRef = db.collection("users").document(player.getUserID());
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        return userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -397,10 +395,10 @@ public class Firestore {
         });
     }
 
-    public static void fetchMatchInFragment(String matchId, MatchUpdateHandleable fragment) {
+    public static ListenerRegistration fetchMatchInFragment(String matchId, MatchUpdateHandleable fragment) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final DocumentReference matchRef = db.collection("matches").document(matchId);
-        matchRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        return matchRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {

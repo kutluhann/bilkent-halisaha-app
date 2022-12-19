@@ -30,7 +30,6 @@ public class MatchDisplay extends Fragment {
     private ArrayList<Match> matches = new ArrayList<Match>();
     private ArrayList<ChildRecyclerDataset> childRecyclerDatasets = new ArrayList<ChildRecyclerDataset>();
     private ParentRecyclerAdapter adapter = new ParentRecyclerAdapter(childRecyclerDatasets, this);
-    private LinkedList<ListenerRegistration> listeners = new LinkedList<ListenerRegistration>();
     private long currentTime;
     private int remainingLoading = 0;
 
@@ -88,6 +87,22 @@ public class MatchDisplay extends Fragment {
                 }
             });
 
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        //stop listeners
+        for( ChildRecyclerDataset childRecyclerDataset : childRecyclerDatasets ) {
+            try{
+                ListenerRegistration dayListener = childRecyclerDataset.getListenerRegistration();
+                dayListener.remove();
+            }catch (Exception e) {
+
+            }
+        }
 
     }
 

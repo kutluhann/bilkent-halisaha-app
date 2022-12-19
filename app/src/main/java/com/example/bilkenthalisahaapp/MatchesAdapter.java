@@ -33,6 +33,8 @@ import java.util.ArrayList;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHolder> {
 
+
+    //to do in match display
     private ArrayList<Match> localDataSet;
 
     /**

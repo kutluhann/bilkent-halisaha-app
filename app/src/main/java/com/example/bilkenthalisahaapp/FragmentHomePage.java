@@ -55,6 +55,24 @@ public class FragmentHomePage extends Fragment {
     TextView degree;
     ImageView weatherImage;
 
+    ListenerRegistration userListener;
+    ListenerRegistration lastMatchesListener;
+    ListenerRegistration upcomingMatchesListener;
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(userListener != null) {
+            userListener.remove();
+        }
+        if(lastMatchesListener != null) {
+            lastMatchesListener.remove();
+        }
+        if(upcomingMatchesListener != null) {
+            upcomingMatchesListener.remove();
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -68,7 +86,7 @@ public class FragmentHomePage extends Fragment {
         String userId = firebaseUser.getUid();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        userListener = db.collection("users")
                 .document(userId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -116,7 +134,7 @@ public class FragmentHomePage extends Fragment {
                     .limit(MAX_FETCH_NUMBER);
 
 
-            ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            upcomingMatchesListener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value,
                                     @Nullable FirebaseFirestoreException e) {
@@ -186,7 +204,7 @@ public class FragmentHomePage extends Fragment {
                 .startAt( Timestamp.now() )
                 .endBefore( limit );
 
-        ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        lastMatchesListener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
                                 @Nullable FirebaseFirestoreException e) {

@@ -48,6 +48,19 @@ public class ProfilePlayer extends Fragment {
     private User user;
     private ArrayList<Match> lastMatches = new ArrayList<Match>();
 
+    private ListenerRegistration userListener;
+    private ListenerRegistration lastMatchesListener;
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(userListener != null) {
+            userListener.remove();
+        }
+        if(lastMatchesListener != null) {
+            lastMatchesListener.remove();
+        }
+    }
+
     private void handleGraphRender() {
         for (int i = 1; i < lastMatches.size() + 1; i++) {
             try {
@@ -156,7 +169,7 @@ public class ProfilePlayer extends Fragment {
     }
     private void getUser( String userId ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        userListener = db.collection("users")
                 .document(userId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -211,7 +224,7 @@ public class ProfilePlayer extends Fragment {
                 .startAt( Timestamp.now() )
                 .limit(LAST_MATCH_FETCH_NUMBER);
 
-        ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        lastMatchesListener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
                                 @Nullable FirebaseFirestoreException e) {
