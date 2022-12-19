@@ -59,18 +59,18 @@ public class Profile extends Fragment {
                     View view = getView().findViewById(getResources().getIdentifier("match" + i, "id", getActivity().getPackageName()));
                     TextView text = getView().findViewById(getResources().getIdentifier("ratingText" + i, "id", getActivity().getPackageName()));
 
+                    Bundle matchBundle = new Bundle();
+                    matchBundle.putString("matchId", lastMatches.get(i - 1).getMatchId());
+
                     if (matchRating.getAttended() != null) {
                         if (matchRating.getAttended() == true) {
                             double rating = matchRating.getAverageRating();
 
                             text.setText(rating + "");
+                            text.setClickable(true);
 
                             int height = calculateGraphHeight(rating);
                             view.getLayoutParams().height = height;
-                            view.setClickable(true);
-
-                            Bundle matchBundle = new Bundle();
-                            matchBundle.putString("matchId", lastMatches.get(i - 1).getMatchId() );
 
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -88,12 +88,20 @@ public class Profile extends Fragment {
                         }
                     } else {
                         text.setTextSize(12);
-                        text.setText("No Data");
+                        text.setText("No\nRating");
 
                         view.getLayoutParams().height = 1;
                     }
                     text.setVisibility(View.VISIBLE);
                     view.setVisibility(View.VISIBLE);
+
+                    text.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Navigation.findNavController(view).
+                                    navigate(R.id.action_global_match_info, matchBundle);
+                        }
+                    });
                     view.requestLayout();
                 }
             }
