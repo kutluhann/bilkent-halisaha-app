@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
@@ -66,6 +67,18 @@ public class Profile extends Fragment {
 
                             int height = calculateGraphHeight(rating);
                             view.getLayoutParams().height = height;
+                            view.setClickable(true);
+
+                            Bundle matchBundle = new Bundle();
+                            matchBundle.putString("matchId", lastMatches.get(i - 1).getMatchId() );
+
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Navigation.findNavController(view).
+                                            navigate(R.id.action_global_match_info, matchBundle);
+                                }
+                            });
                         } else {
                             text.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                             text.setTextSize(12);
