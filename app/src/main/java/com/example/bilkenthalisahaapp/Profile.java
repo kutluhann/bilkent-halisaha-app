@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.bilkenthalisahaapp.appObjects.*;
@@ -47,12 +50,64 @@ public class Profile extends Fragment {
     private ArrayList<Match> lastMatches = new ArrayList<Match>();
 
     private void handleGraphRender() {
-        //TO-DO
-        //Render graphs here!
+        if (lastMatches.size() > 0) {
+            for (int i = 1; i < lastMatches.size() + 1; i++) {
+                Player p = lastMatches.get(i - 1).getPlayerByID(user.getUserID());
+                if (p != null) {
+                    MatchRating matchRating = p.getMatchRating();
 
+                    View view = getView().findViewById(getResources().getIdentifier("match" + i, "id", getActivity().getPackageName()));
+                    TextView text = getView().findViewById(getResources().getIdentifier("ratingText" + i, "id", getActivity().getPackageName()));
 
+                    if (matchRating.getAttended() != null) {
+                        if (matchRating.getAttended() == true) {
+                            double rating = matchRating.getAverageRating();
+
+                            text.setText(rating + "");
+
+                            int height = calculateGraphHeight(rating);
+                            view.getLayoutParams().height = height;
+                            view.setClickable(true);
+
+                            Bundle matchBundle = new Bundle();
+                            matchBundle.putString("matchId", lastMatches.get(i - 1).getMatchId() );
+
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Navigation.findNavController(view).
+                                            navigate(R.id.action_global_match_info, matchBundle);
+                                }
+                            });
+                        } else {
+                            text.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                            text.setTextSize(12);
+                            text.setText("Not\nAttended");
+
+                            view.getLayoutParams().height = 1;
+                        }
+                    } else {
+                        text.setTextSize(12);
+                        text.setText("No Data");
+
+                        view.getLayoutParams().height = 1;
+                    }
+                    text.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
+                    view.requestLayout();
+                }
+            }
+        }
     }
 
+    private int calculateGraphHeight(double rating) {
+        return (int) calculateDpFromPixels(rating * 140 / 10);
+    }
+
+    private double calculateDpFromPixels(double pixels) {
+        double density = getResources().getDisplayMetrics().density;
+        return pixels * density;
+    }
 
     @Override
     public View onCreateView(
@@ -76,7 +131,7 @@ public class Profile extends Fragment {
             binding.matchesAttendedNumber.setText(user.getNumberOfAttendedMatches() + "");
             binding.mvpNumber.setText(user.getNumberOfMVPRewards() + "");
             binding.missedMatchesNumber.setText(user.getNumberOfMissedMatches() + "");
-            binding.point.setText(user.getAverageRating() + "");
+            binding.point.setText(String.format("%.1f" ,user.getAverageRating()));
 
             FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL(), R.drawable.default_profile_photo );
 

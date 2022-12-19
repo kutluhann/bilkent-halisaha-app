@@ -55,9 +55,7 @@ public class ForecastAPI {
     public Hour getHour(long epoch) {
         if (hours != null) {
             for (Hour hour: hours) {
-                if (hour.getTime_epoch() == epoch) {
-                    return hour;
-                }
+                if (hour.getTime_epoch() == epoch)  return hour;
             }
         }
         return null;
