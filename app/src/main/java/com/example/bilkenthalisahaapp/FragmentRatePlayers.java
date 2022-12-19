@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,10 +48,31 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
     private Drawable selectedBackgroundDrawable;
     private Drawable normalBackgroundDrawable;
 
+    ListenerRegistration userListener;
+    ListenerRegistration matchListener;
+    ArrayList<ListenerRegistration> playerListeners = new ArrayList<ListenerRegistration>();
 
-    private void getUser( String userId ) {
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(userListener != null) {
+            userListener.remove();
+        }
+        if(matchListener != null) {
+            matchListener.remove();
+        }
+        for(ListenerRegistration listenerRegistration : playerListeners) {
+            try {
+                listenerRegistration.remove();
+            } catch(Exception e) {
+
+            }
+        }
+    }
+
+    private void getUser(String userId ) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        userListener = db.collection("users")
                 .document(userId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -73,7 +95,7 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
     }
 
     private void fetchMatch(String matchId) {
-        Firestore.fetchMatchInFragment(matchId, this);
+        matchListener = Firestore.fetchMatchInFragment(matchId, this);
     }
 
     public User getActiveUser() {
@@ -114,7 +136,8 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
     public void fetchUsers() {
         ArrayList<Player> players = this.match.getPlayers();
         for( Player player : players ) {
-            fetchTheUser(player);
+            ListenerRegistration listenerRegistration = fetchTheUser(player);
+            playerListeners.add(listenerRegistration);
         }
     }
 
@@ -137,8 +160,8 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
         }
     }
 
-    private void fetchTheUser( Player player ) {
-        Firestore.fetchTheUserInFragment(player, users, this );
+    private ListenerRegistration fetchTheUser( Player player ) {
+        return Firestore.fetchTheUserInFragment(player, users, this );
     }
 
 

@@ -29,6 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -46,7 +47,15 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
 
     final Calendar c = Calendar.getInstance();
 
+    ListenerRegistration userListener;
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(userListener != null) {
+            userListener.remove();
+        }
+    }
 
     private void getCurrentUser() {
 
@@ -55,7 +64,7 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
         String userId = mAuth.getCurrentUser().getUid();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        userListener = db.collection("users")
                 .document(userId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -267,4 +276,6 @@ public class AddMatch extends Fragment implements AdapterView.OnItemSelectedList
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }
