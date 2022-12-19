@@ -113,6 +113,7 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
             } else {
                 holder.spinner.setEnabled(true);
             }
+
         }
 
         if(user != null){
