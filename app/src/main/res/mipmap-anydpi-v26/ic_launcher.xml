@@ -3,6 +3,9 @@
 
     <background android:drawable="@color/ic_launcher_background"/>
 
-    <foreground android:drawable="@drawable/ic_launcher_foreground"/>
+    <foreground android:drawable="
+    @drawable/ic_launcher_foreground"/>
+
+
 
 </adaptive-icon>
