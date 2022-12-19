@@ -158,7 +158,12 @@ public class Firestore {
                         User user = transaction.get(userRef).toObject(User.class);
                         Match match = transaction.get(matchRef).toObject(Match.class);
                         ArrayList<Player> players = match.getPlayers();
-                        int playerPosition = Collections.binarySearch(players, refPlayer);
+                        int playerPosition = players.indexOf( refPlayer);
+
+                        //if there is no player
+                        if(playerPosition < 0)
+                            return null;
+
                         //to receive the current player
                         Player player = players.get(playerPosition);
 
