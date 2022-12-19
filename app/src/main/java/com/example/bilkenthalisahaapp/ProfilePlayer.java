@@ -65,7 +65,9 @@ public class ProfilePlayer extends Fragment {
                         if (matchRating.getAttended() == true) {
                             double rating = matchRating.getAverageRating();
 
-                            text.setText(rating + "");
+                            text.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                            text.setTextSize(16);
+                            text.setText(String.format("%.1f", rating));
                             text.setClickable(true);
 
                             int height = calculateGraphHeight(rating);
@@ -86,7 +88,8 @@ public class ProfilePlayer extends Fragment {
                             view.getLayoutParams().height = 1;
                         }
                     } else {
-                        text.setTextSize(12);
+                        text.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                        text.setTextSize(16);
                         text.setText("No\nRating");
 
                         view.getLayoutParams().height = 1;
