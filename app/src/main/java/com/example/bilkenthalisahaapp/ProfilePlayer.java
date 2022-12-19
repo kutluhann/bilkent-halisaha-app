@@ -71,7 +71,7 @@ public class ProfilePlayer extends Fragment {
             binding.matchesAttendedNumber.setText(user.getNumberOfAttendedMatches() + "");
             binding.mvpNumber.setText(user.getNumberOfMVPRewards() + "");
             binding.missedMatchesNumber.setText(user.getNumberOfMissedMatches() + "");
-            binding.point.setText(user.getAverageRating() + "");
+            binding.point.setText(String.format("%.1f" ,user.getAverageRating()));
 
             FirebaseStorageMethods.showImage(getContext(), binding.profilePicture, user.getProfilePictureURL(), R.drawable.default_profile_photo );
 
