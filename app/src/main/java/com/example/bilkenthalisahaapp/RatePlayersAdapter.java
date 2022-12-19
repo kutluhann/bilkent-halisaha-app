@@ -1,6 +1,7 @@
 package com.example.bilkenthalisahaapp;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,32 +10,47 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.ViewHolder> {
-    private Match match;
     private ArrayList<Player> players;
-    //private ArrayList<User> users;
+    private HashMap<Player, User> users;
     private Context context;
+    private FragmentRatePlayers fragment;
+    private HashMap<Player,Spinner> spinnerMap;
 
-    public RatePlayersAdapter(Match match, Context context) {
+    public RatePlayersAdapter(ArrayList<Player> players, HashMap<Player,
+            User> users, Context context,
+                              HashMap<Player,Spinner> spinnerMap,FragmentRatePlayers fragment) {
         this.context = context;
-        this.match = match;
-        this.players = match.getPlayers();
+        this.players = players;
+        this.users = users;
+        this.fragment = fragment;
+        this.spinnerMap = spinnerMap;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView profileName;
         private ShapeableImageView circularProfileImage;
         private Spinner spinner;
+        private CardView playerCardView;
 
         public ViewHolder (View itemView) {
             super(itemView);
 
+            playerCardView = itemView.findViewById(R.id.player_cardview);
             profileName = itemView.findViewById(R.id.profile_name);
             circularProfileImage = itemView.findViewById(R.id.profile_picture_rating);
             spinner = itemView.findViewById(R.id.spinner_rate);
@@ -53,20 +69,44 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
         }
     }
     public RatePlayersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rate_player_recycler, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.rate_player_recycler, parent, false);
         return new RatePlayersAdapter.ViewHolder(view);
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         Player player = players.get(position);
-        //User user = getUser(player.getUserID);
-        //holder.getProfileName().setText(String.format("%s %s", user.getName, user.getSurname));
+        User user = users.get(player);
         ArrayAdapter<CharSequence> ratings = ArrayAdapter.createFromResource(context,
                 R.array.ratings_array, android.R.layout.simple_spinner_item);
         ratings.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinner.setAdapter(ratings);
 
-        //FirebaseStorageMethods.showImage( context, holder.circularProfileImage, user.getUserID() );
+        if(user != null){
+            holder.getProfileName().setText(String.format("%s %s", user.getName(), user.getSurname()));
+            FirebaseStorageMethods.showImage( context, holder.circularProfileImage,
+                    user.getProfilePictureURL(), R.drawable.default_profile_photo );
+        }
+
+        /*
+        holder.playerCardView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        User activeUser = fragment.getActiveUser();
+                        if(activeUser.getUserID().equals( player.getUserID() )) {
+                            NavHostFragment.findNavController(fragment).navigate(R.id.profile_navigation);
+                        } else {
+                            Bundle playerBundle = new Bundle();
+                            playerBundle.putString("userId", player.getUserID());
+                            NavHostFragment.findNavController(fragment).navigate(R.id.profilePlayer, playerBundle);
+                        }
+                    }
+                }
+        );
+
+         */
     }
 
     @Override
@@ -74,13 +114,4 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
         return players.size();
     }
 
-    /*public User getUser(String userID) {
-        for(int i = 0; i < users.size(); i++) {
-            if(userID.equals(users.get(i).getUserID)) {
-                return users.get(i)
-            }
-        }
-    }
-
-            */
 }
