@@ -204,6 +204,19 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
         return binding.getRoot();
     }
 
+    private void updateButtonClicked() {
+        if(displayedTeam == Team.TEAM_A) {
+            teamAButton.setBackground( selectedBackgroundDrawable );
+            teamBButton.setBackground( normalBackgroundDrawable );
+            handleDataUpdate();
+        } else {
+            teamBButton.setBackground( selectedBackgroundDrawable );
+            teamAButton.setBackground( normalBackgroundDrawable );
+            handleDataUpdate();
+        }
+
+    }
+
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -215,9 +228,7 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
         selectedBackgroundDrawable = ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.team_selected_background, null );
         normalBackgroundDrawable = ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.team_button, null );
 
-
-        teamAButton.setBackground( selectedBackgroundDrawable );
-        teamBButton.setBackground( normalBackgroundDrawable );
+        updateButtonClicked();
 
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();

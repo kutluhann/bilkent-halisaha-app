@@ -324,6 +324,19 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
                 .navigate(R.id.action_match_info_to_fragmentRatePlayers2, matchBundle);
     }
 
+    private void updateButtonClicked() {
+        if(displayedTeam == Team.TEAM_A) {
+            binding.buttonTeamA.setBackground( selectedBackgroundDrawable );
+            binding.buttonTeamB.setBackground( normalBackgroundDrawable );
+            handleDataUpdate();
+        } else {
+            binding.buttonTeamB.setBackground( selectedBackgroundDrawable );
+            binding.buttonTeamA.setBackground( normalBackgroundDrawable );
+            handleDataUpdate();
+        }
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -349,8 +362,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         fetchMatch(matchId);
         //can change the color
         //it can work more beautiful with color filter or animation or both.
-        binding.buttonTeamA.setBackground( selectedBackgroundDrawable );
-        binding.buttonTeamB.setBackground( normalBackgroundDrawable );
+        updateButtonClicked();
 
         binding.buttonTeamA.setOnClickListener(new View.OnClickListener() {
             @Override
