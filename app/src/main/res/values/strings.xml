@@ -1,6 +1,6 @@
 <resources>
     // General
-    <string name="app_name">Bilkent Halisaha App</string>
+    <string name="app_name">Bilkent Halısaha</string>
     <string name="action_settings">Settings</string>
 
     <!-- Strings used for fragments for navigation -->
