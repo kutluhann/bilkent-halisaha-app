@@ -322,7 +322,7 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         matchBundle.putString("matchId", match.getMatchId());
 
         NavHostFragment.findNavController(MatchInfo.this)
-                .navigate(R.id.action_match_info_to_fragmentRatePlayers2, matchBundle);
+                .navigate(R.id.fragmentRatePlayers2, matchBundle);
     }
 
     private void updateButtonClicked() {
