@@ -21,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.bilkenthalisahaapp.appObjects.*;
 import com.example.bilkenthalisahaapp.appObjects.weatherObjects.Hour;
 import com.example.bilkenthalisahaapp.databinding.FragmentFormationBinding;
+import com.example.bilkenthalisahaapp.dialogBoxes.CancelMatchDialogFragment;
 import com.example.bilkenthalisahaapp.dialogBoxes.KickPlayerDialogFragment;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.example.bilkenthalisahaapp.interfaces.MatchUpdateHandleable;
@@ -395,7 +396,11 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
             @Override
             public void onClick(View view) {
                 //NavHostFragment.findNavController(MatchInfo.this).navigate(R.id.home_navigation);
-                cancelMatch();
+                DialogFragment cancelMatchFragment = new CancelMatchDialogFragment(match);
+
+                cancelMatchFragment.show(getActivity().getSupportFragmentManager(), "cancelMatch");
+
+                //cancelMatch();
             }
         });
     }

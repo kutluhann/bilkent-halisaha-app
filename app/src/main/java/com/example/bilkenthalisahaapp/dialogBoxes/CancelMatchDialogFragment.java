@@ -2,13 +2,16 @@ package com.example.bilkenthalisahaapp.dialogBoxes;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.bilkenthalisahaapp.Firestore;
 import com.example.bilkenthalisahaapp.appObjects.Match;
 import com.example.bilkenthalisahaapp.appObjects.User;
 
@@ -31,6 +34,13 @@ public class CancelMatchDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // cancel the match
                         //use database kaan ayden
+                        cancelMatch();
+                        Context context = getActivity().getApplicationContext();
+                        CharSequence text = "The match is cancelled and deleted";
+                        int duration = Toast.LENGTH_LONG;
+                        Toast toast = Toast.makeText(context,text,duration);
+                        toast.show();
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -41,5 +51,13 @@ public class CancelMatchDialogFragment extends DialogFragment {
         // Create the AlertDialog object and return it
         return builder.create();
 
+    }
+
+    public void setMatch(Match match){
+        this.match = match;
+    }
+
+    private void cancelMatch(){
+        Firestore.removeMatch(match);
     }
 }
