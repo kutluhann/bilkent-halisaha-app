@@ -29,13 +29,13 @@ public class CancelMatchDialogFragment extends DialogFragment {
 
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Are you sure to cancel this match?")
+        builder.setMessage("Are you sure to cancel the match?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // cancel the match
                         cancelMatch();
                         Context context = getActivity().getApplicationContext();
-                        CharSequence text = "The match is cancelled";
+                        CharSequence text = "Match is cancelled";
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(context,text,duration);
                         toast.show();
