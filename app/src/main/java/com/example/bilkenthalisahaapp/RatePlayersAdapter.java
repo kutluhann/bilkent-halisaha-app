@@ -88,25 +88,7 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
             FirebaseStorageMethods.showImage( context, holder.circularProfileImage,
                     user.getProfilePictureURL(), R.drawable.default_profile_photo );
         }
-
-        /*
-        holder.playerCardView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        User activeUser = fragment.getActiveUser();
-                        if(activeUser.getUserID().equals( player.getUserID() )) {
-                            NavHostFragment.findNavController(fragment).navigate(R.id.profile_navigation);
-                        } else {
-                            Bundle playerBundle = new Bundle();
-                            playerBundle.putString("userId", player.getUserID());
-                            NavHostFragment.findNavController(fragment).navigate(R.id.profilePlayer, playerBundle);
-                        }
-                    }
-                }
-        );
-
-         */
+        
     }
 
     @Override
