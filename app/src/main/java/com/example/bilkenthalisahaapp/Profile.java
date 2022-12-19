@@ -22,6 +22,7 @@ import com.example.bilkenthalisahaapp.appObjects.*;
 import com.example.bilkenthalisahaapp.databinding.FragmentFirstBinding;
 import com.example.bilkenthalisahaapp.databinding.FragmentProfileBinding;
 import com.example.bilkenthalisahaapp.dialogBoxes.LogOutDialogFragment;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -34,6 +35,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class Profile extends Fragment {
@@ -42,7 +44,14 @@ public class Profile extends Fragment {
     private User user;
     private ListenerRegistration listenerRegistration;
 
+    private ArrayList<Match> lastMatches = new ArrayList<Match>();
 
+    private void handleGraphRender() {
+        //TO-DO
+        //Render graphs here!
+
+        
+    }
 
 
     @Override
@@ -96,6 +105,7 @@ public class Profile extends Fragment {
                             //Log.d(TAG, "Current data: " + snapshot.getData());
                             user = snapshot.toObject(User.class);
                             handleUserInfoChange();
+                            getLastMatches();
                         } else {
                             //Log.d(TAG, "Current data: null");
                         }
@@ -187,12 +197,58 @@ public class Profile extends Fragment {
 
 
 
+    private void getLastMatches() {
 
+        final int LAST_MATCH_FETCH_NUMBER = 5;
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query;
 
+        query = db.collection("matches")
+                .whereArrayContains("userIds", user.getUserID() )
+                .orderBy("time", Query.Direction.DESCENDING)
+                .startAt( Timestamp.now() )
+                .limit(LAST_MATCH_FETCH_NUMBER);
 
+        ListenerRegistration listener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException e) {
 
+                if (e != null) {
+                    return;
+                }
 
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    Match newMatch = dc.getDocument().toObject(Match.class);
+
+                    int indexOf = Collections.binarySearch(lastMatches, newMatch, Collections.reverseOrder() );
+                    switch (dc.getType()) {
+                        case ADDED:
+                            if (indexOf < 0) {
+                                int addTo = Math.abs(indexOf) - 1;
+                                lastMatches.add(addTo, newMatch);
+                                handleGraphRender();
+                            }
+                            break;
+                        case MODIFIED:
+                            if (indexOf > -1) {
+                                lastMatches.set(indexOf, newMatch);
+                                handleGraphRender();
+                            }
+                            break;
+                        case REMOVED:
+                            if (indexOf > -1) {
+                                lastMatches.remove(indexOf);
+                                handleGraphRender();
+                            }
+                            break;
+                    }
+
+                }
+            }
+        });
+    }
 
 
 }
