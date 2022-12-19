@@ -28,16 +28,16 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
     private HashMap<Player, User> users;
     private Context context;
     private FragmentRatePlayers fragment;
-    private HashMap<Player,Spinner> spinnerMap;
+    private HashMap<Player,Integer> selectionMap;
 
     public RatePlayersAdapter(ArrayList<Player> players, HashMap<Player,
             User> users, Context context,
-                              HashMap<Player,Spinner> spinnerMap,FragmentRatePlayers fragment) {
+                              HashMap<Player,Integer> selectionMap,FragmentRatePlayers fragment) {
         this.context = context;
         this.players = players;
         this.users = users;
         this.fragment = fragment;
-        this.spinnerMap = spinnerMap;
+        this.selectionMap = selectionMap;
     }
 
     public void setPlayers(ArrayList<Player> players) {
@@ -85,7 +85,21 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
                 R.array.ratings_array, android.R.layout.simple_spinner_item);
         ratings.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinner.setAdapter(ratings);
-        spinnerMap.put(player, holder.spinner);
+
+        int oldSelection = selectionMap.getOrDefault(player, 0);
+        holder.spinner.setSelection(oldSelection);
+
+        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectionMap.put(player, holder.spinner.getSelectedItemPosition() );
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //nothing
+            }
+        });
 
         User activeUser = fragment.getActiveUser();
         if(activeUser != null) {
@@ -94,9 +108,10 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
                 int oldRatingByPlayer = player.getMatchRating().getGivenRatingsByPlayer().get(activeUser.getUserID());
                 holder.spinner.setEnabled(false);
                 holder.spinner.setSelection(oldRatingByPlayer + 1);
-            }
-            if(activeUser.getUserID().equals(player.getUserID())) {
+            } else if(activeUser.getUserID().equals(player.getUserID())) {
                 holder.spinner.setEnabled(false);
+            } else {
+                holder.spinner.setEnabled(true);
             }
         }
 
@@ -121,5 +136,6 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
     public int getItemCount() {
         return players.size();
     }
+
 
 }

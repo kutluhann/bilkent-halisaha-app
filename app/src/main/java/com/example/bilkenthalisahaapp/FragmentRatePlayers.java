@@ -35,7 +35,7 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
     RecyclerView playersRecycler;
 
     HashMap<Player, User> users = new HashMap<Player, User>();
-    HashMap<Player, Spinner> playerRatingSpinners = new HashMap<Player, Spinner>();
+    HashMap<Player, Integer> playerRatingSelections = new HashMap<Player, Integer>();
 
     User activeUser;
     Team displayedTeam = Team.TEAM_A;
@@ -143,7 +143,7 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
 
 
     public void setupRatePlayersAdapter() {
-        ratePlayersAdapter = new RatePlayersAdapter(getTeamPlayers(), users, getContext(), playerRatingSpinners, this);
+        ratePlayersAdapter = new RatePlayersAdapter(getTeamPlayers(), users, getContext(), playerRatingSelections, this);
         playersRecycler.setNestedScrollingEnabled(false);
         playersRecycler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -188,16 +188,13 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
 
     private void saveVotes() {
         for(Player player : match.getPlayers()) {
-            Spinner spinner = playerRatingSpinners.get(player);
-            if(spinner != null) {
-                int selection = spinner.getSelectedItemPosition();
-                if(selection == 0) {
-                    //no rating, so do nothing.
-                } else {
-                    //it works for not attended because it's index 1
-                    int rating = selection - 1;
-                    Firestore.votePlayer(activeUser.getUserID(), player, rating);
-                }
+            int selection = playerRatingSelections.getOrDefault(player, 0);
+            if(selection == 0) {
+                //no rating, so do nothing.
+            } else {
+                //it works for not attended because it's index 1
+                int rating = selection - 1;
+                Firestore.votePlayer(activeUser.getUserID(), player, rating);
             }
         }
     }
