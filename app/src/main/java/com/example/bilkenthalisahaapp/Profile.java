@@ -202,6 +202,8 @@ public class Profile extends Fragment {
                 }
         );
 
+        handleGraphRender();
+
         super.onViewCreated(view, savedInstanceState);
     }
 

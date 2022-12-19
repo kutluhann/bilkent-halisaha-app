@@ -179,10 +179,11 @@ public class ProfilePlayer extends Fragment {
 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-
         Bundle userBundle = getArguments();
         String userId = userBundle.getString("userId");
         getUser(userId);
+
+        handleGraphRender();
 
         super.onViewCreated(view, savedInstanceState);
     }
