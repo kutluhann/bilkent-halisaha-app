@@ -133,5 +133,13 @@ public class Match implements Comparable<Match> {
                 '}';
     }
 
+    public Player getPlayerByID(String userId) {
+        for (Player player: getPlayers()) {
+            if (player.getUserID().equals(userId)) {
+                return player;
+            }
+        }
+        return null;
+    }
 
 }
