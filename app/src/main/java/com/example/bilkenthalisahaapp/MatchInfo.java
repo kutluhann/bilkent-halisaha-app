@@ -392,6 +392,10 @@ public class MatchInfo extends Fragment implements MatchUpdateHandleable {
         //it can work more beautiful with color filter or animation or both.
         updateButtonClicked();
 
+        if(activeUser != null) {
+            handleDataUpdate();
+        }
+
         binding.buttonTeamA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

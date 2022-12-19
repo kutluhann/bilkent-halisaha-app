@@ -44,11 +44,11 @@ public class FragmentHomePage extends Fragment {
     User user;
 
     ArrayList<Match> upcomingMatches = new ArrayList<Match>();
-    UpcomingMatchesAdapter upcomingMatchesAdapter = new UpcomingMatchesAdapter(upcomingMatches, FragmentHomePage.this);
+    UpcomingMatchesAdapter upcomingMatchesAdapter;
     RecyclerView upcomingMatchRecyler;
 
     ArrayList<Match> lastMatches = new ArrayList<Match>();
-    LastMatchAdapter lastMatchAdapter = new LastMatchAdapter(lastMatches,FragmentHomePage.this);
+    LastMatchAdapter lastMatchAdapter;
     RecyclerView lastMatchRecyler;
 
     TextView weatherType;
@@ -71,6 +71,8 @@ public class FragmentHomePage extends Fragment {
         if(upcomingMatchesListener != null) {
             upcomingMatchesListener.remove();
         }
+
+
     }
 
     @Override
@@ -113,6 +115,8 @@ public class FragmentHomePage extends Fragment {
 
     //upcoming matches adapter
     private void setupUpcomingMatchesAdapter(View view) {
+        lastMatchAdapter = new LastMatchAdapter(lastMatches,FragmentHomePage.this);
+        upcomingMatchesAdapter = new UpcomingMatchesAdapter(upcomingMatches, FragmentHomePage.this);
         upcomingMatchRecyler = view.findViewById(R.id.upcomingMatchRecyler);
         upcomingMatchRecyler.setNestedScrollingEnabled(false);
         upcomingMatchRecyler.setHasFixedSize(false);
@@ -276,6 +280,14 @@ public class FragmentHomePage extends Fragment {
             getWeather();
         } catch(Exception e) {
             Exception exception = e;
+        }
+
+        if(user != null) {
+            upcomingMatches = new ArrayList<Match>();
+            lastMatches = new ArrayList<Match>();
+            initialization();
+            upcomingMatchesAdapter.notifyDataSetChanged();
+            lastMatchAdapter.notifyDataSetChanged();
         }
 
     }
