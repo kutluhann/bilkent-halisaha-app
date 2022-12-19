@@ -33,10 +33,9 @@ public class CancelMatchDialogFragment extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // cancel the match
-                        //use database kaan ayden
                         cancelMatch();
                         Context context = getActivity().getApplicationContext();
-                        CharSequence text = "The match is cancelled and deleted";
+                        CharSequence text = "The match is cancelled";
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(context,text,duration);
                         toast.show();
