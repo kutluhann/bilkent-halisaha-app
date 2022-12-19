@@ -29,6 +29,7 @@
     <string name="email">Email (Bilkent Mail)</string>
     <string name="password">   Password</string>
     <string name="not_have_an_account"><u>Don\'t have an account?</u></string>
+    <string name="forgot_your_password"><u>Forgot your password?</u></string>
 
     //Signup Fragment
     <string name="first_name">   First Name</string>

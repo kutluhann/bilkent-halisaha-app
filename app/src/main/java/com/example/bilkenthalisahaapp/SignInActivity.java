@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignInActivity extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
     Button signInButton;
-    TextView goToSingUp;
+    TextView goToSingUp, forgotPassword;
 
     FirebaseAuth mAuth;
 
@@ -32,11 +32,16 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         signInButton = findViewById(R.id.signInButton);
         goToSingUp = findViewById(R.id.goToSingUp);
+        forgotPassword = findViewById(R.id.forgotPassword);
 
         mAuth = FirebaseAuth.getInstance();
 
         signInButton.setOnClickListener(view -> {
             signInUser();
+        });
+
+        forgotPassword.setOnClickListener(view -> {
+            sendForgotPasswordLink();
         });
 
         goToSingUp.setOnClickListener(view -> {
@@ -63,6 +68,26 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.makeText(SignInActivity.this,"Signed in successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SignInActivity.this, MainActivity.class));
                         finish();
+                    } else {
+                        Toast.makeText(SignInActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void sendForgotPasswordLink() {
+        String email = editTextEmail.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError("First, enter your email!");
+            editTextEmail.requestFocus();
+        } else {
+            mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SignInActivity.this, "An email reset link is sent to " + email, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SignInActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

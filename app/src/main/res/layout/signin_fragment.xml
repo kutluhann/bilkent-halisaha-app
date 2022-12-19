@@ -56,7 +56,6 @@
         android:id="@+id/signInButton"
         android:layout_width="200dp"
         android:layout_height="36dp"
-        android:layout_marginTop="24dp"
         android:background="@drawable/sign_in_button"
         android:elevation="10dp"
         android:text="@string/sing_in"
@@ -64,7 +63,8 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/forgotPassword"
+        app:layout_constraintBottom_toTopOf="@id/goToSingUp"/>
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -95,13 +95,25 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
         app:layout_constraintStart_toStartOf="@+id/editTextEmail"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="@string/forgot_your_password"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintEnd_toEndOf="@+id/signInButton"
+        app:layout_constraintStart_toStartOf="@+id/signInButton"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        android:layout_margin="4dp"/>
 
     <TextView
         android:id="@+id/goToSingUp"
@@ -113,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/signInButton"
         android:textStyle="bold"
         android:padding="12dp"
-        />
+        android:layout_marginTop="4dp"/>
 
     <ImageView
         android:id="@+id/logo"
