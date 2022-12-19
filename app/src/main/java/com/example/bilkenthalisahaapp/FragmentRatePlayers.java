@@ -76,9 +76,14 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
         Firestore.fetchMatchInFragment(matchId, this);
     }
 
+    public User getActiveUser() {
+        return activeUser;
+    }
+
     private ArrayList<Player> getTeamPlayers() {
         ArrayList<Player> teamPlayers = new ArrayList<Player>();
         for(Player player : match.getPlayers()) {
+
             if(player.getTeam().equals(displayedTeam)) {
                 teamPlayers.add(player);
             }
@@ -136,9 +141,6 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
         Firestore.fetchTheUserInFragment(player, users, this );
     }
 
-    public User getActiveUser() {
-        return activeUser;
-    }
 
     public void setupRatePlayersAdapter() {
         ratePlayersAdapter = new RatePlayersAdapter(getTeamPlayers(), users, getContext(), playerRatingSpinners, this);
@@ -185,7 +187,19 @@ public class FragmentRatePlayers extends Fragment implements MatchUpdateHandleab
     }
 
     private void saveVotes() {
-
+        for(Player player : match.getPlayers()) {
+            Spinner spinner = playerRatingSpinners.get(player);
+            if(spinner != null) {
+                int selection = spinner.getSelectedItemPosition();
+                if(selection == 0) {
+                    //no rating, so do nothing.
+                } else {
+                    //it works for not attended because it's index 1
+                    int rating = selection - 1;
+                    Firestore.votePlayer(activeUser.getUserID(), player, rating);
+                }
+            }
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

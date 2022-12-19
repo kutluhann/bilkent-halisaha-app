@@ -1,10 +1,13 @@
 package com.example.bilkenthalisahaapp;
 
+import static java.lang.Double.NaN;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -82,13 +85,36 @@ public class RatePlayersAdapter extends RecyclerView.Adapter<RatePlayersAdapter.
                 R.array.ratings_array, android.R.layout.simple_spinner_item);
         ratings.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinner.setAdapter(ratings);
+        spinnerMap.put(player, holder.spinner);
+
+        User activeUser = fragment.getActiveUser();
+        if(activeUser != null) {
+
+            if(player.getMatchRating().getGivenRatingsByPlayer().get( activeUser.getUserID()) != null) {
+                int oldRatingByPlayer = player.getMatchRating().getGivenRatingsByPlayer().get(activeUser.getUserID());
+                holder.spinner.setEnabled(false);
+                holder.spinner.setSelection(oldRatingByPlayer + 1);
+            }
+            if(activeUser.getUserID().equals(player.getUserID())) {
+                holder.spinner.setEnabled(false);
+            }
+        }
 
         if(user != null){
-            holder.getProfileName().setText(String.format("%s %s", user.getName(), user.getSurname()));
+            double matchRating = player.getMatchRating().getAverageRating();
+            String profileNameText;
+            if(matchRating > 0 && matchRating <= 10) {
+                profileNameText = String.format("%s (%.1f)", user.getFullName(), matchRating);
+            } else {
+                profileNameText = String.format("%s", user.getFullName());
+            }
+
+            holder.getProfileName().setText(profileNameText);
             FirebaseStorageMethods.showImage( context, holder.circularProfileImage,
                     user.getProfilePictureURL(), R.drawable.default_profile_photo );
         }
-        
+
+
     }
 
     @Override

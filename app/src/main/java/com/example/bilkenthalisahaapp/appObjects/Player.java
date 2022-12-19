@@ -14,7 +14,6 @@ public class Player implements Comparable<Player> {
     private MatchRating matchRating = new MatchRating();;
     private Team team;
     private boolean owner;
-    private boolean voted;
 
     public Player() {
 
@@ -29,13 +28,8 @@ public class Player implements Comparable<Player> {
         this.position = position;
         this.matchID = matchID;
         this.team = team;
-        this.voted = false;
     }
 
-
-    public boolean isVoted() {
-        return voted;
-    }
 
     public int getPosition() {
         return position;

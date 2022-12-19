@@ -31,6 +31,10 @@ public class MatchRating {
         return this.givenRatingsByPlayer.get( player.getUserID() );
     }
 
+    public boolean isUserVoted(String userId) {
+        return this.givenRatingsByPlayer.getOrDefault(userId, -1) != -1;
+    }
+
     public double calculateRating(){
         int totalRating = 0;
         double result;
