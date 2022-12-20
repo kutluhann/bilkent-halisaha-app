@@ -57,7 +57,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            emailVerificationText.setText("An email has sent to\n " + currentUser.getEmail() + ".\n Please verify your email!");
+            emailVerificationText.setText("An email has been sent to\n " + currentUser.getEmail() + ".\n Please verify your email!");
         } else {
             startActivity(new Intent(EmailVerificationActivity.this, MainActivity.class));
         }
