@@ -62,8 +62,6 @@ public class Firestore {
     public static void addPlayerToMatch(Player player , Match match) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference matchRef = db.collection("matches").document(match.getMatchId());
-        matchRef.update("players", FieldValue.arrayUnion(player));
-        matchRef.update("userIds", FieldValue.arrayUnion(player.getUserID()));
 
         db.runTransaction(new Transaction.Function<Void>() {
             @Override
