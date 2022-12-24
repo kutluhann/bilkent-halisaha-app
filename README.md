@@ -16,6 +16,7 @@ The Contributors:
 -------
 
 **How to execute the program:**
+
 When you open the app you will see our login page. On this page you will be asked to enter your Bilkent mail and your personal password. Mail address and password must be entered correctly to use the app.
 (If you do not have an account, create you account with you Bilkent email. Then, you need verify your email.)
 
