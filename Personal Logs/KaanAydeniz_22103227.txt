@@ -1,0 +1,10 @@
+Previous Weeks:
+I have participated in writing reports and presentations with my other group members. I have started to learn how Android Studio works and read about it. I have made some test applications with Firebase.
+05.12.2022 - 11.12.2022
+We had a meeting and created a detailed task distrubition to each of the group members. I had some tests with Android Studio and after that, I have created Match Display adapter and Firebase integration. 
+Contributed to some match object classes and created Firestore class.
+12.12.2022 - 18.12.2022
+Implemented Firebase Storage class for profile picture. I have implemented Firestore update and get methods such as giveVote, removePlayerToMatch, addPlayerToMatch, changePositionOfPlayer and other Firestore class methods.
+Integrated fragments with Firebase Storage with realtime update data listeners of Firebase Firestore.
+19.12.2022 - 21.12.2022
+Fixed last bugs and increase scalability for Firestore. Also integrated creating match options with ForecastAPI.
