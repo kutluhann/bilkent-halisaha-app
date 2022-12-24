@@ -1,0 +1,5 @@
+In the first week I created model classes such as User, Player, MatchRating, Match, Team Enum and implement their methods.
+Furthermore, I add some comment lines to show others how and where to use firebase processes. 
+
+In the second week, I worked on fragment classes, fixed some bugs.
+In addition, I added dialog fragments which show user a dialog box during some interactions.
