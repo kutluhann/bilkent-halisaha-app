@@ -17,9 +17,10 @@ The Contributors:
 
 **How to execute the program:**
 When you open the app you will see our login page. On this page you will be asked to enter your Bilkent mail and your personal password. Mail address and password must be entered correctly to use the app.
-After you log in, you will be welcomed by the home page. On this page you can see your previous and upcoming matches. Additionally, you can rate players you played with in previous matches.
-If you press the second button in the navigation bar you will be directed to create match page. On this page you can create a match by setting the field, the time and the position.
-If you press the third
+(If you do not have an account, create you account with you Bilkent email. Then, you need verify your email.)
+After you log in, you will be welcomed by the home page. On this page you can see your previous and upcoming matches. Additionally, you can rate players you played with in the previous matches.
+In existing matches page, you can create a match by setting the field, the time and the position.
+In profile page, you can see statistics and old rating. You can also set a profile picture.
 
 -------
 **Dependencies:**
