@@ -24,7 +24,7 @@ After you log in, you will be welcomed by the home page. On this page you can se
 
 In existing matches page, you can create a match by setting the field, the time and the position.
 
-In profile page, you can see statistics and old rating. You can also set a profile picture.
+In profile page, you can see statistics and old ratings. You can also set a profile picture.
 
 -------
 **Dependencies:**
