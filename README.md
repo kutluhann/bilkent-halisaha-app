@@ -1,5 +1,4 @@
 ![image](app/src/main/res/drawable/logo.png)
-![image](app/src/main/res/drawable/the_goats.png)
 # bilkent-halisaha-app
 
 The Contributors:
@@ -20,22 +19,22 @@ When you open the app you will see our login page. On this page you will be aske
 -------
 **DEPENDENCIES:**
 
--androidx.navigation:navigation-fragment
+- androidx.navigation:navigation-fragment
 
--androidx.navigation:navigation-ui
+- androidx.navigation:navigation-ui
 
--com.google.firebase:firebase-firestore
+- com.google.firebase:firebase-firestore
 
--com.google.firebase:firebase-auth
+- com.google.firebase:firebase-auth
 
--com.google.firebase:firebase-storage
+- com.google.firebase:firebase-storage
 
--com.firebaseui:firebase-ui-storage
+- com.firebaseui:firebase-ui-storage
 
--com.github.bumptech.glide:glide
+- com.github.bumptech.glide:glide
 
--com.squareup.retrofit2:retrofit
+- com.squareup.retrofit2:retrofit
 
--com.squareup.retrofit2:converter-gson
+- com.squareup.retrofit2:converter-gson
 
--com.squareup.okhttp3:okhttp
+- com.squareup.okhttp3:okhttp
