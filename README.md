@@ -1,6 +1,8 @@
 ![image](app/src/main/res/drawable/logo.png)
 # bilkent-halisaha-app
 Bilkent Halısaha is a mobile application that facilitates Bilkent University students to organize football matches and find players for these matches easier. Creating football matches with specific locations and dates; finding existing matches is possible with Bilkent Halısaha.
+Download link for the app: 
+[Bilkent Halisaha App](https://drive.google.com/file/d/1cjDwhInYNR37mjfeZKvfOcqmtyxdh04f/view?usp=sharing)
 
 -------
 The Contributors:
