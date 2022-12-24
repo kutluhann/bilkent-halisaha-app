@@ -1,0 +1,5 @@
+In the first week I created Profile fragment and started creating ratePlayers fragment.
+Moreover, I added some methods to ratePlayers Class. 
+
+In the second week, I fixed some bugs from previous week and finished ratePlayers fragment.
+Additionally, I started working on the needs and I implemented playerProfile class.
