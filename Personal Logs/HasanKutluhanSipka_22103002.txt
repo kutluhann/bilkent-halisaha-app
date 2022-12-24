@@ -1,0 +1,12 @@
+Previous weeks
+  I have learned Android Studio. We arranged meetings to finish reports and think about our app's desing.
+28.11.2022-04.12.2022
+  We had a meeting in that week to make detailed design report. We finished design of app in our minds.
+05.12.2022-11.12.2022
+  I have learn android studio and UI elements. I implemented match display fragments in UI, bottom navigation and
+  splash screen in this week.
+12.12.2022-18.12.2022
+  I created sign in, sing up and email verification activity and implemented firebase auth. I also implemented weatherAPI
+  and create match fragments and fix some bugs in others' code.
+19.12.2022-21.12.2022
+  I added graphs in profile and we have finished final version of the app.
